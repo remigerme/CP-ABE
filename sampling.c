@@ -1,26 +1,32 @@
 #include "sampling.h"
-#include "random.h"
+#include "dgs/dgs.h"
 
-void Sample_Rq_uniform(poly a)
+/*
+Discrete gaussian distribution utils functions
+*/
+
+dgs_disc_gauss_dp_t *init_dgs()
 {
-    for (int i = 0; i < PARAM_N; i++)
-        a[i] = uniform_mod_q();
+    // Cutoff `τ`, samples outside the range `(⌊c⌉-⌈στ⌉,...,⌊c⌉+⌈στ⌉)` are
+    // considered to have probability zero. This bound applies to algorithms
+    // which sample from the uniform distribution.
+    dgs_disc_gauss_dp_t *D = dgs_disc_gauss_dp_init(PARAM_SIGMA, 0, PARAM_TAU, DGS_DISC_GAUSS_UNIFORM_TABLE);
+    return D;
+}
+
+void clear_dgs(dgs_disc_gauss_dp_t *D)
+{
+    dgs_disc_gauss_dp_clear(D);
 }
 
 /*
-Sample_R_centerd, Sample_Z and algorithmF copy-pasted from Luca Prabel github's implem
-https://github.com/lucasprabel/module_gaussian_lattice/blob/main/ROM_GPV/sampling.c
+Discrete gaussian distribution sampling
 */
 
-void Sample_R_centered(signed_poly a, real sigma)
+void Sample_R_centered(signed_poly a, dgs_disc_gauss_dp_t *D)
 {
     for (int i = 0; i < PARAM_N; ++i)
     {
-        a[i] = SampleZ(0, sigma);
+        a[i] = (signed_scalar)(D->call(D));
     }
-}
-
-signed_scalar Sample_Z(real c, real sigma)
-{
-    return algorithmF(c, sigma);
 }
