@@ -3,9 +3,9 @@
 #include "dgs/dgs.h"
 #include "random.h"
 
-void Sample_Rq_uniform(poly a) {
+void Sample_Rq_uniform(poly a, CSPRNG rng) {
     for (int i = 0; i < PARAM_N; i++) {
-        a[i] = uniform_mod_q();
+        a[i] = uniform_mod_q(rng);
     }
 }
 
