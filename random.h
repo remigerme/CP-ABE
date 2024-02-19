@@ -10,7 +10,7 @@ typedef union {
 } CSPRNG_TYPE;
 
 // Samples an integer from the uniform distribution over [0, q-1]
-void uniform_mod_q(CSPRNG rng, scalar *i);
+scalar uniform_mod_q(CSPRNG rng);
 
 // Discrete gaussian distribution utils functions
 dgs_disc_gauss_dp_t *init_dgs();
