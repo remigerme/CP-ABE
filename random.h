@@ -1,7 +1,16 @@
+#include <stdio.h>
+
 #include "common.h"
 
-// Returns an integer sampled from the uniform distribution over [0, q-1]
-scalar uniform_mod_q(void);
+typedef void *CSPRNG;
+
+typedef union {
+    CSPRNG object;
+    FILE *urandom;
+} CSPRNG_TYPE;
+
+// Samples an integer from the uniform distribution over [0, q-1]
+void uniform_mod_q(CSPRNG rng, scalar *i);
 
 // Discrete gaussian distribution utils functions
 dgs_disc_gauss_dp_t *init_dgs();
