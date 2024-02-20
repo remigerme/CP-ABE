@@ -1,6 +1,6 @@
 #include "sampling.h"
 
-#include "dgs/dgs.h"
+#include "lib/dgs/dgs.h"
 #include "random.h"
 
 void Sample_Rq_uniform(poly a, CSPRNG rng) {
