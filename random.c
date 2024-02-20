@@ -14,7 +14,7 @@ Uniform mod q
 */
 
 // Returns a new CSPRNG object, 0 on error.
-CSPRNG csprng_create() {
+CSPRNG create_csprng() {
     CSPRNG_TYPE csprng;
     csprng.urandom = fopen("/dev/urandom", "rb");
     return csprng.object;
@@ -44,12 +44,10 @@ scalar uniform_mod_q(CSPRNG rng) {
 }
 
 /*
-
 Discrete gaussian distribution utils functions
-
 */
 
-dgs_disc_gauss_dp_t* init_dgs() {
+dgs_disc_gauss_dp_t* create_dgs() {
     // Cutoff `τ`, samples outside the range `(⌊c⌉-⌈στ⌉,...,⌊c⌉+⌈στ⌉)` are
     // considered to have probability zero. This bound applies to algorithms
     // which sample from the uniform distribution.
@@ -57,5 +55,7 @@ dgs_disc_gauss_dp_t* init_dgs() {
         PARAM_SIGMA, 0, PARAM_TAU, DGS_DISC_GAUSS_UNIFORM_TABLE);
     return D;
 }
+
+signed_scalar signed_scalar_dgs(dgs_disc_gauss_dp_t* D) { return D->call(D); }
 
 void clear_dgs(dgs_disc_gauss_dp_t* D) { dgs_disc_gauss_dp_clear(D); }
