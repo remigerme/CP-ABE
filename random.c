@@ -2,9 +2,6 @@
 
 #include <stdint.h>
 
-#include "common.h"
-#include "dgs/dgs.h"
-
 /*
 Uniform mod q
 
