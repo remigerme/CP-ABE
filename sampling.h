@@ -1,4 +1,5 @@
 #include "common.h"
+#include "random.h"
 
 void TrapGen(poly_matrix B, poly_matrix T);
 

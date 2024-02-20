@@ -1,7 +1,5 @@
 #include "sampling.h"
 
-#include "random.h"
-
 sampler create_sampler() {
     CSPRNG rng = create_csprng();
     dgs_disc_gauss_dp_t *D = create_dgs();
@@ -17,6 +15,6 @@ void Sample_Rq_uniform(poly a, sampler s) {
 
 void Sample_R_centered(signed_poly a, sampler s) {
     for (int i = 0; i < PARAM_N; ++i) {
-        a[i] = (signed_scalar)(s.D->call(s.D));
+        a[i] = signed_scalar_dgs(s.D);
     }
 }
