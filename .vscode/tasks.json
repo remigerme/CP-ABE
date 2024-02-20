@@ -2,18 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build all (clean)",
-            "type": "shell",
-            "command": "make clean; make",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
             "label": "Build current file",
             "type": "shell",
-            "command": "make ${fileBasenameNoExtension}",
+            "command": "make clean; make ${fileBasenameNoExtension}",
             "group": {
                 "kind": "build",
                 "isDefault": false
