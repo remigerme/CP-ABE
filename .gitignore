@@ -1,6 +1,9 @@
 # Exec files
 test
 
+# VSCode settings file we don't care about (auto generated)
+.vscode/settings.json
+
 # Prerequisites
 *.d
 
