@@ -14,7 +14,7 @@ void Sample_Rq_uniform(poly a, sampler s) {
 }
 
 void Sample_R_centered(signed_poly a, sampler s) {
-    for (int i = 0; i < PARAM_N; ++i) {
+    for (int i = 0; i < PARAM_N; i++) {
         a[i] = signed_scalar_dgs(s.D);
     }
 }
