@@ -7,7 +7,7 @@ CC = gcc -g -Wall
 EXEC = test
 
 # list of libraries to build
-LIBS = dgs
+LIBS = dgs luca
 SPECIFY_LIBS = -L./lib -Wl,-rpath=./lib
 LIBS_FLAGS = $(addprefix -l,$(LIBS))
 UNIVERSAL_LIBS_FLAGS = -lm -lgmp
@@ -25,14 +25,15 @@ libs: $(addprefix lib,$(addsuffix .so,$(LIBS)))
 
 # -fPIC : Position Independent Code, needed for building libraries
 # -shared : needed for building libraries
+# -maes : for aes intrinsics
 lib%.so:lib/%/*.c
-	$(CC) -fPIC -shared -o lib/$@ $^
+	$(CC) -maes -fPIC -shared -o lib/$@ $^
 
-test: random.o test.c
+test: random.o sampling.o test.c
 	$(CC) $(UNIVERSAL_LIBS_FLAGS) $(SPECIFY_LIBS) $(LIBS_FLAGS) -o $@ $^
 
 %.o: %.c
-	$(CC) -c -o $@ $^
+	$(CC) -O3 -march=native -mtune=native -fomit-frame-pointer -ftree-vectorize -funsafe-math-optimizations -mfpmath=sse -mavx2 -ftree-vectorize  -maes -c -o $@ $^
 
 # Cleaning subdirs
 clean: $(SUBDIRSCLEAN)
