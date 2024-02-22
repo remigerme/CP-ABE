@@ -18,3 +18,9 @@ make test
 DGS is **not random** on its own, it seems to provide only a fully deterministic sequence of integers distributed according to a discrete gaussian (though I'm absolutely no expert). The same goes for Luca's `algorithmF` using aes intrinsics (compile with `-maes` flag).
 
 I need to be careful about stack memory limit, as creating big matrices of polynomials can be very memory-consuming. Prefer heap allocation using `malloc`.
+
+TODO : apply f circuit (currently stored as a boolean tree) efficiently (beware of stack + try do it in place as much as possible).
+
+TODO : poly_matrix library
+
+TODO : maybe encrypt more than just a single bit (a full int ? a sequence of ints representing an ASCII message e.g. ?) - same goes for decrypt of course
