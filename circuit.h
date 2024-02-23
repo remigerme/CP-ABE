@@ -5,15 +5,13 @@ We store a circuit as a binary tree which indicates us
 in which order we should compute the NAND gates.
 The field `n` is relevant only if we're located
 at a leaf ie left == right == NULL, in which case
-it stores the relevant index `n`.
+it stores the relevant index `n` (using 0-indexing).
 */
-struct btree {
+typedef struct btree {
     struct btree *left;
     struct btree *right;
     int n;
-};
-
-typedef struct btree circuit;
+} circuit;
 
 /*
 Given A = [A1 | ... | Ak] we compute
