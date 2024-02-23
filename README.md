@@ -26,3 +26,5 @@ TODO : poly_matrix library
 TODO : maybe encrypt more than just a single bit (a full int ? a sequence of ints representing an ASCII message e.g. ?) - same goes for decrypt of course
 
 TODO : understand why A0 = AfTf (mod q) is a matrix and not just a polynomial of Rq cause : Af in Zq^{n*m} = Rq^m and Tf in Zq^m (just a vector of scalars ! not of polynomials). See 2020-191 p12
+
+TODO : how to mul_poly efficiently (in Rq and R) ? then check efficiency of mul_poly_matrix
