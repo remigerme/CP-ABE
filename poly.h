@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-const scalar POLY_ZERO[PARAM_N];
+extern poly POLY_ZERO;
 
 /*
 Functions for `poly` which live in Rq

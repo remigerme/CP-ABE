@@ -1,5 +1,8 @@
 #include "poly.h"
 
+scalar _POLY_ZERO[PARAM_N];
+poly POLY_ZERO = _POLY_ZERO;
+
 void copy_poly(poly a, poly r) {
     for (int i = 0; i < PARAM_N; i++) {
         r[i] = a[i];

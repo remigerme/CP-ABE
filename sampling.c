@@ -17,7 +17,7 @@ void sample_Rq_uniform_matrix(poly_matrix A, int d1, int d2, sampler s) {
     for (int i = 0; i < d1; i++) {
         for (int j = 0; j < d2; j++) {
             poly a = poly_matrix_element(A, d2, i, j);
-            Sample_Rq_uniform(a, s);
+            sample_Rq_uniform(a, s);
         }
     }
 }
