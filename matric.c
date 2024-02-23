@@ -16,7 +16,7 @@ poly_matrix copy_poly_matrix(poly_matrix A, int d1, int d2) {
 }
 
 // R <- A + B
-void poly_matrix_add(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
+void add_poly_matrix(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
                      int d2) {
     for (int i = 0; i < d1; i++) {
         for (int j = 0; j < d2; j++) {
@@ -29,7 +29,7 @@ void poly_matrix_add(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
 }
 
 // R <- A - B
-void poly_matrix_add(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
+void sub_poly_matrix(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
                      int d2) {
     for (int i = 0; i < d1; i++) {
         for (int j = 0; j < d2; j++) {
@@ -42,7 +42,7 @@ void poly_matrix_add(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
 }
 
 // R <- A * B
-void poly_matrix_mul(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
+void mul_poly_matrix(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
                      int d2, int d3) {
     scalar temp[PARAM_N];  // used to store product A[i][k] * B[k][j]
     for (int i = 0; i < d1; i++) {
@@ -53,7 +53,7 @@ void poly_matrix_mul(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
                 poly b = poly_matrix_element(B, d3, k, j);
                 mul_poly(a, b, temp);
                 if (k == 0) {  // Existing values in r are not relevant
-                    add_poly(r, temp, POLY_ZERO);
+                    add_poly(temp, POLY_ZERO, r);
                 } else {
                     add_poly(r, temp, r);
                 }

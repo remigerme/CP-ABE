@@ -6,13 +6,13 @@
 poly_matrix copy_poly_matrix(poly_matrix A, int d1, int d2);
 
 // R <- A + B
-void poly_matrix_add(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
+void add_poly_matrix(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
                      int d2);
 
 // R <- A - B
-void poly_matrix_sub(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
+void sub_poly_matrix(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
                      int d2);
 
 // R <- A * B
-void poly_matrix_mul(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
+void mul_poly_matrix(poly_matrix A, poly_matrix B, poly_matrix R, int d1,
                      int d2, int d3);
