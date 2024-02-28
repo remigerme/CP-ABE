@@ -25,6 +25,9 @@ TODO : poly_matrix library
 
 TODO : maybe encrypt more than just a single bit (a full int ? a sequence of ints representing an ASCII message e.g. ?) - same goes for decrypt of course
 
-TODO : understand why A0 = AfTf (mod q) is a matrix and not just a polynomial of Rq cause : Af in Zq^{n*m} = Rq^m and Tf in Zq^m (just a vector of scalars ! not of polynomials). See 2020-191 p12
+TODO : understand why A0 = AfTf (mod q) is a matrix and not just a polynomial of Rq cause : Af in Zq^{n * m} = Rq^m and Tf in Zq^m (just a vector of scalars ! not of polynomials). See 2020-191 p12 -> Everything's fine if Tf lives in Zq^{nm * m} = Rq^{m * m}, so let's assume that for now.
+
+TODO : understand the size of gadget matrix G (see 2020-191 p11) : we want A_nand in Rq^m so we want G in Rq^m (or at least Zq^{n * m}) and G^-1(A) in Rq^{m * m} (or similar). However, "G−1 : Zn×m
+q → {0, 1}^{N ×m}" where N = n * log q = n * k, so it could work if k = m which was not planned (m = k + 2 elsewhere, maybe not relevant for this algorithm but yet to investigate) (investigate about bits decomposition and operations too) 
 
 TODO : how to mul_poly efficiently (in Rq and R) ? then check efficiency of mul_poly_matrix
