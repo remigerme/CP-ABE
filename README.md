@@ -15,7 +15,7 @@ make test
 ```
 
 ## Comments
-DGS is **not random** on its own, it seems to provide only a fully deterministic sequence of integers distributed according to a discrete gaussian (though I'm absolutely no expert). The same goes for Luca's `algorithmF` using aes intrinsics (compile with `-maes` flag).
+[DGS](https://github.com/malb/dgs/tree/master) is **not random** on its own, it seems to provide only a fully deterministic sequence of integers distributed according to a discrete gaussian (though I'm absolutely no expert). The same goes for [Luca's](https://github.com/lucasprabel/module_gaussian_lattice/tree/main/ROM_GPV) `algorithmF` using aes intrinsics (compile with `-maes` flag).
 
 I need to be careful about stack memory limit, as creating big matrices of polynomials can be very memory-consuming. Prefer heap allocation using `malloc`.
 
