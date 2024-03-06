@@ -7,6 +7,8 @@ Implementation of scheme proposed in https://eprint.iacr.org/2020/191.
 
 See [PSC-debug-config](https://github.com/remigerme/PSC-debug-config).
 
+Set formatter on distant machine (SSH) : search for `C_Cpp: Clang_format_fallback Style` in VSCode > settings `{ BasedOnStyle: Google, IndentWidth: 4 }`. The formatter should apply on save, if that's not the case check online how to configure it.
+
 ## How to use
 First, let's build the external libs using
 ```
@@ -30,6 +32,6 @@ TODO 3 : understand why A0 = AfTf (mod q) is a matrix and not just a polynomial 
 TODO 3bis : understand the size of gadget matrix G (see 2020-191 p11) : we want A_nand in Rq^m so we want G in Rq^m (or at least Zq^{n * m}) and G^-1(A) in Rq^{m * m} (or similar). However, "G−1 : Zn×m
 q → {0, 1}^{N ×m}" where N = n * log q = n * k, so it could work if k = m which was not planned (m = k + 2 elsewhere, maybe not relevant for this algorithm but yet to investigate) (investigate about bits decomposition and operations too) 
 
-TODO 2 : Hf,x,A construction during BGG KeyGen
+TODO 2 : Hf,x,A construction for Dec
 
 TODO 1 : how to mul_poly efficiently (in Rq and R) ? then check efficiency of mul_poly_matrix (in Rq^{d1 * d2} and R^{d1 * d2})
