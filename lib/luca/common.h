@@ -76,7 +76,7 @@
 
 #define PARAM_Q 1073707009    // modulus q
 #define PARAM_K 30            // size of q
-#define PARAM_N 1048576       // degree of polynomials 1024 originally
+#define PARAM_N 1024          // degree of polynomials 1024 originally
 #define PARAM_D 1             // rank of the module
 #define PARAM_SIGMA 7.00      // Gaussian parameter (generation of the trapdoor)
 #define PARAM_ALPHA (48.34)   // Gaussian parameter (sampling perturbations)
