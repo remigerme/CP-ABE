@@ -1,5 +1,7 @@
 #include "circuit.h"
 
+#include <stdlib.h>
+
 #define G 2
 
 /*
@@ -34,9 +36,11 @@ poly_matrix apply_f(circuit f, poly_matrix A) {
     if (f.left && f.right) {
         return nand(apply_f(*f.left, A), apply_f(*f.right, A));
     } else if ((!f.left) && (!f.right)) {
-        return copy(poly_matrix_element(A, 1, f.n, 0));
+        return copy_poly_matrix(poly_matrix_element(A, 1, f.n, 0), d1,
+                                d2);  // A fresh copy of An
     } else {
         // Help ! This is not supposed to happen.
+        return (void *)0;  // Good luck trying to recover from that.
     }
 }
 
