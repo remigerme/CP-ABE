@@ -1,6 +1,7 @@
+#include "matrix.h"
+
 #include <stdlib.h>
 
-#include "matrix.h"
 #include "poly.h"
 
 poly_matrix copy_poly_matrix(poly_matrix A, int d1, int d2) {
