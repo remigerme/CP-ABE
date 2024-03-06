@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "lib/luca/random.h"
+#include "poly.h"
 #include "sampling.h"
 
 real mean(poly a) {
@@ -36,7 +37,7 @@ int main() {
 
     poly a = malloc(PARAM_N * sizeof(scalar));
     start = (real)clock() / CLOCKS_PER_SEC;
-    Sample_Rq_uniform(a, s);
+    sample_Rq_uniform(a, s);
     end = (real)clock() / CLOCKS_PER_SEC;
     printf("Mine : %fs mean: %f\n", end - start, mean(a));
 
@@ -50,7 +51,7 @@ int main() {
 
     signed_poly b = malloc(PARAM_N * sizeof(signed_scalar));
     start = (real)clock() / CLOCKS_PER_SEC;
-    Sample_R_centered(b, s);
+    sample_R_centered(b, s);
     end = (real)clock() / CLOCKS_PER_SEC;
     printf("Mine : %fs mean: %f var: %f\n", end - start, meanbis(b), var(b));
 
