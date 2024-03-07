@@ -14,8 +14,11 @@ typedef struct btree {
 } circuit;
 
 /*
-Given A = [A1 | ... | Ak] we compute
-Af = f(A1, ..., Ak) where f is a boolean circuit
+Given (warning not including A0)
+      | A1 |
+  A = | .. | in Rq^{(k + 1) * m}
+      | Ak |
+we compute Af = f(A1, ..., Ak) where f is a boolean circuit
 composed of NAND gates.
 */
 void compute_Af(poly_matrix A, circuit f, poly_matrix Af);
