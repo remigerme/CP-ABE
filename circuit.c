@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 
+#include "matrix.h"
+
 #define G 2
 
 /*
@@ -22,9 +24,9 @@ but let's say it's really risky if we reach 1Mo).
 */
 poly_matrix nand(poly_matrix A, poly_matrix B) {
     // Warning : this is stack allocated, beware not to segfault
-    scalar temp[PARAM_N * PARAM_K];
+    scalar temp[PARAM_N * PARAM_M];
     // We need to heap-allocate for the matrix to survive
-    poly_matrix R = malloc(sizeof(scalar) * PARAM_N * PARAM_K);
+    poly_matrix R = malloc(sizeof(scalar) * PARAM_N * PARAM_M);
     compute_inv_G(B, R);          // R <- G^-1(B)
     poly_matrix_mul(A, R, temp);  // temp <- A * R = A * G^-1(B)
     poly_matrix_sub(temp, G, R);  // R <- temp - G = A * G^-1(B) - G
@@ -36,8 +38,8 @@ poly_matrix apply_f(circuit f, poly_matrix A) {
     if (f.left && f.right) {
         return nand(apply_f(*f.left, A), apply_f(*f.right, A));
     } else if ((!f.left) && (!f.right)) {
-        return copy_poly_matrix(poly_matrix_element(A, 1, f.n, 0), d1,
-                                d2);  // A fresh copy of An
+        poly_matrix An = poly_matrix_element(A, PARAM_M, f.n, 0);
+        return copy_poly_matrix(An, 1, PARAM_M);  // A fresh copy of An
     } else {
         // Help ! This is not supposed to happen.
         return (void *)0;  // Good luck trying to recover from that.
