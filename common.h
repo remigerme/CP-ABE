@@ -24,7 +24,7 @@ typedef scalar *matrix;
 typedef signed_scalar *signed_matrix;
 
 // Accessing (signed ?) scalar Mi,j
-#define matrix_element(M, nb_col, i, j) (&M[((i) * (nb_col)) + (j)])
+#define matrix_element(M, nb_col, i, j) (M[((i) * (nb_col)) + (j)])
 
 // Matrix of polynomials (single pointer on scalars, everything is accessed
 // through macros)
