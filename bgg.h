@@ -13,11 +13,11 @@ Given a circuit f (and a sampler s) computes
 void BGG_KeyGen(circuit f, sampler s, poly_matrix A, signed_poly_matrix Tf);
 
 /*
-Given a sampler s and A
+Given a bit to encrypt u, a sampler s and A
       | A0 |
   A = | A1 | in Rq^{(k + 1) * m}
       | .. |
       | Ak |
 computes CTf = TODO
 */
-void BGG_OfflineEnc(poly_matrix A, sampler s, poly_matrix CTf);
+void BGG_OfflineEnc(poly_matrix A, bool u, sampler s, poly_matrix CTf);
