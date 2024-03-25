@@ -1,10 +1,5 @@
 #include "sampling.h"
 
-struct _sampler {
-    CSPRNG rng;              // for uniform distribution
-    dgs_disc_gauss_dp_t *D;  // for gaussian discrete distribution
-};
-
 sampler create_sampler() {
     CSPRNG rng = create_csprng();
     dgs_disc_gauss_dp_t *D = create_dgs();

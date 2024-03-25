@@ -7,7 +7,10 @@ void TrapGen(poly_matrix B, poly_matrix T);
 void TrapSamp(poly_matrix Bx, poly_matrix T, poly_matrix Tx);
 */
 
-typedef struct _sampler sampler;
+typedef struct _sampler {
+    CSPRNG rng;              // for uniform distribution
+    dgs_disc_gauss_dp_t *D;  // for gaussian discrete distribution
+} sampler;
 
 // Create a sampler, used by sampling functions to generate random results
 sampler create_sampler(void);
