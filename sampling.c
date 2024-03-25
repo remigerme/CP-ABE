@@ -1,9 +1,9 @@
 #include "sampling.h"
 
-typedef struct _sampler {
+struct _sampler {
     CSPRNG rng;              // for uniform distribution
     dgs_disc_gauss_dp_t *D;  // for gaussian discrete distribution
-} sampler;
+};
 
 sampler create_sampler() {
     CSPRNG rng = create_csprng();

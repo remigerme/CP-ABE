@@ -7,7 +7,7 @@ void TrapGen(poly_matrix B, poly_matrix T);
 void TrapSamp(poly_matrix Bx, poly_matrix T, poly_matrix Tx);
 */
 
-extern sampler;
+typedef struct _sampler sampler;
 
 // Create a sampler, used by sampling functions to generate random results
 sampler create_sampler(void);
