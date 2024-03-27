@@ -16,7 +16,7 @@ void BGG_KeyGen(circuit f, sampler s, matrix *A, signed_matrix Tf) {
 
     // Generate Tf
     // DIM_TODO probably = PARAM_L
-    sample_Zq_centered_matrix(Tf, DIM_TODO, DIM_TODO, s);
+    sample_Z_centered_matrix(Tf, DIM_TODO, DIM_TODO, s);
 
     // Compute A0
     // TODO : check types (signed)
@@ -30,7 +30,7 @@ void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix CTf) {
 
     // Short gaussian error vector
     signed E[DIM_TODO];
-    sample_Zq_centered_matrix(E, DIM_TODO, DIM_TODO, s);
+    sample_Z_centered_matrix(E, DIM_TODO, DIM_TODO, s);
 
     // Instantiating first term of CTf (`u` in p.12)
     if (u) {

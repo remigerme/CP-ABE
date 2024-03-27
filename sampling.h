@@ -23,7 +23,7 @@ sampler create_sampler(void);
 void sample_Zq_uniform_matrix(matrix A, int d1, int d2, sampler s);
 
 // Samples an entire matrix of size d1 * d2 from D_{Zq,sigma}
-void sample_Zq_centered_matrix(signed_matrix A, int d1, int d2, sampler s);
+void sample_Z_centered_matrix(signed_matrix A, int d1, int d2, sampler s);
 
 /* ------------------------- */
 /* Functions for poly_matrix */
