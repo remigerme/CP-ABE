@@ -56,6 +56,23 @@ void mul_matrix(matrix A, matrix B, matrix R, int d1, int d2, int d3) {
     }
 }
 
+// R <- A * Tf where A in Zq^{d1 * d2} and Tf in Z^{d2 * d2}
+void mul_matrix_trap(matrix A, signed_matrix Tf, matrix R, int d1, int d2) {
+    for (int i = 0; i < d1; i++) {
+        for (int j = 0; j < d2; j++) {
+            signed_scalar r = 0;
+            for (int k = 0; k < d2; k++) {
+                signed_scalar a = (signed_scalar)matrix_element(A, d2, i, k);
+                signed_scalar b = matrix_element(Tf, d2, k, j);
+                r = (r + a * b) % PARAM_Q;
+                // To be sure r >= 0
+                if (r < 0) r += PARAM_Q;
+            }
+            matrix_element(R, d2, i, j) = (scalar)r;
+        }
+    }
+}
+
 /* ------------------------- */
 /* Functions for poly_matrix */
 /* ------------------------- */

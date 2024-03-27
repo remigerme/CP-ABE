@@ -18,8 +18,7 @@ void BGG_KeyGen(circuit f, sampler s, matrix *A, signed_matrix Tf) {
     sample_Z_centered_matrix(Tf, PARAM_L, PARAM_L, s);
 
     // Compute A0
-    // TODO : check types (signed)
-    mul_matrix(Af, Tf, A[0], PARAM_N, PARAM_L, PARAM_L);
+    mul_matrix_trap(Af, Tf, A[0], PARAM_N, PARAM_L);
 }
 
 void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix CTf) {
