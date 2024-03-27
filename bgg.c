@@ -15,12 +15,11 @@ void BGG_KeyGen(circuit f, sampler s, matrix *A, signed_matrix Tf) {
     compute_Af(A + 1, f, Af);
 
     // Generate Tf
-    // DIM_TODO probably = PARAM_L
-    sample_Z_centered_matrix(Tf, DIM_TODO, DIM_TODO, s);
+    sample_Z_centered_matrix(Tf, PARAM_L, PARAM_L, s);
 
     // Compute A0
     // TODO : check types (signed)
-    mul_matrix(Af, Tf, A, 1, DIM_TODO, DIM_TODO);
+    mul_matrix(Af, Tf, A[0], PARAM_N, PARAM_L, PARAM_L);
 }
 
 void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix CTf) {
