@@ -2,41 +2,53 @@
 
 #include "matrix.h"
 
-void BGG_KeyGen(circuit f, sampler s, poly_matrix A, signed_poly_matrix Tf) {
-    // Generate A1, ..., Ak uniformely over Rq^m
-    poly_matrix A_start = poly_matrix_element(A, PARAM_M, 1, 0);
-    sample_Rq_uniform_matrix(A_start, PARAM_K, PARAM_M, s);
+#define G 2  // temp placeholder
+
+void BGG_KeyGen(circuit f, sampler s, matrix *A, signed_matrix Tf) {
+    // Generate A1, ..., Ak uniformely over Zq^{n * l}
+    for (int i = 0; i < PARAM_K; i++)
+        sample_Zq_uniform_matrix(A[i + 1], PARAM_N, PARAM_L, s);
 
     // Compute Af
-    scalar Af[PARAM_N * PARAM_M];
-    compute_Af(A_start, f, Af);
+    scalar Af[PARAM_N * PARAM_L];
+    compute_Af(A + 1, f, Af);
 
     // Generate Tf
-    sample_R_centered_matrix(Tf, PARAM_M, PARAM_M, s);
+    sample_Z_centered_matrix(Tf, PARAM_L, PARAM_L, s);
 
     // Compute A0
-    // TODO : check types (signed)
-    mul_poly_matrix(Af, Tf, A, 1, PARAM_M, PARAM_M);
+    mul_matrix_trap(Af, Tf, A[0], PARAM_N, PARAM_L);
 }
 
-void BGG_OfflineEnc(poly_matrix A, bool u, sampler s, poly_matrix CTf) {
-    int DIM_TODO = 2;
-
+void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix *CTf) {
     // Generating LWE uniform secret
-    scalar secret[PARAM_N];
-    sample_Rq_uniform_matrix(secret, 1, PARAM_N, s);
+    scalar S[PARAM_M * PARAM_N];
+    sample_Zq_uniform_matrix(S, PARAM_M, PARAM_N, s);
 
     // Short gaussian error vector
-    signed E[DIM_TODO];
-    sample_R_centered_matrix(E, DIM_TODO, DIM_TODO, s);
+    signed_scalar E[PARAM_M * PARAM_L];
+    sample_Z_centered_matrix(E, PARAM_M, PARAM_L, s);
 
-    // Instantiating first term of CTf (`u` in p.12)
+    // Instantiating first term of CTf (`u` in p.12 or C0 in p.13)
     if (u) {
-        sample_Rq_uniform_matrix(CTf, DIM_TODO, DIM_TODO, s);
+        sample_Zq_uniform_matrix(CTf[0], PARAM_M, PARAM_L, s);
     } else {
-        poly_matrix A0 = A;
-        mul_poly_matrix(A0, secret, CTf, DIM_TODO, DIM_TODO, DIM_TODO);
-        // TODO : check types (signed)
-        add_poly_matrix(CTf, E, CTf, DIM_TODO, DIM_TODO);
+        mul_matrix(A[0], S, CTf[0], PARAM_M, PARAM_N, PARAM_L);
+        add_matrix_error(CTf[0], E, CTf[0], PARAM_M, PARAM_L);
+    }
+
+    // Computing S * G only once
+    scalar SG[PARAM_M * PARAM_L];
+    mul_matrix(S, G, SG, PARAM_M, PARAM_N, PARAM_L);
+
+    for (int i = 0; i < PARAM_K; i++) {
+        for (int b = 0; b < 2; b++) {
+            matrix R = zeros(PARAM_N, PARAM_L);
+            sample_Z_centered_matrix(E, PARAM_M, PARAM_L, s);
+            mul_matrix(S, A[1 + i], R, PARAM_M, PARAM_N, PARAM_L);
+            if (b) add_matrix(R, SG, R, PARAM_M, PARAM_L);
+            add_matrix_error(R, E, R, PARAM_M, PARAM_L);
+            CTf[1 + 2 * i + b] = R;
+        }
     }
 }

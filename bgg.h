@@ -4,20 +4,14 @@
 
 /*
 Given a circuit f (and a sampler s) computes
-      | A0 |
-  A = | A1 | in Rq^{(k + 1) * m}
-      | .. |
-      | Ak |
-  Tf in R^{m*m} the trap used to compute A0
+  - A = [A0, A1, ..., Ak] where Ai in Zq^{n * l}
+  - Tf in Z^{l * l} the trap used to compute A0
 */
-void BGG_KeyGen(circuit f, sampler s, poly_matrix A, signed_poly_matrix Tf);
+void BGG_KeyGen(circuit f, sampler s, matrix *A, signed_matrix Tf);
 
 /*
-Given a bit to encrypt u, a sampler s and A
-      | A0 |
-  A = | A1 | in Rq^{(k + 1) * m}
-      | .. |
-      | Ak |
-computes CTf = TODO
+Given a bit to encrypt u, a sampler s and
+A = [A0, A1, ..., Ak] where Ai in Zq^{n * l}
+computes CTf = [C0, C1-0, C1-1, ..., Ck-0, Ck-1]
 */
-void BGG_OfflineEnc(poly_matrix A, bool u, sampler s, poly_matrix CTf);
+void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix *CTf);

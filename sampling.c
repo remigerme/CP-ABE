@@ -19,7 +19,7 @@ void sample_Zq_uniform_matrix(matrix A, int d1, int d2, sampler s) {
 
 signed_scalar sample_Z_centered(sampler s) { return signed_scalar_dgs(s.D); }
 
-void sample_Zq_centered_matrix(signed_matrix A, int d1, int d2, sampler s) {
+void sample_Z_centered_matrix(signed_matrix A, int d1, int d2, sampler s) {
     for (int i = 0; i < d1; i++)
         for (int j = 0; j < d2; j++)
             matrix_element(A, d2, i, j) = sample_Z_centered(s);

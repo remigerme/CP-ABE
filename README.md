@@ -41,3 +41,5 @@ q → {0, 1}^{N ×m}" where N = n * log q = n * k, so it could work if k = m whi
 TODO 2 : Hf,x,A construction for Dec
 
 TODO 1 : how to mul_poly efficiently (in Rq and R) ? then check efficiency of mul_poly_matrix (in Rq^{d1 * d2} and R^{d1 * d2})
+
+TODO 0 : de-polyfy circuit implem
