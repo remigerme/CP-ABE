@@ -12,6 +12,9 @@ matrix copy_matrix(matrix A, int d1, int d2);
 // R <- A + B
 void add_matrix(matrix A, matrix B, matrix R, int d1, int d2);
 
+// R <- A + E
+void add_matrix_error(matrix A, signed_matrix E, matrix R, int d1, int d2);
+
 // R <- A - B
 void sub_matrix(matrix A, matrix B, matrix R, int d1, int d2);
 
