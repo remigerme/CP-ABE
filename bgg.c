@@ -21,7 +21,7 @@ void BGG_KeyGen(circuit f, sampler s, matrix *A, signed_matrix Tf) {
     mul_matrix_trap(Af, Tf, A[0], PARAM_N, PARAM_L);
 }
 
-void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix CTf) {
+void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix *CTf) {
     // Generating LWE uniform secret
     scalar secret[PARAM_M * PARAM_N];
     sample_Zq_uniform_matrix(secret, PARAM_M, PARAM_N, s);
@@ -30,11 +30,11 @@ void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix CTf) {
     signed_scalar E[PARAM_M * PARAM_L];
     sample_Z_centered_matrix(E, PARAM_M, PARAM_L, s);
 
-    // Instantiating first term of CTf (`u` in p.12)
+    // Instantiating first term of CTf (`u` in p.12 or C0 in p.13)
     if (u) {
-        sample_Zq_uniform_matrix(CTf, PARAM_M, PARAM_L, s);
+        sample_Zq_uniform_matrix(CTf[0], PARAM_M, PARAM_L, s);
     } else {
-        mul_matrix(A[0], secret, CTf, PARAM_M, PARAM_N, PARAM_L);
-        add_matrix_error(CTf, E, CTf, PARAM_M, PARAM_L);
+        mul_matrix(A[0], secret, CTf[0], PARAM_M, PARAM_N, PARAM_L);
+        add_matrix_error(CTf[0], E, CTf[0], PARAM_M, PARAM_L);
     }
 }

@@ -12,6 +12,6 @@ void BGG_KeyGen(circuit f, sampler s, matrix *A, signed_matrix Tf);
 /*
 Given a bit to encrypt u, a sampler s and
 A = [A0, A1, ..., Ak] where Ai in Zq^{n * l}
-computes CTf = TODO
+computes CTf = [C0, C1-0, C1-1, ..., Ck-0, Ck-1]
 */
-void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix CTf);
+void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix *CTf);
