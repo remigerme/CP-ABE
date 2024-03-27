@@ -6,6 +6,9 @@
 /* Functions for matrix */
 /* -------------------- */
 
+// Returns a heap-allocated matrix filled with 0s
+matrix zeros(int d1, int d2);
+
 // Returns a fresh heap-allocated copy of A
 matrix copy_matrix(matrix A, int d1, int d2);
 

@@ -8,8 +8,18 @@
 /* Functions for matrix */
 /* -------------------- */
 
+matrix zeros(int d1, int d2) {
+    matrix R = malloc(sizeof(scalar) * d1 * d2);
+    for (int i = 0; i < d1; i++) {
+        for (int j = 0; j < d2; j++) {
+            matrix_element(R, d2, i, j) = 0;
+        }
+    }
+    return R;
+}
+
 matrix copy_matrix(poly_matrix A, int d1, int d2) {
-    poly_matrix R = malloc(sizeof(scalar) * d1 * d2);
+    matrix R = malloc(sizeof(scalar) * d1 * d2);
     for (int i = 0; i < d1; i++) {
         for (int j = 0; j < d2; j++) {
             matrix_element(R, d2, i, j) = matrix_element(A, d2, i, j);

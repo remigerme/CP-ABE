@@ -43,7 +43,7 @@ void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix *CTf) {
 
     for (int i = 0; i < PARAM_K; i++) {
         for (int b = 0; b < 2; b++) {
-            matrix R = zero(PARAM_N, PARAM_L);
+            matrix R = zeros(PARAM_N, PARAM_L);
             sample_Z_centered_matrix(E, PARAM_M, PARAM_L, s);
             mul_matrix(S, A[1 + i], R, PARAM_M, PARAM_N, PARAM_L);
             if (b) add_matrix(R, SG, R, PARAM_M, PARAM_L);
