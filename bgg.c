@@ -23,24 +23,22 @@ void BGG_KeyGen(circuit f, sampler s, matrix *A, signed_matrix Tf) {
     mul_matrix(Af, Tf, A, 1, DIM_TODO, DIM_TODO);
 }
 
-void BGG_OfflineEnc(poly_matrix A, bool u, sampler s, poly_matrix CTf) {
-    int DIM_TODO = 2;
-
+void BGG_OfflineEnc(matrix *A, bool u, sampler s, matrix CTf) {
     // Generating LWE uniform secret
     scalar secret[PARAM_N];
-    sample_Rq_uniform_matrix(secret, 1, PARAM_N, s);
+    sample_Zq_uniform_matrix(secret, 1, PARAM_N, s);
 
     // Short gaussian error vector
     signed E[DIM_TODO];
-    sample_R_centered_matrix(E, DIM_TODO, DIM_TODO, s);
+    sample_Zq_centered_matrix(E, DIM_TODO, DIM_TODO, s);
 
     // Instantiating first term of CTf (`u` in p.12)
     if (u) {
-        sample_Rq_uniform_matrix(CTf, DIM_TODO, DIM_TODO, s);
+        sample_Zq_uniform_matrix(CTf, DIM_TODO, DIM_TODO, s);
     } else {
-        poly_matrix A0 = A;
-        mul_poly_matrix(A0, secret, CTf, DIM_TODO, DIM_TODO, DIM_TODO);
+        matrix A0 = A;
+        mul_matrix(A0, secret, CTf, DIM_TODO, DIM_TODO, DIM_TODO);
         // TODO : check types (signed)
-        add_poly_matrix(CTf, E, CTf, DIM_TODO, DIM_TODO);
+        add_matrix(CTf, E, CTf, DIM_TODO, DIM_TODO);
     }
 }
