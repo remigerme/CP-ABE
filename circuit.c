@@ -2,8 +2,6 @@
 
 #include <stdlib.h>
 
-#include "matrix.h"
-
 #define G 2
 
 /*
@@ -14,38 +12,35 @@ We define the inverse function G−1 : Zq^{n×m} → {0, 1}^{N×m}
 which expands each entry a ∈ Zq of the input matrix into
 a column of size K = ceil(log q) consisting of the bits of the
 binary representation of a. We have the property that
-for any matrix A ∈ Zq^{n×m}, it holds that G*G−1(A) = A.
-TODO : do it in place ?
-Might be smart to copy the K inputs and allow ourselves
-to modify them, and create temp matrices on the stack
-for performance. TODO : check if there is a risk of
-segfault (stack is set to 8Mo on this specific arch,
-but let's say it's really risky if we reach 1Mo).
+for any matrix A ∈ Zq^{n×l}, it holds that G*G−1(A) = A.
 */
-poly_matrix nand(poly_matrix A, poly_matrix B) {
-    // Warning : this is stack allocated, beware not to segfault
-    scalar temp[PARAM_N * PARAM_M];
+matrix nand(matrix A, matrix B) {
     // We need to heap-allocate for the matrix to survive
-    poly_matrix R = malloc(sizeof(scalar) * PARAM_N * PARAM_M);
-    compute_inv_G(B, R);          // R <- G^-1(B)
-    poly_matrix_mul(A, R, temp);  // temp <- A * R = A * G^-1(B)
-    poly_matrix_sub(temp, G, R);  // R <- temp - G = A * G^-1(B) - G
+    matrix R = new_matrix(PARAM_N, PARAM_L);
+    matrix temp = new_matrix(PARAM_L, PARAM_L);
+    compute_inv_G(B, temp);  // temp <- G^-1(B)
+    matrix_mul(A, temp, R);  // R <- A * temp = A * G^-1(B)
+    matrix_sub(R, G, R);     // R <- R - G = A * G^-1(B) - G
+    free_matrix(temp);
     return R;
 }
 
 // Returns Af = f(A) = f(A1, ..., Ak)
-poly_matrix apply_f(circuit f, poly_matrix A) {
+matrix apply_f(matrix* A, circuit f) {
     if (f.left && f.right) {
-        return nand(apply_f(*f.left, A), apply_f(*f.right, A));
+        matrix R_left = apply_f(A, *f.left);
+        matrix R_right = apply_f(A, *f.right);
+        matrix R = nand(R_left, R_right);
+        free_matrix(R_left);
+        free_matrix(R_right);
+        return R;
     } else if ((!f.left) && (!f.right)) {
-        poly_matrix An = poly_matrix_element(A, PARAM_M, f.n, 0);
-        return copy_poly_matrix(An, 1, PARAM_M);  // A fresh copy of An
+        matrix An = A[f.n];
+        return copy_matrix(An);  // A fresh copy of An
     } else {
         // Help ! This is not supposed to happen.
-        return (void *)0;  // Good luck trying to recover from that.
+        return (void*)0;  // Good luck trying to recover from that.
     }
 }
 
-void compute_Af(poly_matrix A, circuit f, poly_matrix Af) {
-    Af = apply_f(f, A);
-}
+void compute_Af(matrix* A, circuit f, matrix Af) { Af = apply_f(A, f); }

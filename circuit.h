@@ -1,11 +1,11 @@
-#include "common.h"
+#include "matrix.h"
 
 /*
 We store a circuit as a binary tree which indicates us
 in which order we should compute the NAND gates.
 The field `n` is relevant only if we're located
 at a leaf ie left == right == NULL, in which case
-it stores the relevant index `n` (using 0-indexing).
+it stores the relevant index `n` (n = 1 to consider A1).
 */
 typedef struct btree {
     struct btree *left;
@@ -14,11 +14,8 @@ typedef struct btree {
 } circuit;
 
 /*
-Given (warning not including A0)
-      | A1 |
-  A = | .. | in Rq^{(k + 1) * m}
-      | Ak |
-we compute Af = f(A1, ..., Ak) where f is a boolean circuit
-composed of NAND gates.
+Given A = [A0, A1, ..., Ak] (A0 is yet to compute)
+where Ai in Zq^{n * l}, we compute Af = f(A1, ..., Ak)
+where f is a boolean circuit composed of NAND gates.
 */
-void compute_Af(poly_matrix A, circuit f, poly_matrix Af);
+void compute_Af(matrix *A, circuit f, matrix Af);
