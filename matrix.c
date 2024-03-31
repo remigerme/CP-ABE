@@ -3,22 +3,22 @@
 #include <assert.h>
 #include <stdlib.h>
 
-matrix* new_matrix(unsigned int rows, unsigned int columns) {
+matrix new_matrix(unsigned int rows, unsigned int columns) {
     scalar* data = calloc(rows * columns, sizeof(scalar));
-    matrix* R = calloc(1, sizeof(matrix));
+    matrix R = calloc(1, sizeof(matrix));
     R->rows = rows;
     R->columns = columns;
     R->data = data;
     return R;
 }
 
-void free_matrix(matrix* M) {
+void free_matrix(matrix M) {
     free(M->data);
     free(M);
 }
 
-matrix* copy_matrix(matrix* M) {
-    matrix* R = new_matrix(M->rows, M->columns);
+matrix copy_matrix(matrix M) {
+    matrix R = new_matrix(M->rows, M->columns);
     for (int i = 0; i < M->rows; i++)
         for (int j = 0; j < M->columns; j++)
             matrix_element(R, i, j) = matrix_element(M, i, j);
@@ -26,7 +26,7 @@ matrix* copy_matrix(matrix* M) {
 }
 
 // R <- A + B
-void add_matrix(matrix* A, matrix* B, matrix* R) {
+void add_matrix(matrix A, matrix B, matrix R) {
     // Check dimensions
     assert(A->rows == B->rows && A->rows == R->rows);
     assert(A->columns == B->columns && A->columns == R->columns);
@@ -41,7 +41,7 @@ void add_matrix(matrix* A, matrix* B, matrix* R) {
 }
 
 // R <- A + E
-void add_matrix_error(matrix* A, signed_matrix* E, matrix* R) {
+void add_matrix_error(matrix A, signed_matrix E, matrix R) {
     // Check dimensions
     assert(A->rows == E->rows && A->rows == R->rows);
     assert(A->columns == E->columns && A->columns == R->columns);
@@ -59,7 +59,7 @@ void add_matrix_error(matrix* A, signed_matrix* E, matrix* R) {
 }
 
 // R <- A - B
-void sub_matrix(matrix* A, matrix* B, matrix* R) {
+void sub_matrix(matrix A, matrix B, matrix R) {
     // Check dimensions
     assert(A->rows == B->rows && A->rows == R->rows);
     assert(A->columns == B->columns && A->columns == R->columns);
@@ -75,7 +75,7 @@ void sub_matrix(matrix* A, matrix* B, matrix* R) {
 }
 
 // R <- A * B
-void mul_matrix(matrix* A, matrix* B, matrix* R) {
+void mul_matrix(matrix A, matrix B, matrix R) {
     // Check dimensions
     assert(A->rows == R->rows);
     assert(A->columns == B->rows);
@@ -95,7 +95,7 @@ void mul_matrix(matrix* A, matrix* B, matrix* R) {
 }
 
 // R <- A * Tf where A in Zq^{d1 * d2} and Tf in Z^{d2 * d2}
-void mul_matrix_trap(matrix* A, signed_matrix* Tf, matrix* R) {
+void mul_matrix_trap(matrix A, signed_matrix Tf, matrix R) {
     // Check dimensions
     assert(A->rows == R->rows);
     assert(A->columns == Tf->rows);
