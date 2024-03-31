@@ -17,7 +17,7 @@ typedef struct _signed_matrix {
 }* signed_matrix;
 
 // Accessing (signed_)scalar Mi,j where M has type (signed_)matrix
-#define matrix_element(M, i, j) ((M->data)[((i) * (M->columns)) + (j)])
+#define matrix_element(M, i, j) ((M)->data[(i) * (M)->columns + (j)])
 
 // Returns a heap-allocated matrix filled with 0s
 matrix new_matrix(unsigned int rows, unsigned int columns);
