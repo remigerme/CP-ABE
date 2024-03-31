@@ -12,7 +12,21 @@ matrix new_matrix(unsigned int rows, unsigned int columns) {
     return R;
 }
 
+signed_matrix new_signed_matrix(unsigned int rows, unsigned int columns) {
+    signed_scalar* data = calloc(rows * columns, sizeof(signed_scalar));
+    signed_matrix R = calloc(1, sizeof(signed_matrix));
+    R->rows = rows;
+    R->columns = columns;
+    R->data = data;
+    return R;
+}
+
 void free_matrix(matrix M) {
+    free(M->data);
+    free(M);
+}
+
+void free_signed_matrix(signed_matrix M) {
     free(M->data);
     free(M);
 }

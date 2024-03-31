@@ -22,8 +22,14 @@ typedef struct _signed_matrix {
 // Returns a heap-allocated matrix filled with 0s
 matrix new_matrix(unsigned int rows, unsigned int columns);
 
+// Returns a heap-allocated signed_matrix filled with 0s
+signed_matrix new_signed_matrix(unsigned int rows, unsigned int columns);
+
 // Clean free of a matrix : data then the matrix itself
 void free_matrix(matrix M);
+
+// Clean free of a signed_matrix : data then the matrix itself
+void free_signed_matrix(signed_matrix M);
 
 // Returns a fresh heap-allocated copy of A
 matrix copy_matrix(matrix M);
