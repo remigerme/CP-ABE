@@ -1,6 +1,6 @@
 #include "bgg.h"
 
-#include "matrix.h"
+#include "common.h"
 
 #define G 2  // temp placeholder
 

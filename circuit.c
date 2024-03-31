@@ -1,6 +1,6 @@
 #include "circuit.h"
 
-#include <stdlib.h>
+#include "common.h"
 
 #define G 2
 

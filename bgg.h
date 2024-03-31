@@ -1,5 +1,7 @@
+#pragma once
+
 #include "circuit.h"
-#include "common.h"
+#include "matrix.h"
 #include "sampling.h"
 
 /*
