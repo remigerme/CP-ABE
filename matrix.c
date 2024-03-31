@@ -2,23 +2,25 @@
 
 #include <stdlib.h>
 
-matrix zeros(int d1, int d2) {
-    matrix R = malloc(sizeof(scalar) * d1 * d2);
-    for (int i = 0; i < d1; i++) {
-        for (int j = 0; j < d2; j++) {
-            matrix_element(R, d2, i, j) = 0;
-        }
-    }
+matrix* new_matrix(unsigned int rows, unsigned int columns) {
+    scalar* data = calloc(rows * columns, sizeof(scalar));
+    matrix* R = calloc(1, sizeof(matrix));
+    R->rows = rows;
+    R->columns = columns;
+    R->data = data;
     return R;
 }
 
-matrix copy_matrix(poly_matrix A, int d1, int d2) {
-    matrix R = malloc(sizeof(scalar) * d1 * d2);
-    for (int i = 0; i < d1; i++) {
-        for (int j = 0; j < d2; j++) {
-            matrix_element(R, d2, i, j) = matrix_element(A, d2, i, j);
-        }
-    }
+void free_matrix(matrix* M) {
+    free(M->data);
+    free(M);
+}
+
+matrix* copy_matrix(matrix* M) {
+    matrix* R = new_matrix(M->rows, M->columns);
+    for (int i = 0; i < M->rows; i++)
+        for (int j = 0; j < M->columns; j++)
+            matrix_element(R, i, j) = matrix_element(M, i, j);
     return R;
 }
 

@@ -14,14 +14,17 @@ typedef struct signed_matrix {
     signed_scalar* data;
 } signed_matrix;
 
-// Accessing (signed ?) scalar Mi,j
-#define matrix_element(M, i, j) (M[((i) * (M.columns)) + (j)])
+// Accessing (signed ?) scalar Mi,j where M has type matrix *
+#define matrix_element(M, i, j) ((M->data)[((i) * (M->columns)) + (j)])
 
 // Returns a heap-allocated matrix filled with 0s
-matrix zeros_matrix(int rows, int columns);
+matrix* new_matrix(unsigned int rows, unsigned int columns);
+
+// Clean free of a matrix : data then the matrix itself
+void free_matrix(matrix* M);
 
 // Returns a fresh heap-allocated copy of A
-matrix copy_matrix(matrix A);
+matrix* copy_matrix(matrix* M);
 
 // R <- A + B
 void add_matrix(matrix A, matrix B, matrix R);
