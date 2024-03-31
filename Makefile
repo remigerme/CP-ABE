@@ -26,7 +26,7 @@ libs: $(addprefix lib,$(addsuffix .so,$(LIBS)))
 lib%.so:lib/%/*.c
 	$(CC) -maes -fPIC -shared -o lib/$@ $^
 
-test: poly.o random.o sampling.o test.c
+test: matrix.o random.o sampling.o test.c
 	$(CC) $(UNIVERSAL_LIBS_FLAGS) $(SPECIFY_LIBS) $(LIBS_FLAGS) -o $@ $^
 
 %.o: %.c
