@@ -1,5 +1,6 @@
 #pragma once
 
+#include "attribute.h"
 #include "matrix.h"
 
 /*
@@ -17,7 +18,14 @@ typedef struct btree {
 
 /*
 Given A = [A0, A1, ..., Ak] (A0 is yet to compute)
-where Ai in Zq^{n * l}, we compute Af = f(A1, ..., Ak)
-where f is a boolean circuit composed of NAND gates.
+where Ai in Zq^{n * l}, and a boolean circuit f
+composed of NAND gates, we compute Af = f(A1, ..., Ak).
 */
 void compute_Af(matrix *A, circuit f, matrix Af);
+
+/*
+Given A = [A0, A1, ..., Ak] where Ai in Zq^{n * l},
+a boolean circuit f and an attribute x, we compute
+the associated Hf,x,A matrix.
+*/
+void compute_H(matrix *A, circuit f, attribute x, matrix H);
