@@ -51,7 +51,7 @@ matrix apply_f(matrix* A, circuit f) {
         free_matrix(R_left);
         free_matrix(R_right);
         return R;
-    } else if ((!f.left) && (!f.right)) {
+    } else if (!f.left && !f.right) {
         matrix An = A[f.n];
         return copy_matrix(An);  // A fresh copy of An
     } else {
@@ -99,7 +99,47 @@ H_triplet* leaf(matrix* A, attribute x, int n) {
     return t;
 }
 
-H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {}
+H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {
+    if (!f.left && !f.right)
+        return leaf(A, x, f.n);
+
+    else if (!f.left || !f.right)
+        // Help ! This is not supposed to happen.
+        return (void*)0;  // Good luck trying to recover from that.
+
+    H_triplet* tl = compute_H_triplet(A, *f.left, x);
+    H_triplet* tr = compute_H_triplet(A, *f.right, x);
+
+    H_triplet* t = new_H_triplet();
+
+    matrix inv = new_matrix(PARAM_L, PARAM_L);
+    matrix tempA = new_matrix(PARAM_N, PARAM_L);
+    matrix tempH = new_matrix(PARAM_K * PARAM_L, PARAM_L);
+    matrix tempHbis = new_matrix(PARAM_K * PARAM_L, PARAM_L);
+
+    // Computing new A = Al * G^-1(Ar)
+    inv_G(tr->A, inv);
+    mul_matrix(tl->A, inv, tempA);
+    t->A = copy_matrix(tempA);
+
+    // Computing new x = 1 - xl * xr
+    t->x = 1 - tl->x * tr->x;
+
+    // Computing new H = Hl * G^-1(Ar) + xl * Hr
+    mul_matrix(tl->H, inv, tempH);
+    mul_matrix_scalar(tl->x, tr->H, tempHbis);
+    add_matrix(tempH, tempHbis, tempH);
+    t->H = copy_matrix(tempH);
+
+    // Free time !
+    free_matrix(inv);
+    free_matrix(tempA);
+    free_matrix(tempH);
+    free_H_triplet(tl);
+    free_H_triplet(tr);
+
+    return t;
+}
 
 void compute_H(matrix* A, circuit f, attribute x, matrix H) {
     H_triplet* t = compute_H_triplet(A, f, x);
