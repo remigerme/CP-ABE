@@ -6,7 +6,19 @@
 #include "common.h"
 #include "matrix.h"
 
-#define G 2
+matrix G;
+
+void init_G() {
+    // We need that L = N * K
+    G = new_matrix(PARAM_N, PARAM_L);
+    for (int i = 0; i < PARAM_N; i++) {
+        scalar v = 1;
+        for (int k = 0; k < PARAM_K; k++) {
+            matrix_element(G, i, i * PARAM_K + k) = v;
+            v *= 2;
+        }
+    }
+}
 
 // R <- G^-1(A)
 void inv_G(matrix A, matrix R) {

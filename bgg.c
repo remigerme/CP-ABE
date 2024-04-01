@@ -2,8 +2,6 @@
 
 #include "common.h"
 
-#define G 2  // temp placeholder
-
 void BGG_KeyGen(circuit f, sampler s, matrix *A, signed_matrix Tf) {
     // Generate A1, ..., Ak uniformely over Zq^{n * l}
     for (int i = 0; i < PARAM_K; i++) sample_Zq_uniform_matrix(A[i + 1], s);

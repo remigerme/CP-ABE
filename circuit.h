@@ -3,6 +3,12 @@
 #include "attribute.h"
 #include "matrix.h"
 
+// Needs to be initialized through init_G !
+extern matrix G;
+
+// Initialize gadget matrix
+void init_G(void);
+
 /*
 We store a circuit as a binary tree which indicates us
 in which order we should compute the NAND gates.
