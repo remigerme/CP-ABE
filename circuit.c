@@ -68,7 +68,7 @@ void compute_Af(matrix* A, circuit f, matrix Af) { Af = apply_f(A, f); }
 
 typedef struct H_triplet {
     matrix A;
-    bool xn;
+    bool x;
     matrix H;
 } H_triplet;
 
@@ -77,7 +77,7 @@ H_triplet* new_H_triplet() {
     matrix H = new_matrix(PARAM_K * PARAM_L, PARAM_L);
     H_triplet* t = calloc(1, sizeof(H_triplet));
     t->A = A;
-    t->xn = 0;
+    t->x = 0;
     t->H = H;
     return t;
 }
@@ -86,6 +86,17 @@ void free_H_rec_triplet(H_triplet* t) {
     free_matrix(t->A);
     free_matrix(t->H);
     free(t);
+}
+
+H_triplet* leaf(matrix* A, attribute x, int n) {
+    H_triplet* t = new_H_triplet();
+    t->A = copy_matrix(A[n]);
+    t->x = get_xk(x, n);
+    // H seen as a column is empty except
+    // in n-th position which is the identity
+    for (int i = 0; i < PARAM_L; i++)
+        matrix_element(t->H, n * PARAM_L + i, i) = 1;
+    return t;
 }
 
 void compute_H(matrix* A, circuit f, attribute x, matrix H) {}

@@ -41,3 +41,5 @@ q → {0, 1}^{N ×m}" where N = n * log q = n * k, so it could work if k = m whi
 TODO 2 : Hf,x,A construction for Dec
 
 TODO 1 : check inv_G implem
+
+TODO 1 bis : check leaf implem
