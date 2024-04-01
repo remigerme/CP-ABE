@@ -41,3 +41,7 @@ q → {0, 1}^{N ×m}" where N = n * log q = n * k, so it could work if k = m whi
 TODO 2 : Hf,x,A construction for Dec
 
 TODO 1 : check inv_G implem
+
+TODO 1 bis : check leaf implem
+
+TODO 1 ter : check compute_H_triplet implem (and for now, using only heap allocation, is it smart / efficient ? check memory free too)
