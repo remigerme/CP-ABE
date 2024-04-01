@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "common.h"
+#include "matrix.h"
 
 #define G 2
 
@@ -36,8 +37,8 @@ matrix nand(matrix A, matrix B) {
     matrix R = new_matrix(PARAM_N, PARAM_L);
     matrix temp = new_matrix(PARAM_L, PARAM_L);
     inv_G(B, temp);          // temp <- G^-1(B)
-    matrix_mul(A, temp, R);  // R <- A * temp = A * G^-1(B)
-    matrix_sub(R, G, R);     // R <- R - G = A * G^-1(B) - G
+    mul_matrix(A, temp, R);  // R <- A * temp = A * G^-1(B)
+    sub_matrix(R, G, R);     // R <- R - G = A * G^-1(B) - G
     free_matrix(temp);
     return R;
 }
@@ -91,7 +92,7 @@ void free_H_triplet(H_triplet* t) {
 H_triplet* leaf(matrix* A, attribute x, int n) {
     H_triplet* t = new_H_triplet();
     t->A = copy_matrix(A[n]);
-    t->x = get_xk(x, n);
+    t->x = get_xn(x, n);
     // H seen as a column is empty except
     // in n-th position which is the identity
     for (int i = 0; i < PARAM_L; i++)
