@@ -1,5 +1,8 @@
 #include "circuit.h"
 
+#include <stdbool.h>
+#include <stdlib.h>
+
 #include "common.h"
 
 #define G 2
@@ -32,7 +35,7 @@ matrix nand(matrix A, matrix B) {
     // We need to heap-allocate for the matrix to survive
     matrix R = new_matrix(PARAM_N, PARAM_L);
     matrix temp = new_matrix(PARAM_L, PARAM_L);
-    compute_inv_G(B, temp);  // temp <- G^-1(B)
+    inv_G(B, temp);          // temp <- G^-1(B)
     matrix_mul(A, temp, R);  // R <- A * temp = A * G^-1(B)
     matrix_sub(R, G, R);     // R <- R - G = A * G^-1(B) - G
     free_matrix(temp);
@@ -58,3 +61,31 @@ matrix apply_f(matrix* A, circuit f) {
 }
 
 void compute_Af(matrix* A, circuit f, matrix Af) { Af = apply_f(A, f); }
+
+/***************/
+/* Computing H */
+/***************/
+
+typedef struct H_triplet {
+    matrix A;
+    bool xn;
+    matrix H;
+} H_triplet;
+
+H_triplet* new_H_triplet() {
+    matrix A = new_matrix(PARAM_N, PARAM_L);
+    matrix H = new_matrix(PARAM_K * PARAM_L, PARAM_L);
+    H_triplet* t = calloc(1, sizeof(H_triplet));
+    t->A = A;
+    t->xn = 0;
+    t->H = H;
+    return t;
+}
+
+void free_H_rec_triplet(H_triplet* t) {
+    free_matrix(t->A);
+    free_matrix(t->H);
+    free(t);
+}
+
+void compute_H(matrix* A, circuit f, attribute x, matrix H) {}
