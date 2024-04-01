@@ -82,7 +82,7 @@ H_triplet* new_H_triplet() {
     return t;
 }
 
-void free_H_rec_triplet(H_triplet* t) {
+void free_H_triplet(H_triplet* t) {
     free_matrix(t->A);
     free_matrix(t->H);
     free(t);
@@ -99,4 +99,10 @@ H_triplet* leaf(matrix* A, attribute x, int n) {
     return t;
 }
 
-void compute_H(matrix* A, circuit f, attribute x, matrix H) {}
+H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {}
+
+void compute_H(matrix* A, circuit f, attribute x, matrix H) {
+    H_triplet* t = compute_H_triplet(A, f, x);
+    H = copy_matrix(t->H);
+    free_H_triplet(t);
+}
