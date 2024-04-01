@@ -4,6 +4,20 @@
 
 #define G 2
 
+// R <- G^-1(A)
+void inv_G(matrix A, matrix R) {
+    for (int n = 0; n < PARAM_N; n++) {
+        for (int l = 0; l < PARAM_L; l++) {
+            scalar divisor = 1;
+            for (int k = 0; k < PARAM_K; k++) {
+                scalar Anl = matrix_element(A, n, l);
+                matrix_element(R, n * PARAM_K + k, l) = (Anl / divisor) % 2;
+                divisor *= 2;
+            }
+        }
+    }
+}
+
 /*
 Returns A * G^-1(B) - G
 where G is the gadget matrix and G^-1
