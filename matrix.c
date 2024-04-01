@@ -129,3 +129,13 @@ void mul_matrix_trap(matrix A, signed_matrix Tf, matrix R) {
         }
     }
 }
+
+void mul_matrix_scalar(scalar x, matrix A, matrix R) {
+    // Check dimensions
+    assert(A->rows == R->rows);
+    assert(A->columns == R->columns);
+    // Computing the result
+    for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++)
+            matrix_element(R, i, j) = (x * matrix_element(A, i, j)) % PARAM_Q;
+}

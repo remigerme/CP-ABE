@@ -48,3 +48,6 @@ void mul_matrix(matrix A, matrix B, matrix R);
 
 // R <- A * Tf where A in Zq^{d1 * d2} and Tf in Z^{d2 * d2}
 void mul_matrix_trap(matrix A, signed_matrix Tf, matrix R);
+
+// R <- x * A where x is a scalar
+void mul_matrix_scalar(scalar x, matrix A, matrix R);
