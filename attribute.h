@@ -1,9 +1,14 @@
+#pragma once
+
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "common.h"
 
-typedef scalar attribute;
+typedef uint32_t attribute;
 
-// Get xk value (0 or 1), using 0-indexing
-scalar get_xk(attribute x, int k);
+// Get xn value (0 or 1), USING 1-INDEXING
+bool get_xn(attribute x, int n);
 
 // Guard : we only have 32 bits available
 #if PARAM_K > 32
