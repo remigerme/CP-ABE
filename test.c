@@ -2,64 +2,52 @@
 #include <time.h>
 
 #include "common.h"
-#include "lib/luca/random.h"
-#include "poly.h"
+#include "matrix.h"
 #include "sampling.h"
 
-real mean(poly a) {
+real mean(matrix A) {
     real m = 0;
-    for (int i = 0; i < PARAM_N; i++) {
-        m += (real)a[i];
-    }
-    return m / PARAM_N;
+    for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++) m += (real)matrix_element(A, i, j);
+    return m / (real)(A->rows * A->columns);
 }
 
-real meanbis(signed_poly a) {
+real meanbis(signed_matrix A) {
     real m = 0;
-    for (int i = 0; i < PARAM_N; i++) {
-        m += (real)a[i];
-    }
-    return m / PARAM_N;
+    for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++) m += (real)matrix_element(A, i, j);
+    return m / (real)(A->rows * A->columns);
 }
 
-real var(signed_poly a) {
-    real m = meanbis(a);
-    real v = 0;
-    for (int i = 0; i < PARAM_N; i++) {
-        v += a[i] * a[i];
-    }
-    return v / PARAM_N - m;
+real var(signed_matrix A) {
+    real m = meanbis(A);
+    real p = 0;
+    for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++)
+            p += matrix_element(A, i, j) * matrix_element(A, i, j);
+    p /= (real)(A->rows * A->columns);
+    return p - m * m;
 }
 
 int main() {
     sampler s = create_sampler();
     real start, end;
 
-    poly a = malloc(PARAM_N * sizeof(scalar));
+    matrix A = new_matrix(PARAM_N, PARAM_L);
     start = (real)clock() / CLOCKS_PER_SEC;
-    sample_Rq_uniform(a, s);
+    sample_Zq_uniform_matrix(A, s);
     end = (real)clock() / CLOCKS_PER_SEC;
-    printf("Mine : %fs mean: %f\n", end - start, mean(a));
+    real diff = (mean(A) - PARAM_Q / 2.0) / (PARAM_Q / 2.0);
+    printf("Time : %fs diff to expected mean : %f%%\n", end - start,
+           100 * diff);
 
-    poly d = malloc(PARAM_N * sizeof(scalar));
+    signed_matrix B = new_signed_matrix(PARAM_L, PARAM_L);
     start = (real)clock() / CLOCKS_PER_SEC;
-    for (int i = 0; i < PARAM_N; i++) {
-        d[i] = _uniform_mod_q();
-    }
+    sample_Z_centered_matrix(B, s);
     end = (real)clock() / CLOCKS_PER_SEC;
-    printf("Luca : %fs mean: %f\n", end - start, mean(d));
+    printf("Time : %fs mean: %f var: %f\n", end - start, meanbis(B), var(B));
 
-    signed_poly b = malloc(PARAM_N * sizeof(signed_scalar));
-    start = (real)clock() / CLOCKS_PER_SEC;
-    sample_R_centered(b, s);
-    end = (real)clock() / CLOCKS_PER_SEC;
-    printf("Mine : %fs mean: %f var: %f\n", end - start, meanbis(b), var(b));
-
-    signed_poly c = malloc(PARAM_N * sizeof(signed_scalar));
-    start = (real)clock() / CLOCKS_PER_SEC;
-    for (int i = 0; i < PARAM_N; i++) {
-        c[i] = algorithmF(0, PARAM_SIGMA);
-    }
-    end = (real)clock() / CLOCKS_PER_SEC;
-    printf("Luca : %fs mean: %f var: %f\n", end - start, meanbis(c), var(c));
+    // Example output with N = 1024, K = 30
+    // Time : 0.903941s diff to expected mean : 0.005221 %
+    // Time : 27.481249s mean : -0.000243 var : 49.001157
 }
