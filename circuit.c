@@ -106,7 +106,7 @@ H_triplet* leaf(matrix* A, attribute x, int n) {
     // H seen as a column is empty except
     // in n-th position which is the identity
     for (int i = 0; i < PARAM_L; i++)
-        matrix_element(t->H, n * PARAM_L + i, i) = 1;
+        matrix_element(t->H, (n - 1) * PARAM_L + i, i) = 1;
     return t;
 }
 
