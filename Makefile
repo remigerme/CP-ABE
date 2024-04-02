@@ -5,7 +5,7 @@
 CC = gcc -g -Wall
 
 # list of executables binaries
-EXEC = test_sampling
+EXEC = test_sampling test_circuit
 
 # list of libraries to build
 LIBS = dgs luca
@@ -27,6 +27,9 @@ lib%.so:lib/%/*.c
 	$(CC) -maes -fPIC -shared -o lib/$@ $^
 
 test_sampling: matrix.o random.o sampling.o test_sampling.c
+	$(CC) $(UNIVERSAL_LIBS_FLAGS) $(SPECIFY_LIBS) $(LIBS_FLAGS) -o $@ $^
+
+test_circuit: attribute.o matrix.o circuit.o test_circuit.c
 	$(CC) $(UNIVERSAL_LIBS_FLAGS) $(SPECIFY_LIBS) $(LIBS_FLAGS) -o $@ $^
 
 %.o: %.c
