@@ -76,7 +76,7 @@ void add_matrix(matrix A, matrix B, matrix R) {
     assert(A->columns == B->columns && A->columns == R->columns);
     // Computing the result
     for (int i = 0; i < A->rows; i++) {
-        for (int j = 0; j < B->rows; j++) {
+        for (int j = 0; j < A->columns; j++) {
             scalar a = matrix_element(A, i, j);
             scalar b = matrix_element(B, i, j);
             matrix_element(R, i, j) = (a + b) % PARAM_Q;
