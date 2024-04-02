@@ -29,7 +29,7 @@ lib%.so:lib/%/*.c
 test_sampling: matrix.o random.o sampling.o test_sampling.c
 	$(CC) $(UNIVERSAL_LIBS_FLAGS) $(SPECIFY_LIBS) $(LIBS_FLAGS) -o $@ $^
 
-test_circuit: attribute.o matrix.o circuit.o test_circuit.c
+test_circuit: attribute.o matrix.o circuit.o random.o sampling.o test_circuit.c
 	$(CC) $(UNIVERSAL_LIBS_FLAGS) $(SPECIFY_LIBS) $(LIBS_FLAGS) -o $@ $^
 
 %.o: %.c
