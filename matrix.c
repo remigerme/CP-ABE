@@ -1,6 +1,7 @@
 #include "matrix.h"
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 matrix new_matrix(unsigned int rows, unsigned int columns) {
@@ -21,6 +22,12 @@ signed_matrix new_signed_matrix(unsigned int rows, unsigned int columns) {
     return R;
 }
 
+matrix* new_matrixes(int n, unsigned int rows, unsigned int columns) {
+    matrix* A = calloc(n, sizeof(matrix));
+    for (int i = 0; i < n; i++) A[i] = new_matrix(rows, columns);
+    return A;
+}
+
 void free_matrix(matrix M) {
     free(M->data);
     free(M);
@@ -29,6 +36,29 @@ void free_matrix(matrix M) {
 void free_signed_matrix(signed_matrix M) {
     free(M->data);
     free(M);
+}
+
+void free_matrixes(matrix* A, int n) {
+    for (int i = 0; i < n; i++) free_matrix(A[i]);
+    free(A);
+}
+
+void print_matrix(matrix M) {
+    for (int i = 0; i < M->rows; i++) {
+        for (int j = 0; j < M->columns; j++) {
+            printf("%u\t", matrix_element(M, i, j));
+        }
+        printf("\n");
+    }
+}
+
+void print_signed_matrix(signed_matrix M) {
+    for (int i = 0; i < M->rows; i++) {
+        for (int j = 0; j < M->columns; j++) {
+            printf("%d\t", matrix_element(M, i, j));
+        }
+        printf("\n");
+    }
 }
 
 matrix copy_matrix(matrix M) {
@@ -46,7 +76,7 @@ void add_matrix(matrix A, matrix B, matrix R) {
     assert(A->columns == B->columns && A->columns == R->columns);
     // Computing the result
     for (int i = 0; i < A->rows; i++) {
-        for (int j = 0; j < B->rows; j++) {
+        for (int j = 0; j < A->columns; j++) {
             scalar a = matrix_element(A, i, j);
             scalar b = matrix_element(B, i, j);
             matrix_element(R, i, j) = (a + b) % PARAM_Q;
@@ -138,4 +168,15 @@ void mul_matrix_scalar(scalar x, matrix A, matrix R) {
     for (int i = 0; i < A->rows; i++)
         for (int j = 0; j < A->columns; j++)
             matrix_element(R, i, j) = (x * matrix_element(A, i, j)) % PARAM_Q;
+}
+
+bool equals(matrix A, matrix B) {
+    // Check dimensions
+    if (A->rows != B->rows || A->columns != B->columns) return false;
+    // Computing the result
+    for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++)
+            if (matrix_element(A, i, j) != matrix_element(B, i, j))
+                return false;
+    return true;
 }

@@ -56,10 +56,10 @@ matrix nand(matrix A, matrix B) {
 }
 
 // Returns Af = f(A) = f(A1, ..., Ak)
-matrix apply_f(matrix* A, circuit f) {
+matrix compute_Af(matrix* A, circuit f) {
     if (f.left && f.right) {
-        matrix R_left = apply_f(A, *f.left);
-        matrix R_right = apply_f(A, *f.right);
+        matrix R_left = compute_Af(A, *f.left);
+        matrix R_right = compute_Af(A, *f.right);
         matrix R = nand(R_left, R_right);
         free_matrix(R_left);
         free_matrix(R_right);
@@ -72,8 +72,6 @@ matrix apply_f(matrix* A, circuit f) {
         return (void*)0;  // Good luck trying to recover from that.
     }
 }
-
-void compute_Af(matrix* A, circuit f, matrix Af) { Af = apply_f(A, f); }
 
 /***************/
 /* Computing H */
@@ -108,7 +106,7 @@ H_triplet* leaf(matrix* A, attribute x, int n) {
     // H seen as a column is empty except
     // in n-th position which is the identity
     for (int i = 0; i < PARAM_L; i++)
-        matrix_element(t->H, n * PARAM_L + i, i) = 1;
+        matrix_element(t->H, (n - 1) * PARAM_L + i, i) = 1;
     return t;
 }
 
@@ -154,8 +152,9 @@ H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {
     return t;
 }
 
-void compute_H(matrix* A, circuit f, attribute x, matrix H) {
+matrix compute_H(matrix* A, circuit f, attribute x) {
     H_triplet* t = compute_H_triplet(A, f, x);
-    H = copy_matrix(t->H);
+    matrix H = copy_matrix(t->H);
     free_H_triplet(t);
+    return H;
 }
