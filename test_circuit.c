@@ -12,10 +12,8 @@ int main() {
     print_matrix(G);
     printf("\n");
 
-    matrix Af = new_matrix(PARAM_N, PARAM_L);
-
     matrix* A = new_matrixes(PARAM_K + 1, PARAM_N, PARAM_L);
-    for (int i = 0; i < PARAM_K; i++) {
+    for (int i = 0; i < PARAM_K + 1; i++) {
         sample_Zq_uniform_matrix(A[i], s);
         print_matrix(A[i]);
         printf("\n");
@@ -26,7 +24,7 @@ int main() {
     f.right = NULL;
     f.n = 1;
 
-    compute_Af(A, f, Af);
+    matrix Af = compute_Af(A, f);
 
     print_matrix(Af);
     printf("\n");
