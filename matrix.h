@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "common.h"
 
 // A matrix is a POINTER TO A STRUCT _matrix
@@ -61,3 +63,5 @@ void mul_matrix_trap(matrix A, signed_matrix Tf, matrix R);
 
 // R <- x * A where x is a scalar
 void mul_matrix_scalar(scalar x, matrix A, matrix R);
+
+bool equals(matrix A, matrix B);

@@ -169,3 +169,14 @@ void mul_matrix_scalar(scalar x, matrix A, matrix R) {
         for (int j = 0; j < A->columns; j++)
             matrix_element(R, i, j) = (x * matrix_element(A, i, j)) % PARAM_Q;
 }
+
+bool equals(matrix A, matrix B) {
+    // Check dimensions
+    if (A->rows != B->rows || A->columns != B->columns) return false;
+    // Computing the result
+    for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++)
+            if (matrix_element(A, i, j) != matrix_element(B, i, j))
+                return false;
+    return true;
+}
