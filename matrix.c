@@ -1,6 +1,7 @@
 #include "matrix.h"
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 matrix new_matrix(unsigned int rows, unsigned int columns) {
@@ -29,6 +30,24 @@ void free_matrix(matrix M) {
 void free_signed_matrix(signed_matrix M) {
     free(M->data);
     free(M);
+}
+
+void print_matrix(matrix M) {
+    for (int i = 0; i < M->rows; i++) {
+        for (int j = 0; j < M->columns; j++) {
+            printf("%u\t", matrix_element(M, i, j));
+        }
+        printf("\n");
+    }
+}
+
+void print_signed_matrix(signed_matrix M) {
+    for (int i = 0; i < M->rows; i++) {
+        for (int j = 0; j < M->columns; j++) {
+            printf("%d\t", matrix_element(M, i, j));
+        }
+        printf("\n");
+    }
 }
 
 matrix copy_matrix(matrix M) {

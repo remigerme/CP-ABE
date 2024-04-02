@@ -31,6 +31,10 @@ void free_matrix(matrix M);
 // Clean free of a signed_matrix : data then the matrix itself
 void free_signed_matrix(signed_matrix M);
 
+void print_matrix(matrix M);
+
+void print_signed_matrix(signed_matrix M);
+
 // Returns a fresh heap-allocated copy of A
 matrix copy_matrix(matrix M);
 
