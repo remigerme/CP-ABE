@@ -25,13 +25,13 @@ typedef struct btree {
 /*
 Given A = [A0, A1, ..., Ak] (A0 is yet to compute)
 where Ai in Zq^{n * l}, and a boolean circuit f
-composed of NAND gates, we compute Af = f(A1, ..., Ak).
+composed of NAND gates, we return Af = f(A1, ..., Ak).
 */
-void compute_Af(matrix* A, circuit f, matrix Af);
+matrix compute_Af(matrix* A, circuit f);
 
 /*
 Given A = [A0, A1, ..., Ak] where Ai in Zq^{n * l},
-a boolean circuit f and an attribute x, we compute
+a boolean circuit f and an attribute x, we return
 the associated Hf,x,A matrix.
 */
-void compute_H(matrix* A, circuit f, attribute x, matrix H);
+matrix compute_H(matrix* A, circuit f, attribute x);
