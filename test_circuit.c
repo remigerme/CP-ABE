@@ -33,6 +33,30 @@ int main() {
     print_matrix(H);
     printf("\n");
 
+    matrix R = new_matrix(PARAM_N, PARAM_L);
+    add_matrix(Af, G, R);
+    print_matrix(R);
+    printf("\n");
+
+    matrix T = new_matrix(PARAM_N, PARAM_L);
+    matrix BIG = new_matrix(PARAM_N, PARAM_L * PARAM_K);
+    for (int i = 1; i < PARAM_K + 1; i++) {
+        matrix ti = copy_matrix(A[i]);
+        add_matrix(ti, G, ti);
+        for (int j = 0; j < ti->rows; j++)
+            for (int k = 0; k < ti->columns; k++)
+                matrix_element(BIG, j, (i - 1) * PARAM_L + k) =
+                    matrix_element(ti, j, k);
+        free_matrix(ti);
+    }
+    mul_matrix(BIG, H, T);
+    print_matrix(T);
+    printf("\n");
+
+    free_matrix(R);
+    free_matrix(BIG);
+    free_matrix(T);
+
     free_matrix(Af);
     free_matrix(H);
 
