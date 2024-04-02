@@ -22,6 +22,12 @@ signed_matrix new_signed_matrix(unsigned int rows, unsigned int columns) {
     return R;
 }
 
+matrix* new_matrixes(int n, unsigned int rows, unsigned int columns) {
+    matrix* A = calloc(n, sizeof(matrix));
+    for (int i = 0; i < n; i++) A[i] = new_matrix(rows, columns);
+    return A;
+}
+
 void free_matrix(matrix M) {
     free(M->data);
     free(M);
@@ -30,6 +36,11 @@ void free_matrix(matrix M) {
 void free_signed_matrix(signed_matrix M) {
     free(M->data);
     free(M);
+}
+
+void free_matrixes(matrix* A, int n) {
+    for (int i = 0; i < n; i++) free_matrix(A[i]);
+    free(A);
 }
 
 void print_matrix(matrix M) {

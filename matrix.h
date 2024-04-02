@@ -25,11 +25,17 @@ matrix new_matrix(unsigned int rows, unsigned int columns);
 // Returns a heap-allocated signed_matrix filled with 0s
 signed_matrix new_signed_matrix(unsigned int rows, unsigned int columns);
 
+// Returns a heap-allocated array of matrixes filled with 0s
+matrix* new_matrixes(int n, unsigned int rows, unsigned int columns);
+
 // Clean free of a matrix : data then the matrix itself
 void free_matrix(matrix M);
 
 // Clean free of a signed_matrix : data then the matrix itself
 void free_signed_matrix(signed_matrix M);
+
+// Clean free of a matrixes array
+void free_matrixes(matrix* A, int n);
 
 void print_matrix(matrix M);
 
