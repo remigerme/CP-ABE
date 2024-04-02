@@ -25,11 +25,17 @@ int main() {
     f.n = 1;
 
     matrix Af = compute_Af(A, f);
-
     print_matrix(Af);
     printf("\n");
 
-    free_matrixes(A, PARAM_K + 1);
+    attribute x = 7;
+    matrix H = compute_H(A, f, x);
+    print_matrix(H);
+    printf("\n");
+
     free_matrix(Af);
+    free_matrix(H);
+
+    free_matrixes(A, PARAM_K + 1);
     free_matrix(G);
 }
