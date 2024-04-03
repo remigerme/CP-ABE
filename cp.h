@@ -3,10 +3,15 @@
 #include "attribute.h"
 #include "circuit.h"
 #include "matrix.h"
+#include "sampling.h"
+
+extern sampler s;
+
+void init(void);
 
 void Setup(matrix* B, matrix T);
 
-matrix* Enc(matrix* B, circuit f, bool u);
+void Enc(matrix* B, circuit f, bool u, matrix* CTf, signed_matrix Tf);
 
 void KeyGen(matrix* B, matrix T, attribute x, matrix Tx);
 
