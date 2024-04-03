@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "attribute.h"
 #include "matrix.h"
 
@@ -8,6 +10,9 @@ extern matrix G;
 
 // Initialize gadget matrix
 void init_G(void);
+
+// R <- G^-1(A)
+void inv_G(matrix A, matrix R);
 
 /*
 We store a circuit as a binary tree which indicates us
@@ -35,3 +40,6 @@ a boolean circuit f and an attribute x, we return
 the associated Hf,x,A matrix.
 */
 matrix compute_H(matrix* A, circuit f, attribute x);
+
+// Returns f(x1, ..., xk)
+bool compute_f(circuit f, attribute x);

@@ -9,9 +9,8 @@ int main() {
     sampler s = create_sampler();
 
     init_G();
-    print_matrix(G);
-    printf("\n");
 
+    printf("Printing A\n");
     matrix* A = new_matrixes(PARAM_K + 1, PARAM_N, PARAM_L);
     for (int i = 0; i < PARAM_K + 1; i++) {
         sample_Zq_uniform_matrix(A[i], s);
@@ -19,26 +18,39 @@ int main() {
         printf("\n");
     }
 
+    // Testing G * G^-1(A) = A
+    matrix inv = new_matrix(PARAM_L, PARAM_L);
+    matrix res = new_matrix(PARAM_N, PARAM_L);
+    inv_G(A[0], inv);
+    mul_matrix(G, inv, res);
+    assert(equals(A[0], res));
+    free_matrix(inv);
+    free_matrix(res);
+    printf("G * G^-1(A) = A : yes\n");
+
     circuit f;
-    f.left = NULL;
-    f.right = NULL;
-    f.n = 1;
+    circuit g;
+    circuit h;
+    f.left = &g;
+    f.right = &h;
+    g.left = g.right = NULL;
+    h.left = h.right = NULL;
+    g.n = 1;
+    h.n = 2;
 
     matrix Af = compute_Af(A, f);
-    print_matrix(Af);
-    printf("\n");
 
     attribute x = 7;
     matrix H = compute_H(A, f, x);
 
-    matrix R = new_matrix(PARAM_N, PARAM_L);
-    add_matrix(Af, G, R);
+    matrix R = copy_matrix(Af);
+    if (compute_f(f, x)) add_matrix(R, G, R);
 
     matrix T = new_matrix(PARAM_N, PARAM_L);
     matrix BIG = new_matrix(PARAM_N, PARAM_L * PARAM_K);
     for (int i = 1; i < PARAM_K + 1; i++) {
         matrix ti = copy_matrix(A[i]);
-        add_matrix(ti, G, ti);
+        if (get_xn(x, i)) add_matrix(ti, G, ti);
         for (int j = 0; j < ti->rows; j++)         // ti->rows = PARAM_N
             for (int k = 0; k < ti->columns; k++)  // ti->columns = PARAM_L
                 matrix_element(BIG, j, (i - 1) * PARAM_L + k) =
@@ -46,6 +58,12 @@ int main() {
         free_matrix(ti);
     }
     mul_matrix(BIG, H, T);
+
+    print_matrix(R);
+    printf("\n");
+
+    print_matrix(T);
+    printf("\n");
 
     assert(equals(R, T));
 
