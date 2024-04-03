@@ -1,5 +1,6 @@
 #include "circuit.h"
 
+#include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -57,20 +58,16 @@ matrix nand(matrix A, matrix B) {
 
 // Returns Af = f(A) = f(A1, ..., Ak)
 matrix compute_Af(matrix* A, circuit f) {
-    if (f.left && f.right) {
-        matrix R_left = compute_Af(A, *f.left);
-        matrix R_right = compute_Af(A, *f.right);
-        matrix R = nand(R_left, R_right);
-        free_matrix(R_left);
-        free_matrix(R_right);
-        return R;
-    } else if (!f.left && !f.right) {
-        matrix An = A[f.n];
-        return copy_matrix(An);  // A fresh copy of An
-    } else {
-        // Help ! This is not supposed to happen.
-        return (void*)0;  // Good luck trying to recover from that.
-    }
+    assert((f.left && f.right) || (!f.left || !f.right));
+
+    if (!f.left && !f.right) return copy_matrix(A[f.n]);  // A fresh copy of An
+
+    matrix R_left = compute_Af(A, *f.left);
+    matrix R_right = compute_Af(A, *f.right);
+    matrix R = nand(R_left, R_right);
+    free_matrix(R_left);
+    free_matrix(R_right);
+    return R;
 }
 
 /***************/
@@ -111,12 +108,9 @@ H_triplet* leaf(matrix* A, attribute x, int n) {
 }
 
 H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {
-    if (!f.left && !f.right)
-        return leaf(A, x, f.n);
+    assert((f.left && f.right) || (!f.left || !f.right));
 
-    else if (!f.left || !f.right)
-        // Help ! This is not supposed to happen.
-        return (void*)0;  // Good luck trying to recover from that.
+    if (!f.left && !f.right) return leaf(A, x, f.n);
 
     H_triplet* tl = compute_H_triplet(A, *f.left, x);
     H_triplet* tr = compute_H_triplet(A, *f.right, x);
@@ -158,4 +152,14 @@ matrix compute_H(matrix* A, circuit f, attribute x) {
     matrix H = copy_matrix(t->H);
     free_H_triplet(t);
     return H;
+}
+
+bool compute_f(circuit f, attribute x) {
+    assert((f.left && f.right) || (!f.left || !f.right));
+
+    if (!f.left && !f.right) return get_xn(x, f.n);
+
+    bool xl = compute_f(*f.left, x);
+    bool xr = compute_f(*f.right, x);
+    return 1 - xl * xr;
 }
