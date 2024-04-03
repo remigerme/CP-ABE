@@ -32,7 +32,7 @@ matrix* BGG_OfflineEnc(matrix* A, bool u, sampler s) {
     if (u)
         sample_Zq_uniform_matrix(CTf[0], s);
     else {
-        mul_matrix(A[0], S, CTf[0]);
+        mul_matrix(S, A[0], CTf[0]);
         add_matrix_error(CTf[0], E, CTf[0]);
     }
 
