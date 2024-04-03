@@ -39,14 +39,12 @@ int main() {
     h.n = 2;
 
     matrix Af = compute_Af(A, f);
-    print_matrix(Af);
-    printf("\n");
 
     attribute x = 7;
     matrix H = compute_H(A, f, x);
 
     matrix R = copy_matrix(Af);
-    // add_matrix(R, G, R);
+    if (compute_f(f, x)) add_matrix(R, G, R);
 
     matrix T = new_matrix(PARAM_N, PARAM_L);
     matrix BIG = new_matrix(PARAM_N, PARAM_L * PARAM_K);
