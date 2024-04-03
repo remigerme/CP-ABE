@@ -128,17 +128,18 @@ H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {
     matrix tempH = new_matrix(PARAM_K * PARAM_L, PARAM_L);
     matrix tempHbis = new_matrix(PARAM_K * PARAM_L, PARAM_L);
 
-    // Computing new A = Al * G^-1(Ar)
+    // Computing new A = Al * G^-1(Ar) - G
     inv_G(tr->A, inv);
     mul_matrix(tl->A, inv, tempA);
+    sub_matrix(tempA, G, tempA);
     t->A = copy_matrix(tempA);
 
     // Computing new x = 1 - xl * xr
     t->x = 1 - tl->x * tr->x;
 
-    // Computing new H = Hl * G^-1(Ar) + xl * Hr
+    // Computing new H = Hl * G^-1(Ar) - xl * Hr
     mul_matrix(tl->H, inv, tempH);
-    mul_matrix_scalar(tl->x, tr->H, tempHbis);
+    mul_matrix_scalar(-tl->x, tr->H, tempHbis);
     add_matrix(tempH, tempHbis, tempH);
     t->H = copy_matrix(tempH);
 
