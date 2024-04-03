@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "attribute.h"
 #include "matrix.h"
 
@@ -38,3 +40,6 @@ a boolean circuit f and an attribute x, we return
 the associated Hf,x,A matrix.
 */
 matrix compute_H(matrix* A, circuit f, attribute x);
+
+// Returns f(x1, ..., xk)
+bool compute_f(circuit f, attribute x);
