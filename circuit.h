@@ -37,7 +37,7 @@ matrix compute_Af(matrix* A, circuit f);
 /*
 Given A = [A0, A1, ..., Ak] where Ai in Zq^{n * l},
 a boolean circuit f and an attribute x, we return
-the associated Hf,x,A matrix.
+the associated Hf,x,A matrix in Zq^{kl * l}.
 */
 matrix compute_H(matrix* A, circuit f, attribute x);
 
