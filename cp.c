@@ -14,11 +14,10 @@ void init() {
     s = create_sampler();
 }
 
-void Enc(matrix* B, circuit f, bool u, matrix* CTf, signed_matrix Tf) {
-    matrix* A = new_matrixes(PARAM_K + 1, PARAM_N, PARAM_L);
-    BGG_KeyGen(f, s, A, Tf);
+cp_ciphertext Enc(matrix* B, circuit f, bool u) {
+    bgg_keys keys = BGG_KeyGen(f, s);
 
-    matrix* BGG_CTf = BGG_OfflineEnc(A, u, s);
+    matrix* BGG_CTf = BGG_OfflineEnc(keys.A, u, s);
 
     matrix* CTf = new_matrixes(2 * PARAM_K + 1, PARAM_M, PARAM_L);
 
@@ -37,7 +36,10 @@ void Enc(matrix* B, circuit f, bool u, matrix* CTf, signed_matrix Tf) {
         }
     }
 
-    free_matrixes(A, PARAM_K + 1);
+    free_matrixes(keys.A, PARAM_K + 1);
     free_matrixes(BGG_CTf, 2 * PARAM_K + 1);
     free_matrix(S);
+
+    cp_ciphertext c = {CTf, keys.Tf};
+    return c;
 }

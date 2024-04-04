@@ -133,8 +133,8 @@ H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {
 
     // Computing new H = Hl * G^-1(Ar) - xl * Hr
     mul_matrix(tl->H, inv, tempH);
-    mul_matrix_scalar(-tl->x, tr->H, tempHbis);
-    add_matrix(tempH, tempHbis, tempH);
+    mul_matrix_scalar(tl->x, tr->H, tempHbis);
+    sub_matrix(tempH, tempHbis, tempH);
     t->H = copy_matrix(tempH);
 
     // Free time !
