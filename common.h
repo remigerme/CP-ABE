@@ -1,6 +1,8 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdio.h>
+#include <time.h>
 
 // Test parameters
 #define PARAM_N 2                    // size of polynomials
@@ -24,3 +26,14 @@
 typedef uint32_t scalar;
 typedef int32_t signed_scalar;
 typedef double real;
+
+/*
+double start and double end need to be defined before !
+comment need to include %f specifier to include duration
+*/
+#define CHRONO(comment, code)                        \
+    do {                                             \
+        start = (real)clock() / CLOCKS_PER_SEC;      \
+        {code} end = (real)clock() / CLOCKS_PER_SEC; \
+        printf(comment, end - start);                \
+    } while (0)
