@@ -2,7 +2,11 @@
 
 #include "common.h"
 
-void BGG_KeyGen(circuit f, sampler s, matrix* A, signed_matrix Tf) {
+bgg_keys BGG_KeyGen(circuit f, sampler s) {
+    // Allocating new matrixes
+    matrix* A = new_matrixes(PARAM_K + 1, PARAM_N, PARAM_L);
+    signed_matrix Tf = new_signed_matrix(PARAM_L, PARAM_L);
+
     // Generate A1, ..., Ak uniformely over Zq^{n * l}
     for (int i = 0; i < PARAM_K; i++) sample_Zq_uniform_matrix(A[i + 1], s);
 
@@ -15,6 +19,9 @@ void BGG_KeyGen(circuit f, sampler s, matrix* A, signed_matrix Tf) {
     // Compute A0
     mul_matrix_trap(Af, Tf, A[0]);
     free_matrix(Af);
+
+    bgg_keys key = {A, Tf};
+    return key;
 }
 
 matrix* BGG_OfflineEnc(matrix* A, bool u, sampler s) {
