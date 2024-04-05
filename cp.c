@@ -43,3 +43,40 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u) {
     cp_ciphertext c = {CTf, keys.Tf};
     return c;
 }
+
+bool Dec(attribute x, circuit f, bgg_keys keys, signed_matrix tx, matrix* CTf) {
+    // Computing the right term HT (without Identity block)
+    matrix H = compute_H(keys.A, f, x);
+    matrix HT = new_matrix(PARAM_K * PARAM_L, PARAM_L);
+    mul_matrix_trap(H, keys.Tf, HT);
+
+    // Computing the relevant CTf
+    matrix CTfx = new_matrix(PARAM_M, PARAM_K * PARAM_L);
+    for (int k = 0; k < PARAM_K; k++) {
+        int b = get_xn(x, k + 1);  // Beware of 1-indexing
+        for (int m = 0; m < PARAM_M; m++)
+            for (int l = 0; l < PARAM_L; l++)
+                matrix_element(CTfx, m, k * PARAM_L + l) =
+                    matrix_element(CTf[1 + 2 * k + b], m, l);
+    }
+
+    // Computing [C1,x1 | ... | Ck,xk] * HT - C0
+    // All C are C with hat for now
+    matrix right_res = new_matrix(PARAM_M, PARAM_L);
+    mul_matrix(CTfx, HT, right_res);
+    sub_matrix(right_res, CTf[0], right_res);
+
+    // Computing tx * (SA[0] - C[0])
+    int TODO = 1;  // TODO : determine rows of tx (columns = M)
+    matrix res = new_matrix(TODO, PARAM_L);
+    mul_matrix_trap(right_res, tx, res);  // TODO : multiply trap left
+    bool plain = 0;                       // TODO : is_short(matrix)
+
+    free_matrix(H);
+    free_matrix(HT);
+    free_matrix(CTfx);
+    free_matrix(right_res);
+    free_matrix(res);
+
+    return plain;
+}
