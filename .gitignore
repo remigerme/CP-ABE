@@ -1,7 +1,5 @@
 # Exec files
-test_sampling
-test_circuit
-test_bgg
+build/
 
 # VSCode settings file we don't care about (auto generated)
 .vscode/settings.json
