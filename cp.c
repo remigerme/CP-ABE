@@ -45,6 +45,15 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u) {
 }
 
 bool Dec(attribute x, circuit f, bgg_keys keys, signed_matrix tx, matrix* CTf) {
+    /*
+
+    Weird : Hf,x,A so we need A = [A1 | ... | Ak] to compute Hf,x,A
+    However A isn't stored in CTf and not given in input by 2020-191
+    So with bgg_keys we bring additional information (which isn't supposed to
+    leak from Enc I think). But then how do we compute Hf,x
+    (not A dependant according to 2020-191 p14...) ?
+    */
+
     // Computing the right term HT (without Identity block)
     matrix H = compute_H(keys.A, f, x);
     matrix HT = new_matrix(PARAM_K * PARAM_L, PARAM_L);
@@ -69,8 +78,10 @@ bool Dec(attribute x, circuit f, bgg_keys keys, signed_matrix tx, matrix* CTf) {
     // Computing tx * (SA[0] - C[0])
     int TODO = 1;  // TODO : determine rows of tx (columns = M)
     matrix res = new_matrix(TODO, PARAM_L);
-    mul_matrix_trap(right_res, tx, res);  // TODO : multiply trap left
-    bool plain = 0;                       // TODO : is_short(matrix)
+    mul_matrix_trap_left(tx, right_res, res);
+
+    // Computing decoded bit
+    bool plain = is_short(res);
 
     free_matrix(H);
     free_matrix(HT);
