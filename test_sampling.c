@@ -33,21 +33,27 @@ int main() {
     sampler s = create_sampler();
     real start, end;
 
+    // Printing parameters
+    printf("Testing sampling with parameters\n");
+    printf("\tN = %d\n", PARAM_N);
+    printf("\tK = %d\n", PARAM_K);
+    printf("\tL = %d\n", PARAM_L);
+    printf("\tA matrixes are size : N * L = %d\n", PARAM_N * PARAM_L);
+    printf("\tT matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
+    printf("\tH matrixes are size : K * L * L = %d\n",
+           PARAM_K * PARAM_L * PARAM_L);
+
+    // Checking one of the Ai matrix
     matrix A = new_matrix(PARAM_N, PARAM_L);
-    start = (real)clock() / CLOCKS_PER_SEC;
-    sample_Zq_uniform_matrix(A, s);
-    end = (real)clock() / CLOCKS_PER_SEC;
+    CHRONO("Sampled Ai in %fs ", { sample_Zq_uniform_matrix(A, s); });
     real diff = (mean(A) - PARAM_Q / 2.0) / (PARAM_Q / 2.0);
-    printf("Time : %fs diff to expected mean : %f%%\n", end - start,
-           100 * diff);
+    printf("diff to expected mean : %f%%\n", 100 * diff);
 
-    signed_matrix B = new_signed_matrix(PARAM_L, PARAM_L);
-    start = (real)clock() / CLOCKS_PER_SEC;
-    sample_Z_centered_matrix(B, s);
-    end = (real)clock() / CLOCKS_PER_SEC;
-    printf("Time : %fs mean: %f var: %f\n", end - start, meanbis(B), var(B));
+    // Checking a trap T
+    signed_matrix T = new_signed_matrix(PARAM_L, PARAM_L);
+    CHRONO("Sampled T in %fs ", { sample_Z_centered_matrix(T, s); });
+    printf("mean: %f var: %f\n", meanbis(T), var(T));
 
-    // Example output with N = 1024, K = 30
-    // Time : 0.903941s diff to expected mean : 0.005221 %
-    // Time : 27.481249s mean : -0.000243 var : 49.001157
+    free_matrix(A);
+    free_signed_matrix(T);
 }

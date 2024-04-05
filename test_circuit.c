@@ -48,6 +48,10 @@ int main() {
     g.n = 1;
     h.n = 2;
 
+    printf("Circuit : ");
+    print_circuit(f);
+    printf("\n");
+
     matrix Af = compute_Af(A, f);
 
     matrix T = new_matrix(PARAM_N, PARAM_L);
