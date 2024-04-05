@@ -1,6 +1,7 @@
 #include <stdbool.h>
 
 #include "attribute.h"
+#include "bgg.h"
 #include "circuit.h"
 #include "matrix.h"
 #include "sampling.h"

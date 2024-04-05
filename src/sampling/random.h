@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #include "common.h"
-#include "lib/dgs/dgs.h"
+#include "dgs.h"
 
 typedef void *CSPRNG;
 
