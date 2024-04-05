@@ -34,7 +34,7 @@ int main() {
     real start, end;
 
     // Printing parameters
-    printf("Testing circuit with parameters\n");
+    printf("Testing sampling with parameters\n");
     printf("\tN = %d\n", PARAM_N);
     printf("\tK = %d\n", PARAM_K);
     printf("\tL = %d\n", PARAM_L);
