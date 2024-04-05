@@ -8,13 +8,18 @@
 extern sampler s;
 
 typedef struct {
+    matrix* B;
+    signed_matrix T;
+} cp_keys;
+
+typedef struct {
     matrix* CTf;
     signed_matrix Tf;
 } cp_ciphertext;
 
 void init(void);
 
-void Setup(matrix* B, matrix T);
+cp_keys Setup(void);
 
 cp_ciphertext Enc(matrix* B, circuit f, bool u);
 
