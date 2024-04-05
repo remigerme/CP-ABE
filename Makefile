@@ -3,7 +3,7 @@
 # -Wextra for more warnings
 # -O2 or -O3 for optimization flags
 CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -O3
 INCLUDES = -Isrc -Isrc/bgg -Isrc/sampling -Isrc/utils -Ilib/dgs
 
 SRC_DIR = src
