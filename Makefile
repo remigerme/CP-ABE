@@ -19,7 +19,7 @@ EXEC = test_sampling test_circuit test_bgg
 
 # list of libraries to build
 LIBS = dgs
-SPECIFY_LIBS = -L./build -Wl,-rpath=./build
+SPECIFY_LIBS = -L./build '-Wl,-rpath,$$ORIGIN'
 LIBS_FLAGS = $(SPECIFY_LIBS) $(addprefix -l,$(LIBS))
 # -lm : link math library
 # -lgmp : link gmp library needed for dgs
