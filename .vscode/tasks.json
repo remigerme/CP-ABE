@@ -4,7 +4,7 @@
         {
             "label": "Build current file",
             "type": "shell",
-            "command": "make clean; make ${fileBasenameNoExtension}",
+            "command": "make ${fileBasenameNoExtension}",
             "group": {
                 "kind": "build",
                 "isDefault": false
