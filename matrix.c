@@ -201,3 +201,8 @@ bool equals(matrix A, matrix B) {
                 return false;
     return true;
 }
+
+bool is_short(matrix A) {
+    // TODO
+    return false;
+}
