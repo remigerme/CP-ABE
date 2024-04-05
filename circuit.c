@@ -35,6 +35,21 @@ void inv_G(matrix A, matrix R) {
     }
 }
 
+void print_circuit(circuit f) {
+    assert((f.left && f.right) || (!f.left || !f.right));
+
+    if (!f.left && !f.right) {
+        printf("%d", f.n);
+        return;
+    }
+
+    printf("(");
+    print_circuit(*f.left);
+    printf(" ^ ");
+    print_circuit(*f.right);
+    printf(")");
+}
+
 /*
 Returns A * G^-1(B) - G
 where G is the gadget matrix and G^-1

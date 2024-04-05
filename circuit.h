@@ -27,6 +27,8 @@ typedef struct btree {
     int n;
 } circuit;
 
+void print_circuit(circuit f);
+
 /*
 Given A = [A0, A1, ..., Ak] (A0 is yet to compute)
 where Ai in Zq^{n * l}, and a boolean circuit f
