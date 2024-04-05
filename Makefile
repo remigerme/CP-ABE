@@ -1,22 +1,31 @@
 # -g for debug
 # -Wall for warnings
 # -Wextra for more warnings
-# -O3 for optimization flags
-CC = gcc -g -Wall
+# -O2 or -O3 for optimization flags
+CC = gcc
+CFLAGS = -g -Wall
+INCLUDES = -Isrc -Isrc/bgg -Isrc/sampling -Isrc/utils -Ilib/dgs
+
+SRC_DIR = src
+BUILD_DIR = build
+SRC_TEST = src/test
+
+OBJS_RAW = matrix attribute random sampling circuit bgg cp
+OBJS_O = $(addsuffix .o,$(OBJS_RAW))
+OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 
 # list of executables binaries
 EXEC = test_sampling test_circuit test_bgg
 
 # list of libraries to build
-LIBS = dgs luca
-SPECIFY_LIBS = -L./lib -Wl,-rpath=./lib
-LIBS_FLAGS = $(addprefix -l,$(LIBS))
-UNIVERSAL_LIBS_FLAGS = -lm -lgmp
-
-tests: test_sampling test_circuit test_bgg
-
+LIBS = dgs
+SPECIFY_LIBS = -L./build -Wl,-rpath=./build
+LIBS_FLAGS = $(SPECIFY_LIBS) $(addprefix -l,$(LIBS))
 # -lm : link math library
 # -lgmp : link gmp library needed for dgs
+UNIVERSAL_LIBS_FLAGS = -lm -lgmp
+
+tests: $(EXEC)
 
 libs: $(addprefix lib,$(addsuffix .so,$(LIBS)))
 
@@ -24,20 +33,28 @@ libs: $(addprefix lib,$(addsuffix .so,$(LIBS)))
 # -shared : needed for building libraries
 # -maes : for aes intrinsics for Luca's algorithmF
 lib%.so:lib/%/*.c
-	$(CC) -maes -fPIC -shared -o lib/$@ $^
+	$(CC) -maes -fPIC -shared -o $(BUILD_DIR)/$@ $^
 
-test_sampling: matrix.o random.o sampling.o test_sampling.c
-	$(CC) $(UNIVERSAL_LIBS_FLAGS) $(SPECIFY_LIBS) $(LIBS_FLAGS) -o $@ $^
 
-test_circuit: attribute.o matrix.o circuit.o random.o sampling.o test_circuit.c
-	$(CC) $(UNIVERSAL_LIBS_FLAGS) $(SPECIFY_LIBS) $(LIBS_FLAGS) -o $@ $^
+# Rule for building tests
+test_%: $(OBJS) $(SRC_TEST)/test_%.c
+	$(CC) $(CFLAGS) $(UNIVERSAL_LIBS_FLAGS) $(LIBS_FLAGS) $(INCLUDES) -o $(BUILD_DIR)/$@ $^
 
-test_bgg: attribute.o matrix.o circuit.o random.o sampling.o bgg.o test_bgg.c
-	$(CC) $(UNIVERSAL_LIBS_FLAGS) $(SPECIFY_LIBS) $(LIBS_FLAGS) -o $@ $^
 
-%.o: %.c
-	$(CC) -c -o $@ $^
+# Brute-force searching
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/utils/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/bgg/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/sampling/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $^
+
 
 # We shouldn't need to clean lib subdirectories
 clean:
-	rm -f $(EXEC) *.o
+	rm -f $(BUILD_DIR)/*.o $(addprefix $(BUILD_DIR)/,$(EXEC))
