@@ -13,7 +13,7 @@ SPECIFY_LIBS = -L./lib -Wl,-rpath=./lib
 LIBS_FLAGS = $(addprefix -l,$(LIBS))
 UNIVERSAL_LIBS_FLAGS = -lm -lgmp
 
-default: test_sampling
+tests: test_sampling test_circuit test_bgg
 
 # -lm : link math library
 # -lgmp : link gmp library needed for dgs
