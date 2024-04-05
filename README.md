@@ -34,10 +34,21 @@ I need to be careful about stack memory limit, as creating big matrices of polyn
 TODO 4 : maybe encrypt more than just a single bit (a full int ? a sequence of ints representing an ASCII message e.g. ?) - same goes for decrypt of course
 
 ### TODO
-- [ ] BGG
+- [x] BGG
     - [x] BGG.KeyGen implem
     - [x] BGG.OfflineEnc implem
     - [x] compute_H implem
     - [x] BGG tests
-    - [ ] BGG benchmark
+    - [x] BGG benchmark
 - [ ] CP
+    - [ ] Setup
+        - [ ] Trapgen
+        - [ ] Implem
+        - [ ] Benchmark
+    - [ ] Enc
+        - [x] Implem
+        - [ ] Benchmark
+    - [ ] KeyGen
+    - [ ] Dec
+        - [ ] Implem
+        - [ ] Benchmark
