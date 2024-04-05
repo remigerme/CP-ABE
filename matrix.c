@@ -160,6 +160,27 @@ void mul_matrix_trap(matrix A, signed_matrix Tf, matrix R) {
     }
 }
 
+void mul_matrix_trap_left(signed_matrix T, matrix B, matrix R) {
+    // Check dimensions
+    assert(T->rows == R->rows);
+    assert(T->columns == B->rows);
+    assert(B->columns == R->columns);
+    // Computing the result
+    for (int i = 0; i < T->rows; i++) {
+        for (int j = 0; j < B->columns; j++) {
+            signed_scalar r = 0;
+            for (int k = 0; k < T->columns; k++) {
+                signed_scalar a = matrix_element(T, i, k);
+                signed_scalar b = (signed_scalar)matrix_element(B, k, j);
+                r = (r + a * b) % PARAM_Q;
+                // To be sure r >= 0
+                if (r < 0) r += PARAM_Q;
+            }
+            matrix_element(R, i, j) = (scalar)r;
+        }
+    }
+}
+
 void mul_matrix_scalar(scalar x, matrix A, matrix R) {
     // Check dimensions
     assert(A->rows == R->rows);
@@ -179,4 +200,9 @@ bool equals(matrix A, matrix B) {
             if (matrix_element(A, i, j) != matrix_element(B, i, j))
                 return false;
     return true;
+}
+
+bool is_short(matrix A) {
+    // TODO
+    return false;
 }
