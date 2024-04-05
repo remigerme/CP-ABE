@@ -5,9 +5,9 @@
 #include <time.h>
 
 // Test parameters
-#define PARAM_N 2                    // size of polynomials
-#define PARAM_Q 11                   // modulus
-#define PARAM_K 4                    // attribute length
+#define PARAM_N 16                   // size of polynomials
+#define PARAM_Q 53507                // modulus
+#define PARAM_K 16                   // attribute length
 #define PARAM_L (PARAM_N * PARAM_K)  // KP-ABE matrices dimension
 #define PARAM_M (PARAM_K + 2)        // yet to determine
 #define PARAM_SIGMA 7.00             // used for discrete gaussian distribution
