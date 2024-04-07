@@ -15,7 +15,7 @@ OBJS_O = $(addsuffix .o,$(OBJS_RAW))
 OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 
 # list of executables binaries
-EXEC = test_sampling test_circuit test_bgg
+EXEC = test_sampling test_circuit test_bgg test_cp
 
 # list of libraries to build
 LIBS = dgs
