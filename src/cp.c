@@ -9,7 +9,7 @@
 
 sampler s;
 
-void init() {
+void init_cp() {
     init_G();
     s = create_sampler();
 }
