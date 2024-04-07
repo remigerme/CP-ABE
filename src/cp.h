@@ -18,7 +18,7 @@ typedef struct {
     signed_matrix Tf;
 } cp_ciphertext;
 
-void init(void);
+void init_cp(void);
 
 cp_keys Setup(void);
 

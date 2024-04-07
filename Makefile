@@ -3,7 +3,7 @@
 # -Wextra for more warnings
 # -O2 or -O3 for optimization flags
 CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -O3
 INCLUDES = -Isrc -Isrc/bgg -Isrc/sampling -Isrc/utils -Ilib/dgs
 
 SRC_DIR = src
@@ -15,7 +15,7 @@ OBJS_O = $(addsuffix .o,$(OBJS_RAW))
 OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 
 # list of executables binaries
-EXEC = test_sampling test_circuit test_bgg
+EXEC = test_sampling test_circuit test_bgg test_cp
 
 # list of libraries to build
 LIBS = dgs
@@ -24,6 +24,8 @@ LIBS_FLAGS = $(SPECIFY_LIBS) $(addprefix -l,$(LIBS))
 # -lm : link math library
 # -lgmp : link gmp library needed for dgs
 UNIVERSAL_LIBS_FLAGS = -lm -lgmp
+
+.PHONY: tests libs clean
 
 tests: $(EXEC)
 
