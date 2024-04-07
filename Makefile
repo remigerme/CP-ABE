@@ -25,6 +25,8 @@ LIBS_FLAGS = $(SPECIFY_LIBS) $(addprefix -l,$(LIBS))
 # -lgmp : link gmp library needed for dgs
 UNIVERSAL_LIBS_FLAGS = -lm -lgmp
 
+.PHONY: tests libs clean
+
 tests: $(EXEC)
 
 libs: $(addprefix lib,$(addsuffix .so,$(LIBS)))
