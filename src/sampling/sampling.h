@@ -4,15 +4,19 @@
 #include "random.h"
 
 /*
-void TrapGen(poly_matrix B, poly_matrix T);
-
 void TrapSamp(poly_matrix Bx, poly_matrix T, poly_matrix Tx);
 */
 
 typedef struct _sampler {
     CSPRNG rng;              // for uniform distribution
-    dgs_disc_gauss_dp_t *D;  // for gaussian discrete distribution
+    dgs_disc_gauss_dp_t* D;  // for gaussian discrete distribution
 } sampler;
+
+/*
+Given a sampler s, computes B = [B0 | B1,0 | B1,1 | ... | Bk,1]
+and its trap T such TBi,b = 0 where Bi,b in Zq^{m * n} and T in Z^{m * m}.
+*/
+void TrapGen(sampler s, matrix* B, signed_matrix T);
 
 /* -------------------- */
 /* Functions for matrix */
