@@ -15,6 +15,8 @@ typedef struct _sampler {
 /*
 Given a sampler s, computes B = [B0 | B1,0 | B1,1 | ... | Bk,1]
 and its trap T such TBi,b = 0 where Bi,b in Zq^{m * n} and T in Z^{m * m}.
+Warning, some dimensions are hardcoded in TrapGen and we use the gadget vector
+(with g=2).
 */
 void TrapGen(sampler s, matrix* B, signed_matrix T);
 
