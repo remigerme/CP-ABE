@@ -1,11 +1,8 @@
 #pragma once
 
+#include "attribute.h"
 #include "matrix.h"
 #include "random.h"
-
-/*
-void TrapSamp(poly_matrix Bx, poly_matrix T, poly_matrix Tx);
-*/
 
 typedef struct _sampler {
     CSPRNG rng;              // for uniform distribution
@@ -19,6 +16,16 @@ Warning, some dimensions are hardcoded in TrapGen and we use the gadget vector
 (with g=2).
 */
 void TrapGen(sampler s, matrix* B, signed_matrix T);
+
+/*
+Given B = [B0 | B1,0 | B1,1 | ... | Bk,1], its trap T such as TB0=TBi,b=0, an
+attribute x and a sampler s, returns trap Tx (in Z^{P * M}) for the attribute :
+- TxB0 = 0
+- TxBi,xk = 0
+- TxBi,(1-xk) is uniformely distributed
+Warning dimensions are hardcoded in TrapGen and we use the gadget vector (g=2).
+*/
+signed_matrix TrapSamp(matrix* B, signed_matrix T, attribute x, sampler s);
 
 /* -------------------- */
 /* Functions for matrix */
