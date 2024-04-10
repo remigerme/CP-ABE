@@ -14,11 +14,12 @@ int main() {
 
     // Printing parameters
     printf("Testing BGG with parameters\n");
+    printf("\tQ = %d\n", PARAM_Q);
     printf("\tN = %d\n", PARAM_N);
     printf("\tK = %d\n", PARAM_K);
     printf("\tL = %d\n", PARAM_L);
     printf("\tA matrixes are size : N * L = %d\n", PARAM_N * PARAM_L);
-    printf("\tT matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
+    printf("\tTf matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
     printf("\tH matrixes are size : K * L * L = %d\n",
            PARAM_K * PARAM_L * PARAM_L);
 
