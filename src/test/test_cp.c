@@ -36,16 +36,27 @@ int main() {
     print_circuit(f);
     printf("\n");
 
-    matrix* B = new_matrixes(2 * PARAM_K + 1, PARAM_M, PARAM_N);
-    for (int i = 0; i < 2 * PARAM_K + 1; i++) sample_Zq_uniform_matrix(B[i], s);
+    matrix ZERO = new_matrix(PARAM_P, PARAM_N);
+    matrix res = new_matrix(PARAM_P, PARAM_N);
+    cp_keys keys;
+    CHRONO("TrapGen generated in %fs\n", keys = Setup(););
+    for (int k = 0; k < 2 * PARAM_K + 1; k++) {
+        mul_matrix_trap_left(keys.T, keys.B[k], res);
+        assert(equals(res, ZERO));
+    }
+    printf("Checked TrapGen for all B matrixes.\n");
 
     cp_ciphertext res_0, res_1;
-    CHRONO("Computed ciphertext for u = 0 in %fs\n", res_0 = Enc(B, f, 0););
-    CHRONO("Computed ciphertext for u = 1 in %fs\n", res_1 = Enc(B, f, 1););
+    CHRONO("Computed ciphertext for u = 0 in %fs\n",
+           res_0 = Enc(keys.B, f, 0););
+    CHRONO("Computed ciphertext for u = 1 in %fs\n",
+           res_1 = Enc(keys.B, f, 1););
 
     free_signed_matrix(res_0.Tf);
     free_matrixes(res_0.CTf, 2 * PARAM_K + 1);
     free_signed_matrix(res_1.Tf);
     free_matrixes(res_1.CTf, 2 * PARAM_K + 1);
+    free_matrixes(keys.B, 2 * PARAM_K + 1);
+    free_signed_matrix(keys.T);
     free_matrix(G);
 }
