@@ -31,8 +31,6 @@ make test
 
 I need to be careful about stack memory limit, as creating big matrices of polynomials can be very memory-consuming. Prefer heap allocation using `malloc`.
 
-TODO 4 : maybe encrypt more than just a single bit (a full int ? a sequence of ints representing an ASCII message e.g. ?) - same goes for decrypt of course
-
 ### TODO
 - [x] BGG
     - [x] BGG.KeyGen implem
@@ -41,14 +39,15 @@ TODO 4 : maybe encrypt more than just a single bit (a full int ? a sequence of i
     - [x] BGG tests
     - [x] BGG benchmark
 - [ ] CP
-    - [ ] Setup
-        - [ ] Trapgen
+    - [x] Setup
+        - [x] Trapgen
+        - [x] Benchmark
+    - [x] Enc
+        - [x] Implem
+        - [x] Benchmark
+    - [ ] KeyGen
         - [ ] Implem
         - [ ] Benchmark
-    - [ ] Enc
-        - [x] Implem
-        - [ ] Benchmark
-    - [ ] KeyGen
     - [ ] Dec
         - [ ] Implem
         - [ ] Benchmark
