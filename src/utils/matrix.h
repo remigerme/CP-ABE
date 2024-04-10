@@ -61,7 +61,7 @@ void mul_matrix(matrix A, matrix B, matrix R);
 // R <- A * Tf where A in Zq^{d1 * d2} and Tf in Z^{d2 * d2}
 void mul_matrix_trap(matrix A, signed_matrix Tf, matrix R);
 
-// R <- T * B where T in Z^{d1 * d2} and B in Zq^{d2 * d2}
+// R <- T * B where T in Z^{d1 * d2} and B in Zq^{d2 * d3}
 void mul_matrix_trap_left(signed_matrix T, matrix B, matrix R);
 
 // R <- x * A where x is a scalar
