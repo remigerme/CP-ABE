@@ -26,4 +26,4 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u);
 
 signed_matrix KeyGen(matrix* B, matrix T, attribute x);
 
-bool Dec(attribute x, circuit f, bgg_keys keys, signed_matrix tx, matrix* CTf);
+bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher);
