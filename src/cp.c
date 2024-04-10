@@ -46,11 +46,10 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u) {
         }
     }
 
-    free_matrixes(keys.A, PARAM_K + 1);
     free_matrixes(BGG_CTf, 2 * PARAM_K + 1);
     free_matrix(S);
 
-    cp_ciphertext c = {CTf, keys.Tf};
+    cp_ciphertext c = {CTf, keys.Tf, keys.A};
     return c;
 }
 
@@ -58,10 +57,9 @@ signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x) {
     return TrapSamp(B, T, x, s);
 }
 
-bool Dec(attribute x, circuit f, signed_matrix tx, matrix* A,
-         cp_ciphertext cipher) {
+bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {
     // Computing the right term HT (without Identity block)
-    matrix H = compute_H(A, f, x);
+    matrix H = compute_H(cipher.A, f, x);
     matrix HT = new_matrix(PARAM_K * PARAM_L, PARAM_L);
     mul_matrix_trap(H, cipher.Tf, HT);
 
