@@ -54,6 +54,10 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u) {
     return c;
 }
 
+signed_matrix KeyGen(matrix* B, matrix T, attribute x) {
+    return TrapSamp(B, T, x, s);
+}
+
 bool Dec(attribute x, circuit f, bgg_keys keys, signed_matrix tx, matrix* CTf) {
     /*
 
