@@ -58,16 +58,8 @@ signed_matrix KeyGen(matrix* B, matrix T, attribute x) {
     return TrapSamp(B, T, x, s);
 }
 
-bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {
-    /*
-
-    Weird : Hf,x,A so we need A = [A1 | ... | Ak] to compute Hf,x,A
-    However A isn't stored in CTf and not given in input by 2020-191
-    So with bgg_keys we bring additional information (which isn't supposed to
-    leak from Enc I think). But then how do we compute Hf,x
-    (not A dependant according to 2020-191 p14...) ?
-    */
-
+bool Dec(attribute x, circuit f, signed_matrix tx, matrix* A,
+         cp_ciphertext cipher) {
     // Computing the right term HT (without Identity block)
     matrix H = compute_H(A, f, x);
     matrix HT = new_matrix(PARAM_K * PARAM_L, PARAM_L);
@@ -90,8 +82,7 @@ bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {
     sub_matrix(right_res, cipher.CTf[0], right_res);
 
     // Computing tx * (SA[0] - C[0])
-    int TODO = 1;  // TODO : determine rows of tx (columns = M)
-    matrix res = new_matrix(TODO, PARAM_L);
+    matrix res = new_matrix(PARAM_P, PARAM_L);
     mul_matrix_trap_left(tx, right_res, res);
 
     // Computing decoded bit
