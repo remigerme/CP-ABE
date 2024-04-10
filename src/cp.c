@@ -17,7 +17,7 @@ void init_cp() {
 cp_keys Setup() {
     cp_keys keys;
     matrix* B = new_matrixes(2 * PARAM_K + 1, PARAM_M, PARAM_N);
-    signed_matrix T = new_signed_matrix(PARAM_M, PARAM_M);
+    signed_matrix T = new_signed_matrix(PARAM_P, PARAM_M);
     TrapGen(s, B, T);
     keys.B = B;
     keys.T = T;
