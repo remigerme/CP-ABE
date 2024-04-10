@@ -14,13 +14,20 @@ int main() {
 
     // Printing parameters
     printf("Testing CP with parameters\n");
+    printf("\tQ = %d\n", PARAM_Q);
     printf("\tN = %d\n", PARAM_N);
     printf("\tK = %d\n", PARAM_K);
     printf("\tL = %d\n", PARAM_L);
+    printf("\tP = %d\n", PARAM_P);
+    printf("\tM = P + 2 = %d", PARAM_M);
     printf("\tA matrixes are size : N * L = %d\n", PARAM_N * PARAM_L);
-    printf("\tT matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
+    printf("\tTf matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
     printf("\tH matrixes are size : K * L * L = %d\n",
            PARAM_K * PARAM_L * PARAM_L);
+    printf("\tB matrixes are size : M * N = %d\n", PARAM_M * PARAM_N);
+    printf("\tB (big) matrix is size : (2 * K + 1) * M * N = %d\n",
+           (2 * PARAM_K + 1) * PARAM_M * PARAM_N);
+    printf("\tT matrix is size : P * M = %d\n", PARAM_P * PARAM_M);
 
     circuit f;
     circuit g;
