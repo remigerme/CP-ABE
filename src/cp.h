@@ -24,7 +24,7 @@ cp_keys Setup(void);
 
 cp_ciphertext Enc(matrix* B, circuit f, bool u);
 
-signed_matrix KeyGen(matrix* B, matrix T, attribute x);
+signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x);
 
 bool Dec(attribute x, circuit f, signed_matrix tx, matrix* A,
          cp_ciphertext cipher);
