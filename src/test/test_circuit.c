@@ -66,6 +66,7 @@ int main() {
         sprintf(output, "BIG * H = Af + f(x)G for x = %d : done in %%fs\n", x);
         CHRONO(output, {
             matrix H = compute_H(A, f, x);
+            printf("Norm H : %f\n", norm((signed_matrix)H));
             matrix R = copy_matrix(Af);
             if (compute_f(f, x)) add_matrix(R, G, R);
 

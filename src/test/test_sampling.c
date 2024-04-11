@@ -49,7 +49,7 @@ int main() {
     CHRONO("Sampled Ai in %fs ", { sample_Zq_uniform_matrix(A, s); });
     real diff = (mean(A) - PARAM_Q / 2.0) / (PARAM_Q / 2.0);
     printf("diff to expected mean : %f%%\n", 100 * diff);
-    printf("Norm of A : %f\n", norm(A));
+    printf("Norm of A : %f\n", norm((signed_matrix)A));
 
     // Checking a trap T
     signed_matrix T = new_signed_matrix(PARAM_L, PARAM_L);
