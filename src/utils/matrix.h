@@ -69,6 +69,9 @@ void mul_matrix_scalar(scalar x, matrix A, matrix R);
 
 bool equals(matrix A, matrix B);
 
+// Returns euclidian norm of matrix A = sqrt(sum |Aij|^2)
+real norm(matrix A);
+
 // Returns true only if A is short
 // TODO : define precisely short
 bool is_short(matrix A);

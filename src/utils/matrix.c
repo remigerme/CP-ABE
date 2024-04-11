@@ -1,6 +1,7 @@
 #include "matrix.h"
 
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -202,7 +203,12 @@ bool equals(matrix A, matrix B) {
     return true;
 }
 
-bool is_short(matrix A) {
-    // TODO
-    return false;
+real norm(matrix A) {
+    real s = 0;
+    for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++)
+            s += matrix_element(A, i, j) * matrix_element(A, i, j);
+    return sqrt(s);
 }
+
+bool is_short(matrix A) { return false; }
