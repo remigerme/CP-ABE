@@ -71,10 +71,8 @@ bool equals(matrix A, matrix B);
 
 /*
 Returns euclidian norm of matrix A = sqrt(sum |Aij|^2)
-Works with matrix (with "small" coeff which can be casted
-in scalar, if mod Q it's okay)
 */
-real norm(signed_matrix A);
+real norm(matrix A);
 
 // Returns true only if A is short
 // TODO : define precisely short

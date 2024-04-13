@@ -203,7 +203,7 @@ bool equals(matrix A, matrix B) {
     return true;
 }
 
-real norm(signed_matrix A) {
+real norm(matrix A) {
     real s = 0;
     for (int i = 0; i < A->rows; i++)
         for (int j = 0; j < A->columns; j++)
