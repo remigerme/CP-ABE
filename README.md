@@ -50,4 +50,11 @@ I need to be careful about stack memory limit, as creating big matrices of polyn
         - [ ] Benchmark
     - [ ] Dec
         - [ ] Implem
+            - [ ] is_short
+            - [ ] H issue
+            - [x] algo
         - [ ] Benchmark
+
+### Problems
+- Hf,x,A is a big (norm) matrix, should be smaller (?), prevents Dec from working correctly
+- warning when multiplying scalars, overflow not handled right now (so small parameters)
