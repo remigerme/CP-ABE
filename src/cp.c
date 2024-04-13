@@ -46,28 +46,22 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u) {
         }
     }
 
-    free_matrixes(keys.A, PARAM_K + 1);
     free_matrixes(BGG_CTf, 2 * PARAM_K + 1);
     free_matrix(S);
 
-    cp_ciphertext c = {CTf, keys.Tf};
+    cp_ciphertext c = {CTf, keys.Tf, keys.A};
     return c;
 }
 
-bool Dec(attribute x, circuit f, bgg_keys keys, signed_matrix tx, matrix* CTf) {
-    /*
+signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x) {
+    return TrapSamp(B, T, x, s);
+}
 
-    Weird : Hf,x,A so we need A = [A1 | ... | Ak] to compute Hf,x,A
-    However A isn't stored in CTf and not given in input by 2020-191
-    So with bgg_keys we bring additional information (which isn't supposed to
-    leak from Enc I think). But then how do we compute Hf,x
-    (not A dependant according to 2020-191 p14...) ?
-    */
-
+bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {
     // Computing the right term HT (without Identity block)
-    matrix H = compute_H(keys.A, f, x);
+    matrix H = compute_H(cipher.A, f, x);
     matrix HT = new_matrix(PARAM_K * PARAM_L, PARAM_L);
-    mul_matrix_trap(H, keys.Tf, HT);
+    mul_matrix_trap(H, cipher.Tf, HT);
 
     // Computing the relevant CTf
     matrix CTfx = new_matrix(PARAM_M, PARAM_K * PARAM_L);
@@ -76,18 +70,17 @@ bool Dec(attribute x, circuit f, bgg_keys keys, signed_matrix tx, matrix* CTf) {
         for (int m = 0; m < PARAM_M; m++)
             for (int l = 0; l < PARAM_L; l++)
                 matrix_element(CTfx, m, k * PARAM_L + l) =
-                    matrix_element(CTf[1 + 2 * k + b], m, l);
+                    matrix_element(cipher.CTf[1 + 2 * k + b], m, l);
     }
 
     // Computing [C1,x1 | ... | Ck,xk] * HT - C0
     // All C are C with hat for now
     matrix right_res = new_matrix(PARAM_M, PARAM_L);
     mul_matrix(CTfx, HT, right_res);
-    sub_matrix(right_res, CTf[0], right_res);
+    sub_matrix(right_res, cipher.CTf[0], right_res);
 
     // Computing tx * (SA[0] - C[0])
-    int TODO = 1;  // TODO : determine rows of tx (columns = M)
-    matrix res = new_matrix(TODO, PARAM_L);
+    matrix res = new_matrix(PARAM_P, PARAM_L);
     mul_matrix_trap_left(tx, right_res, res);
 
     // Computing decoded bit

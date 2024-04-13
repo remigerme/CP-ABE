@@ -9,7 +9,7 @@
 #define PARAM_Q 53507                // modulus
 #define PARAM_K 16                   // attribute length
 #define PARAM_L (PARAM_N * PARAM_K)  // KP-ABE matrices dimension
-#define PARAM_P 2                    // yet to determine
+#define PARAM_P 10                   // yet to determine
 #define PARAM_M (PARAM_P + 2)        // yet to determine
 #define PARAM_SIGMA 7.00             // used for discrete gaussian distribution
 #define PARAM_TAU 80                 // used for discrete gaussian distribution

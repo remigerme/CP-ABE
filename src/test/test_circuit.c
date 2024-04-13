@@ -13,11 +13,12 @@ int main() {
 
     // Printing parameters
     printf("Testing circuit with parameters\n");
+    printf("\tQ = %d\n", PARAM_Q);
     printf("\tN = %d\n", PARAM_N);
     printf("\tK = %d\n", PARAM_K);
     printf("\tL = %d\n", PARAM_L);
     printf("\tA matrixes are size : N * L = %d\n", PARAM_N * PARAM_L);
-    printf("\tT matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
+    printf("\tTf matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
     printf("\tH matrixes are size : K * L * L = %d\n",
            PARAM_K * PARAM_L * PARAM_L);
 
@@ -65,6 +66,7 @@ int main() {
         sprintf(output, "BIG * H = Af + f(x)G for x = %d : done in %%fs\n", x);
         CHRONO(output, {
             matrix H = compute_H(A, f, x);
+            printf("Norm H : %f\n", norm((signed_matrix)H));
             matrix R = copy_matrix(Af);
             if (compute_f(f, x)) add_matrix(R, G, R);
 

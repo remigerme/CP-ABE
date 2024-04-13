@@ -16,7 +16,7 @@ void init_G() {
         scalar v = 1;
         for (int k = 0; k < PARAM_K; k++) {
             matrix_element(G, i, i * PARAM_K + k) = v;
-            v *= 2;
+            v = (2 * v) % PARAM_Q;
         }
     }
 }
@@ -135,7 +135,6 @@ H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {
     matrix inv = new_matrix(PARAM_L, PARAM_L);
     matrix tempA = new_matrix(PARAM_N, PARAM_L);
     matrix tempH = new_matrix(PARAM_K * PARAM_L, PARAM_L);
-    matrix tempHbis = new_matrix(PARAM_K * PARAM_L, PARAM_L);
 
     // Computing new A = Al * G^-1(Ar) - G
     inv_G(tr->A, inv);
@@ -148,8 +147,7 @@ H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {
 
     // Computing new H = Hl * G^-1(Ar) - xl * Hr
     mul_matrix(tl->H, inv, tempH);
-    mul_matrix_scalar(tl->x, tr->H, tempHbis);
-    sub_matrix(tempH, tempHbis, tempH);
+    if (tl->x) sub_matrix(tempH, tr->H, tempH);
     t->H = copy_matrix(tempH);
 
     // Free time !

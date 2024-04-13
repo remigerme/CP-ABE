@@ -10,9 +10,6 @@ sampler create_sampler() {
 }
 
 void TrapGen(sampler s, matrix* B, signed_matrix T) {
-    // B <- [B0 | ... | Bk,0 | Bk,1] uniformely
-    for (int i = 0; i < 2 * PARAM_K + 1; i++) sample_Zq_uniform_matrix(B[i], s);
-
     // Pre trap computation
     signed_matrix rho = new_signed_matrix(PARAM_P, 1);
     signed_matrix mu = new_signed_matrix(PARAM_P, 1);
@@ -21,11 +18,11 @@ void TrapGen(sampler s, matrix* B, signed_matrix T) {
 
     // Trap computation : T = [rho | -g + mu | Ip] : size P * M
     for (int i = 0; i < PARAM_P; i++)
-        matrix_element(T, i, 0) = (signed_scalar)matrix_element(rho, i, 0);
+        matrix_element(T, i, 0) = matrix_element(rho, i, 0);
 
     signed_scalar g = 1;
     for (int i = 0; i < PARAM_P; i++) {
-        matrix_element(T, i, 1) = -g + (signed_scalar)matrix_element(mu, i, 0);
+        matrix_element(T, i, 1) = -g + matrix_element(mu, i, 0);
         g *= 2;
     }
 
@@ -59,6 +56,11 @@ void TrapGen(sampler s, matrix* B, signed_matrix T) {
 
     free_signed_matrix(rho);
     free_signed_matrix(mu);
+}
+
+signed_matrix TrapSamp(matrix* B, signed_matrix T, attribute x, sampler s) {
+    signed_matrix Tx = new_signed_matrix(PARAM_P, PARAM_M);
+    return Tx;
 }
 
 /* -------------------- */
