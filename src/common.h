@@ -14,17 +14,15 @@
 #define PARAM_SIGMA 7.00             // used for discrete gaussian distribution
 #define PARAM_TAU 40                 // used for discrete gaussian distribution
 
-// Real parameters
 /*
-#define PARAM_N 1024                 // size of polynomials
-#define PARAM_Q 1073707009           // modulus
-#define PARAM_K 30                   // attribute length
-#define PARAM_L (PARAM_N * PARAM_K)  // KP-ABE matrices dimension
-#define PARAM_P 10                   // CP trap size
-#define PARAM_M (PARAM_P + 2)        // artificial CP trap size for computation
-#define PARAM_SIGMA 7.00             // used for discrete gaussian distribution
-#define PARAM_TAU 40                 // used for discrete gaussian distribution
+Threshold used to determine if a vector is short in is_short
+Is heavily dimension dependant and fixed a bit arbitrarily manually
+Dependance in Q not studied yet
 */
+#define SHORT_THRESHOLD                                                  \
+    (PARAM_M * PARAM_K * PARAM_L * PARAM_L * PARAM_SIGMA * PARAM_SIGMA * \
+     PARAM_SIGMA)
+
 typedef uint64_t scalar;
 typedef int64_t signed_scalar;
 typedef double real;
