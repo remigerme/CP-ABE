@@ -89,75 +89,74 @@ typedef struct H_triplet {
     matrix H;
 } H_triplet;
 
-H_triplet* new_H_triplet() {
+H_triplet new_H_triplet() {
     matrix A = new_matrix(PARAM_N, PARAM_L);
     matrix H = new_matrix(PARAM_K * PARAM_L, PARAM_L);
-    H_triplet* t = calloc(1, sizeof(H_triplet));
-    t->A = A;
-    t->x = 0;
-    t->H = H;
+    H_triplet t;
+    t.A = A;
+    t.x = 0;
+    t.H = H;
     return t;
 }
 
 void free_H_triplet(H_triplet* t) {
     free_matrix(t->A);
     free_matrix(t->H);
-    free(t);
 }
 
-H_triplet* leaf(matrix* A, attribute x, int n) {
-    H_triplet* t = new_H_triplet();
-    t->A = copy_matrix(A[n]);
-    t->x = get_xn(x, n);
+H_triplet leaf(matrix* A, attribute x, int n) {
+    H_triplet t = new_H_triplet();
+    t.A = copy_matrix(A[n]);
+    t.x = get_xn(x, n);
     // H seen as a column is empty except
     // in n-th position which is the identity
     for (int i = 0; i < PARAM_L; i++)
-        matrix_element(t->H, (n - 1) * PARAM_L + i, i) = 1;
+        matrix_element(t.H, (n - 1) * PARAM_L + i, i) = 1;
     return t;
 }
 
-H_triplet* compute_H_triplet(matrix* A, circuit f, attribute x) {
+H_triplet compute_H_triplet(matrix* A, circuit f, attribute x) {
     assert((f.left && f.right) || (!f.left || !f.right));
 
     if (!f.left && !f.right) return leaf(A, x, f.n);
 
-    H_triplet* tl = compute_H_triplet(A, *f.left, x);
-    H_triplet* tr = compute_H_triplet(A, *f.right, x);
+    H_triplet tl = compute_H_triplet(A, *f.left, x);
+    H_triplet tr = compute_H_triplet(A, *f.right, x);
 
-    H_triplet* t = new_H_triplet();
+    H_triplet t = new_H_triplet();
 
     matrix inv = new_matrix(PARAM_L, PARAM_L);
     matrix tempA = new_matrix(PARAM_N, PARAM_L);
     matrix tempH = new_matrix(PARAM_K * PARAM_L, PARAM_L);
 
     // Computing new A = Al * G^-1(Ar) - G
-    inv_G(tr->A, inv);
-    mul_matrix(tl->A, inv, tempA);
+    inv_G(tr.A, inv);
+    mul_matrix(tl.A, inv, tempA);
     sub_matrix(tempA, G, tempA);
-    t->A = copy_matrix(tempA);
+    t.A = copy_matrix(tempA);
 
     // Computing new x = 1 - xl * xr
-    t->x = 1 - tl->x * tr->x;
+    t.x = 1 - tl.x * tr.x;
 
     // Computing new H = Hl * G^-1(Ar) - xl * Hr
-    mul_matrix(tl->H, inv, tempH);
-    if (tl->x) sub_matrix(tempH, tr->H, tempH);
-    t->H = copy_matrix(tempH);
+    mul_matrix(tl.H, inv, tempH);
+    if (tl.x) sub_matrix(tempH, tr.H, tempH);
+    t.H = copy_matrix(tempH);
 
     // Free time !
     free_matrix(inv);
     free_matrix(tempA);
     free_matrix(tempH);
-    free_H_triplet(tl);
-    free_H_triplet(tr);
+    free_H_triplet(&tl);
+    free_H_triplet(&tr);
 
     return t;
 }
 
 matrix compute_H(matrix* A, circuit f, attribute x) {
-    H_triplet* t = compute_H_triplet(A, f, x);
-    matrix H = copy_matrix(t->H);
-    free_H_triplet(t);
+    H_triplet t = compute_H_triplet(A, f, x);
+    matrix H = copy_matrix(t.H);
+    free_H_triplet(&t);
     return H;
 }
 
