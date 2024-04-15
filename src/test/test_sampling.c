@@ -7,25 +7,25 @@
 
 real mean(matrix A) {
     real m = 0;
-    for (int i = 0; i < A->rows; i++)
-        for (int j = 0; j < A->columns; j++) m += (real)matrix_element(A, i, j);
-    return m / (real)(A->rows * A->columns);
+    for (int i = 0; i < A.rows; i++)
+        for (int j = 0; j < A.columns; j++) m += (real)matrix_element(A, i, j);
+    return m / (real)(A.rows * A.columns);
 }
 
 real meanbis(signed_matrix A) {
     real m = 0;
-    for (int i = 0; i < A->rows; i++)
-        for (int j = 0; j < A->columns; j++) m += (real)matrix_element(A, i, j);
-    return m / (real)(A->rows * A->columns);
+    for (int i = 0; i < A.rows; i++)
+        for (int j = 0; j < A.columns; j++) m += (real)matrix_element(A, i, j);
+    return m / (real)(A.rows * A.columns);
 }
 
 real var(signed_matrix A) {
     real m = meanbis(A);
     real p = 0;
-    for (int i = 0; i < A->rows; i++)
-        for (int j = 0; j < A->columns; j++)
+    for (int i = 0; i < A.rows; i++)
+        for (int j = 0; j < A.columns; j++)
             p += matrix_element(A, i, j) * matrix_element(A, i, j);
-    p /= (real)(A->rows * A->columns);
+    p /= (real)(A.rows * A.columns);
     return p - m * m;
 }
 
