@@ -47,7 +47,7 @@ void free_matrixes(matrix* A, int n) {
 void print_matrix(matrix M) {
     for (int i = 0; i < M->rows; i++) {
         for (int j = 0; j < M->columns; j++) {
-            printf("%u\t", matrix_element(M, i, j));
+            printf("%lu\t", matrix_element(M, i, j));
         }
         printf("\n");
     }
@@ -56,7 +56,7 @@ void print_matrix(matrix M) {
 void print_signed_matrix(signed_matrix M) {
     for (int i = 0; i < M->rows; i++) {
         for (int j = 0; j < M->columns; j++) {
-            printf("%d\t", matrix_element(M, i, j));
+            printf("%ld\t", matrix_element(M, i, j));
         }
         printf("\n");
     }
