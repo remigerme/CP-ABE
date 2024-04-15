@@ -86,7 +86,9 @@ bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {
     mul_matrix_trap_left(tx, right_res, res);
 
     // Computing decoded bit
-    bool plain = is_short(res);
+    // Warning it is 0 if res is short
+    // else 1 if it is random
+    bool plain = !is_short(res);
 
     free_matrix(H);
     free_matrix(HT);
