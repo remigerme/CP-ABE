@@ -80,9 +80,8 @@ int main() {
             for (int i = 1; i < PARAM_K + 1; i++) {
                 matrix ti = copy_matrix(A[i]);
                 if (get_xn(x, i)) add_matrix(ti, G, ti);
-                for (int j = 0; j < ti->rows; j++)  // ti->rows = PARAM_N
-                    for (int k = 0; k < ti->columns;
-                         k++)  // ti->columns = PARAM_L
+                for (int j = 0; j < PARAM_N; j++)      // ti.rows = PARAM_N
+                    for (int k = 0; k < PARAM_L; k++)  // ti.columns = PARAM_L
                         matrix_element(BIG, j, (i - 1) * PARAM_L + k) =
                             matrix_element(ti, j, k);
                 free_matrix(ti);
