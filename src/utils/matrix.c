@@ -215,4 +215,27 @@ real norm(matrix A) {
     return sqrt(s);
 }
 
-bool is_short(matrix A) { return false; }
+real norm_signed(signed_matrix A) {
+    real s = 0;
+    for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < A->columns; j++) {
+            signed_scalar t = matrix_element(A, i, j);
+            s += t * t;
+        }
+    }
+    return sqrt(s);
+}
+
+bool is_short(matrix A) {
+    printf("Norm : %f\n", norm(A));
+    scalar max = 0;
+    for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < A->columns; j++) {
+            scalar t = matrix_element(A, i, j);
+            t = (t <= PARAM_Q - t) ? t : PARAM_Q - t;
+            max = (max > t) ? max : t;
+        }
+    }
+    printf("max : %u\n", max);
+    return false;
+}

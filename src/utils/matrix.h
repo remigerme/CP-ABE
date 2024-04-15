@@ -70,9 +70,13 @@ void mul_matrix_scalar(scalar x, matrix A, matrix R);
 bool equals(matrix A, matrix B);
 
 /*
-Returns euclidian norm of matrix A = sqrt(sum |Aij|^2)
+Returns "norm" of matrix A = sqrt(sum |Tij|^2) where
+Tij = min(Aij, Q - Aij) is the minimal distance to 0 in Zq !!!
 */
 real norm(matrix A);
+
+// Returns euclidian norm of matrix A = sqrt(sum |Aij|^2)
+real norm_signed(signed_matrix A);
 
 // Returns true only if A is short
 // TODO : define precisely short
