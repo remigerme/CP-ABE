@@ -4,14 +4,24 @@
 
 #include "common.h"
 
-// A matrix is a POINTER TO A STRUCT _matrix
+/*
+A matrix is a struct _matrix
+We can modify it in place because the data
+is stored outside the struct (only the pointer
+to it get copied every time)
+*/
 typedef struct _matrix {
     unsigned int rows;
     unsigned int columns;
     scalar* data;
 } matrix;
 
-// A signed_matrix is a POINTER TO A STRUCT _signed_matrix
+/*
+A signed_matrix is a struct _signed_matrix
+We can modify it in place because the data
+is stored outside the struct (only the pointer
+to it get copied every time)
+*/
 typedef struct _signed_matrix {
     unsigned int rows;
     unsigned int columns;
@@ -21,19 +31,19 @@ typedef struct _signed_matrix {
 // Accessing (signed_)scalar Mi,j where M has type (signed_)matrix
 #define matrix_element(M, i, j) ((M).data[(i) * (M).columns + (j)])
 
-// Returns a heap-allocated matrix filled with 0s
+// Heap-allocate data filled with 0s and returns the corresponding matrix
 matrix new_matrix(unsigned int rows, unsigned int columns);
 
-// Returns a heap-allocated signed_matrix filled with 0s
+// Heap-allocate data filled with 0s and returns the corresponding signed_matrix
 signed_matrix new_signed_matrix(unsigned int rows, unsigned int columns);
 
 // Returns a heap-allocated array of matrixes filled with 0s
 matrix* new_matrixes(int n, unsigned int rows, unsigned int columns);
 
-// Clean free of a matrix : data then the matrix itself
+// Clean free of a matrix : freeing data
 void free_matrix(matrix M);
 
-// Clean free of a signed_matrix : data then the matrix itself
+// Clean free of a signed_matrix : freeing data
 void free_signed_matrix(signed_matrix M);
 
 // Clean free of a matrixes array
@@ -43,7 +53,7 @@ void print_matrix(matrix M);
 
 void print_signed_matrix(signed_matrix M);
 
-// Returns a fresh heap-allocated copy of A
+// Returns a fresh heap-allocated copy of A's data
 matrix copy_matrix(matrix M);
 
 // R <- A + B
@@ -78,6 +88,9 @@ real norm(matrix A);
 // Returns euclidian norm of matrix A = sqrt(sum |Aij|^2)
 real norm_signed(signed_matrix A);
 
-// Returns true only if A is short
-// TODO : define precisely short
+/*
+Returns true only if A is short
+Check SHORT_THRESHOLD in common.h to see
+the (computational) definition used
+*/
 bool is_short(matrix A);
