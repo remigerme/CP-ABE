@@ -42,12 +42,18 @@ int main() {
     circuit f;
     circuit g;
     circuit h;
+    circuit hg;
+    circuit hd;
     f.left = &g;
     f.right = &h;
     g.left = g.right = NULL;
-    h.left = h.right = NULL;
     g.n = 1;
-    h.n = 2;
+    h.left = &hg;
+    h.right = &hd;
+    hg.left = hg.right = NULL;
+    hd.left = hd.right = NULL;
+    hg.n = 2;
+    hd.n = 3;
 
     printf("Circuit : ");
     print_circuit(f);
@@ -63,10 +69,11 @@ int main() {
     char output[80];
 
     for (attribute x = 0; x < x_max; x++) {
+        printf("f(%d)=%d\n", x, compute_f(f, x));
         sprintf(output, "BIG * H = Af + f(x)G for x = %d : done in %%fs\n", x);
         CHRONO(output, {
             matrix H = compute_H(A, f, x);
-            printf("Norm H : %f\n", norm((signed_matrix)H));
+            printf("Norm H : %f\n", norm(H));
             matrix R = copy_matrix(Af);
             if (compute_f(f, x)) add_matrix(R, G, R);
 

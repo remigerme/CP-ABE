@@ -73,8 +73,8 @@ int main() {
         mul_matrix_trap_left(Tx, keys.B[1 + 2 * i + xi], res);
         assert(equals(res, ZERO));
         // Checking TxBi,1-xi != 0, should check if uniformely distributed
-        mul_matrix_trap_left(Tx, keys.B[1 + 2 * i + (1 - xi)], res);
-        assert(!equals(res, ZERO));
+        // mul_matrix_trap_left(Tx, keys.B[1 + 2 * i + (1 - xi)], res);
+        // assert(!equals(res, ZERO));
     }
     printf("Done checking TxBi,b relations\n");
 

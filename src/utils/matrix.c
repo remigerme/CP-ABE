@@ -205,9 +205,13 @@ bool equals(matrix A, matrix B) {
 
 real norm(matrix A) {
     real s = 0;
-    for (int i = 0; i < A->rows; i++)
-        for (int j = 0; j < A->columns; j++)
-            s += matrix_element(A, i, j) * matrix_element(A, i, j);
+    for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < A->columns; j++) {
+            scalar t = matrix_element(A, i, j);
+            t = (t <= PARAM_Q - t) ? t : PARAM_Q - t;
+            s += t * t;
+        }
+    }
     return sqrt(s);
 }
 

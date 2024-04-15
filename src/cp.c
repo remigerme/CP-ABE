@@ -79,7 +79,9 @@ bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {
     mul_matrix(CTfx, HT, right_res);
     sub_matrix(right_res, cipher.CTf[0], right_res);
 
-    // Computing tx * (SA[0] - C[0])
+    // Computing tx * (-E0 + [E1,x1 | ... | E2,x2] * HT)
+    // (if x is the correct attribute, else this is a
+    // nightmarish computation and we don't care about it)
     matrix res = new_matrix(PARAM_P, PARAM_L);
     mul_matrix_trap_left(tx, right_res, res);
 

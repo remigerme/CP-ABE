@@ -12,24 +12,18 @@ matrix G;
 void init_G() {
     // We need that L = N * K
     G = new_matrix(PARAM_N, PARAM_L);
-    for (int i = 0; i < PARAM_N; i++) {
-        scalar v = 1;
-        for (int k = 0; k < PARAM_K; k++) {
-            matrix_element(G, i, i * PARAM_K + k) = v;
-            v = (2 * v) % PARAM_Q;
-        }
-    }
+    for (int i = 0; i < PARAM_N; i++)
+        for (int k = 0; k < PARAM_K; k++)
+            matrix_element(G, i, i * PARAM_K + k) = (1 << k) % PARAM_Q;
 }
 
 // R <- G^-1(A)
 void inv_G(matrix A, matrix R) {
     for (int n = 0; n < PARAM_N; n++) {
         for (int l = 0; l < PARAM_L; l++) {
-            scalar divisor = 1;
             for (int k = 0; k < PARAM_K; k++) {
                 scalar Anl = matrix_element(A, n, l);
-                matrix_element(R, n * PARAM_K + k, l) = (Anl / divisor) % 2;
-                divisor *= 2;
+                matrix_element(R, n * PARAM_K + k, l) = (Anl >> k) & 1;
             }
         }
     }

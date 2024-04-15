@@ -1,6 +1,6 @@
 #include "random.h"
 
-#include <stdint.h>
+#include "common.h"
 
 /*
 Uniform mod q
@@ -39,8 +39,8 @@ void uniform_scalar(CSPRNG rng, scalar* s) {
 scalar uniform_mod_q(CSPRNG rng) {
     scalar r;
     uniform_scalar(rng, &r);
-    real rand = (real)r / (real)UINT32_MAX;
-    return rand * (PARAM_Q - 1) + 0.5;
+    real rand = (real)r / (real)SCALAR_MAX;
+    return (scalar)(rand * (PARAM_Q - 1) + 0.5);
 }
 
 /*
