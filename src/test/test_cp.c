@@ -32,12 +32,18 @@ int main() {
     circuit f;
     circuit g;
     circuit h;
+    circuit hg;
+    circuit hd;
     f.left = &g;
     f.right = &h;
     g.left = g.right = NULL;
-    h.left = h.right = NULL;
     g.n = 1;
-    h.n = 2;
+    h.left = &hg;
+    h.right = &hd;
+    hg.left = hg.right = NULL;
+    hd.left = hd.right = NULL;
+    hg.n = 2;
+    hd.n = 3;
 
     printf("Circuit : ");
     print_circuit(f);
