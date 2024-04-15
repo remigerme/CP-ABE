@@ -24,9 +24,11 @@
 #define PARAM_SIGMA 7.00             // used for discrete gaussian distribution
 #define PARAM_TAU 80                 // used for discrete gaussian distribution
 */
-typedef uint32_t scalar;
-typedef int32_t signed_scalar;
+typedef uint64_t scalar;
+typedef int64_t signed_scalar;
 typedef double real;
+
+#define SCALAR_MAX UINT64_MAX
 
 /*
 double start and double end need to be defined before !
