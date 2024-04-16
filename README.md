@@ -55,3 +55,5 @@ I need to be careful about stack memory limit, as creating big matrices of polyn
             - [x] algo
         - [x] Benchmark
 - [ ] statistical analysis of CP
+    - [x] Gen circuit
+    - [ ] Compute f, H and Af with dp
