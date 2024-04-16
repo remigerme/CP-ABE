@@ -10,7 +10,7 @@ SRC_DIR = src
 BUILD_DIR = build
 SRC_TEST = src/test
 
-OBJS_RAW = matrix attribute random sampling circuit bgg cp
+OBJS_RAW = matrix attribute random sampling circuit gen_circuit bgg cp
 OBJS_O = $(addsuffix .o,$(OBJS_RAW))
 OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 
