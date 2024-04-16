@@ -60,6 +60,13 @@ void TrapGen(sampler s, matrix* B, signed_matrix T) {
 
 signed_matrix TrapSamp(matrix* B, signed_matrix T, attribute x, sampler s) {
     signed_matrix Tx = new_signed_matrix(PARAM_P, PARAM_M);
+    // We simply copy T for now...
+    // We give full knowledge instead of specific knowledge related to x
+    for (int i = 0; i < PARAM_P; i++) {
+        for (int j = 0; j < PARAM_M; j++) {
+            matrix_element(Tx, i, j) = matrix_element(T, i, j);
+        }
+    }
     return Tx;
 }
 
