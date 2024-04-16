@@ -14,6 +14,7 @@ circuit* gen_leaf(int n, bool xn) {
 }
 
 circuit* circuit_and(circuit* f, circuit* g) {
+    // AND(A, B) = NAND(C, C) where C = NAND(A, B)
     circuit* in = new_circuit();
     in->left = f;
     in->right = g;
@@ -29,10 +30,12 @@ circuit* gen_circuit(attribute x) {
     If xi = 1 : Gi is a leaf with Gi.n = i
     Else (xi = 0) : Gi = not (i) ie a circuit with
     two children such Gil.n = Gir.n = i (not gate using nand gates).
-    Then the final circuit is just AND(Gi) forall i.
-    AND(A, B) = NAND(C, C) where C = NAND (A, B)
+    Then the final circuit is just NOT( AND(Gi) forall i).
+    Beware of NOT gate !
     */
     circuit* f;
+
+    // Forall AND(Gi)
     circuit* G1 = gen_leaf(1, get_xn(x, 1));
     circuit* G2 = gen_leaf(2, get_xn(x, 2));
     f = circuit_and(G1, G2);
@@ -40,5 +43,9 @@ circuit* gen_circuit(attribute x) {
         circuit* Gn = gen_leaf(n, get_xn(x, n));
         f = circuit_and(f, Gn);
     }
-    return f;
+
+    // NOT gate
+    circuit* g = new_circuit();
+    g->left = g->right = f;
+    return g;
 }
