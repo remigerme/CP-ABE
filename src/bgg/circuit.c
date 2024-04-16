@@ -7,6 +7,10 @@
 #include "common.h"
 #include "matrix.h"
 
+/***************/
+/* Computing G */
+/***************/
+
 matrix G;
 
 void init_G() {
@@ -27,6 +31,31 @@ void inv_G(matrix A, matrix R) {
             }
         }
     }
+}
+
+/*****************/
+/* Circuit utils */
+/*****************/
+
+circuit* new_circuit() {
+    circuit* f = calloc(1, sizeof(circuit));
+    f->left = NULL;
+    f->right = NULL;
+    f->n = 0;
+    return f;
+}
+
+void free_circuit(circuit* f) {
+    assert((f->left && f->right) || (!f->left || !f->right));
+
+    if (!f->left && !f->right) {
+        free(f);
+        return;
+    }
+
+    free_circuit(f->left);
+    free_circuit(f->right);
+    free(f);
 }
 
 void print_circuit(circuit f) {

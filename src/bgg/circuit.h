@@ -27,6 +27,15 @@ typedef struct btree {
     int n;
 } circuit;
 
+/*
+Allocate a new circuit on the heap
+Initialize it as a leaf with n = 0
+*/
+circuit* new_circuit(void);
+
+// Free a heap-allocated circuit
+void free_circuit(circuit* f);
+
 void print_circuit(circuit f);
 
 /*
