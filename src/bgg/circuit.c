@@ -53,8 +53,13 @@ void free_circuit(circuit* f) {
         return;
     }
 
-    free_circuit(f->left);
-    free_circuit(f->right);
+    // Beware do not double free
+    if (f->left == f->right)
+        free_circuit(f->left);
+    else {
+        free_circuit(f->left);
+        free_circuit(f->right);
+    }
     free(f);
 }
 
