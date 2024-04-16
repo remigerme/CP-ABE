@@ -24,7 +24,7 @@
             "name": "Debug current file (with args)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/build/${fileBasenameNoExtension}",
             "args": [
                 "${input:args}"
             ],
