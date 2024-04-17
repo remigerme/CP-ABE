@@ -8,7 +8,7 @@
 #include "sampling.h"
 
 int main() {
-    sampler s = create_sampler();
+    init_sampler();
     init_G();
     real start, end;
 
@@ -38,7 +38,7 @@ int main() {
     printf("\n");
 
     bgg_keys keys;
-    CHRONO("BGG.KeyGen in %fs\n", { keys = BGG_KeyGen(f, s); });
+    CHRONO("BGG.KeyGen in %fs\n", { keys = BGG_KeyGen(f); });
 
     matrix Af = compute_Af(keys.A, f);
     matrix res = new_matrix(PARAM_N, PARAM_L);
@@ -50,9 +50,9 @@ int main() {
     matrix* CTf_0;
     matrix* CTf_1;
     CHRONO("Computing CTf for u = 0 in %fs\n",
-           CTf_0 = BGG_OfflineEnc(keys.A, 0, s););
+           CTf_0 = BGG_OfflineEnc(keys.A, 0););
     CHRONO("Computing CTf for u = 1 in %fs\n",
-           CTf_1 = BGG_OfflineEnc(keys.A, 1, s););
+           CTf_1 = BGG_OfflineEnc(keys.A, 1););
 
     free_signed_matrix(keys.Tf);
     free_matrixes(keys.A, PARAM_K + 1);

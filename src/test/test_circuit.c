@@ -7,7 +7,7 @@
 #include "sampling.h"
 
 int main() {
-    sampler s = create_sampler();
+    init_sampler();
     init_G();
     real start, end;
 
@@ -25,7 +25,7 @@ int main() {
     // Generating A
     matrix* A = new_matrixes(PARAM_K + 1, PARAM_N, PARAM_L);
     CHRONO("Generated A in %fs\n", {
-        for (int i = 0; i < PARAM_K + 1; i++) sample_Zq_uniform_matrix(A[i], s);
+        for (int i = 0; i < PARAM_K + 1; i++) sample_Zq_uniform_matrix(A[i]);
     });
 
     // Testing G * G^-1(A) = A

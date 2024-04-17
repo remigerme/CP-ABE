@@ -7,39 +7,37 @@
 #include "matrix.h"
 #include "sampling.h"
 
-sampler s;
-
 void init_cp() {
     init_G();
-    s = create_sampler();
+    init_sampler();
 }
 
 cp_keys Setup() {
     cp_keys keys;
     matrix* B = new_matrixes(2 * PARAM_K + 1, PARAM_M, PARAM_N);
     signed_matrix T = new_signed_matrix(PARAM_P, PARAM_M);
-    TrapGen(s, B, T);
+    TrapGen(B, T);
     keys.B = B;
     keys.T = T;
     return keys;
 }
 
 cp_ciphertext Enc(matrix* B, circuit f, bool u) {
-    bgg_keys keys = BGG_KeyGen(f, s);
+    bgg_keys keys = BGG_KeyGen(f);
 
-    matrix* BGG_CTf = BGG_OfflineEnc(keys.A, u, s);
+    matrix* BGG_CTf = BGG_OfflineEnc(keys.A, u);
 
     matrix* CTf = new_matrixes(2 * PARAM_K + 1, PARAM_M, PARAM_L);
 
     // First term by hand
     matrix S = new_matrix(PARAM_N, PARAM_L);
-    sample_Zq_uniform_matrix(S, s);
+    sample_Zq_uniform_matrix(S);
     mul_matrix(B[0], S, CTf[0]);
     add_matrix(CTf[0], BGG_CTf[0], CTf[0]);
 
     for (int k = 0; k < PARAM_K; k++) {
         for (int b = 0; b < 2; b++) {
-            sample_Zq_uniform_matrix(S, s);
+            sample_Zq_uniform_matrix(S);
             int i = 1 + 2 * k + b;
             mul_matrix(B[i], S, CTf[i]);
             add_matrix(CTf[i], BGG_CTf[i], CTf[i]);
@@ -54,7 +52,7 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u) {
 }
 
 signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x) {
-    return TrapSamp(B, T, x, s);
+    return TrapSamp(B, T, x);
 }
 
 bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {

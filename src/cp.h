@@ -6,8 +6,6 @@
 #include "matrix.h"
 #include "sampling.h"
 
-extern sampler s;
-
 typedef struct {
     matrix* B;
     signed_matrix T;

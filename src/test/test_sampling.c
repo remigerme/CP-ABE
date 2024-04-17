@@ -30,7 +30,7 @@ real var(signed_matrix A) {
 }
 
 int main() {
-    sampler s = create_sampler();
+    init_sampler();
     real start, end;
 
     // Printing parameters
@@ -46,14 +46,14 @@ int main() {
 
     // Checking one of the Ai matrix
     matrix A = new_matrix(PARAM_N, PARAM_L);
-    CHRONO("Sampled Ai in %fs ", { sample_Zq_uniform_matrix(A, s); });
+    CHRONO("Sampled Ai in %fs ", { sample_Zq_uniform_matrix(A); });
     real diff = (mean(A) - PARAM_Q / 2.0) / (PARAM_Q / 2.0);
     printf("diff to expected mean : %f%%\n", 100 * diff);
     printf("Norm of A : %f\n", norm(A));
 
     // Checking a trap T
     signed_matrix T = new_signed_matrix(PARAM_L, PARAM_L);
-    CHRONO("Sampled T in %fs ", { sample_Z_centered_matrix(T, s); });
+    CHRONO("Sampled T in %fs ", { sample_Z_centered_matrix(T); });
     printf("mean: %f var: %f\n", meanbis(T), var(T));
     printf("Norm of T : %f\n", norm_signed(T));
 

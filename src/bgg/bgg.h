@@ -19,11 +19,11 @@ Given a circuit f (and a sampler s) computes a new pair of bgg_keys
     - A = [A0, A1, ..., Ak] where Ai in Zq^{n * l}
     - Tf in Z^{l * l} the trap used to compute A0
 */
-bgg_keys BGG_KeyGen(circuit f, sampler s);
+bgg_keys BGG_KeyGen(circuit f);
 
 /*
 Given a bit to encrypt u, a sampler s and
 A = [A0, A1, ..., Ak] where Ai in Zq^{n * l}
 returns CTf = [C0, C1-0, C1-1, ..., Ck-0, Ck-1]
 */
-matrix* BGG_OfflineEnc(matrix* A, bool u, sampler s);
+matrix* BGG_OfflineEnc(matrix* A, bool u);
