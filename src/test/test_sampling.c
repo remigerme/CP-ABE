@@ -67,4 +67,20 @@ int main() {
 
     free_matrixes(A, PARAM_K);
     free_signed_matrix(T);
+
+    // Determine how many numbers can be sampled by second
+    int N = 1000;
+    char output[80];
+
+    // For a uniform matrix
+    matrix U = new_matrix(N, N);
+    sprintf(output, "Uniformely sampled %d scalars in %%fs\n", N * N);
+    CHRONO(output, sample_Zq_uniform_matrix(U););
+    free_matrix(U);
+
+    // For a gaussian matrix
+    signed_matrix D = new_signed_matrix(N, N);
+    sprintf(output, "Gaussianly sampled %d scalars in %%fs\n", N * N);
+    CHRONO(output, sample_Z_centered_matrix(D););
+    free_signed_matrix(D);
 }
