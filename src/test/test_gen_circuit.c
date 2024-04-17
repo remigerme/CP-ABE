@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
+    init_cp();
     real start, end;
 
     printf("Testing gen_circuit with parameters\n");
@@ -38,16 +39,19 @@ int main(int argc, char* argv[]) {
     circuit* f;
     CHRONO("Circuit generated in %fs\n", f = gen_circuit(x););
 
-    start = (real)clock() / CLOCKS_PER_SEC;
     for (attribute xt = x_min; xt < x_max + 1; xt++) {
         if (xt == x)
             assert(compute_f(*f, xt) == 0);
         else
             assert(compute_f(*f, xt) == 1);
     }
-    end = (real)clock() / CLOCKS_PER_SEC;
 
+    printf("Checked f(x) for x in [%u, %u].\n", x_min, x_max);
+
+    matrix* A = new_matrixes(PARAM_K + 1, PARAM_N, PARAM_L);
+    for (int k = 1; k < PARAM_K + 1; k++) sample_Zq_uniform_matrix(A[k]);
+    CHRONO("Computed Af in %fs\n", compute_Af(A, *f););
+
+    CHRONO("Computed Hf,x,A in %fs\n", compute_H(A, *f, x););
     free_circuit(f);
-    printf("Checked f(x) for x in [%u, %u], in average %fs per circuit.\n",
-           x_min, x_max, (end - start) / (x_max - x_min + 1));
 }
