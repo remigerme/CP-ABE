@@ -18,7 +18,7 @@ OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 EXEC = test_sampling test_circuit test_bgg test_cp test_gen_circuit
 
 # list of libraries to build
-LIBS = dgs
+LIBS = dgs lucas
 SPECIFY_LIBS = -L./build '-Wl,-rpath,$$ORIGIN'
 LIBS_FLAGS = $(SPECIFY_LIBS) $(addprefix -l,$(LIBS))
 # -lm : link math library
@@ -33,7 +33,7 @@ libs: $(addprefix lib,$(addsuffix .so,$(LIBS)))
 
 # -fPIC : Position Independent Code, needed for building libraries
 # -shared : needed for building libraries
-# -maes : for aes intrinsics for Luca's algorithmF
+# -maes : for aes intrinsics for Lucas's algorithmF
 lib%.so:lib/%/*.c
 	$(CC) -maes -fPIC -shared -o $(BUILD_DIR)/$@ $^
 
