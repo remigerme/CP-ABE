@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <x86intrin.h>
 
+#define NEEDED_AES_FOR_SALT 3
+
 /*
 Returns an integer sampled from the uniform distribution over [0, n - 1]
 using the uniform distribution over [0, 2^32 - 1] provided by random_bytes
