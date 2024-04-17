@@ -41,15 +41,23 @@ int main() {
     printf("\tL = %d\n", PARAM_L);
     printf("\tA matrixes are size : N * L = %d\n", PARAM_N * PARAM_L);
     printf("\tTf matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
-    printf("\tH matrixes are size : K * L * L = %d\n",
-           PARAM_K * PARAM_L * PARAM_L);
 
-    // Checking one of the Ai matrix
-    matrix A = new_matrix(PARAM_N, PARAM_L);
-    CHRONO("Sampled Ai in %fs ", { sample_Zq_uniform_matrix(A); });
-    real diff = (mean(A) - PARAM_Q / 2.0) / (PARAM_Q / 2.0);
+    // Checking A matrix vector
+    matrix* A = new_matrixes(PARAM_K, PARAM_N, PARAM_L);
+    CHRONO("Sampled A vector in %fs ", {
+        for (int k = 0; k < PARAM_K; k++) sample_Zq_uniform_matrix(A[k]);
+    });
+
+    real m = 0;
+    for (int k = 0; k < PARAM_K; k++) m += mean(A[k]);
+    m /= PARAM_K;
+    real diff = (m - PARAM_Q / 2.0) / (PARAM_Q / 2.0);
     printf("diff to expected mean : %f%%\n", 100 * diff);
-    printf("Norm of A : %f\n", norm(A));
+
+    real n = 0;
+    for (int k = 0; k < PARAM_K; k++) n += norm(A[k]);
+    n /= PARAM_K;
+    printf("Average norm of A matrixes : %f\n", n);
 
     // Checking a trap T
     signed_matrix T = new_signed_matrix(PARAM_L, PARAM_L);
@@ -57,6 +65,6 @@ int main() {
     printf("mean: %f var: %f\n", meanbis(T), var(T));
     printf("Norm of T : %f\n", norm_signed(T));
 
-    free_matrix(A);
+    free_matrixes(A, PARAM_K);
     free_signed_matrix(T);
 }
