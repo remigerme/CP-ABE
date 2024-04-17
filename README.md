@@ -2,6 +2,7 @@
 
 Post-quantum cryptographic scheme based on lattices, CP-ABE (using BGG-lite KP-ABE scheme).
 Implementation of scheme proposed in https://eprint.iacr.org/2020/191.
+Using `random.h` and `random.c` from Lucas's implementation of another scheme : https://github.com/lucasprabel/module_gaussian_lattice.
 
 ## Setup
 
