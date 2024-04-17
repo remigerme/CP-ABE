@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
         printf(
             "Illegal number of arguments. Usage : ./test x x_min x_max "
             "to check all attributes within [x_min, x_max] "
-            "(warning : must havex_max < UINT32_MAX)\n");
+            "(warning : must have x_max < 2^K)\n");
         return -1;
     }
     attribute x = strtoul(argv[1], NULL, 10);
@@ -38,13 +38,16 @@ int main(int argc, char* argv[]) {
     circuit* f;
     CHRONO("Circuit generated in %fs\n", f = gen_circuit(x););
 
+    start = (real)clock() / CLOCKS_PER_SEC;
     for (attribute xt = x_min; xt < x_max + 1; xt++) {
         if (xt == x)
             assert(compute_f(*f, xt) == 0);
         else
             assert(compute_f(*f, xt) == 1);
     }
+    end = (real)clock() / CLOCKS_PER_SEC;
 
     free_circuit(f);
-    printf("Checked f(x) for x in [%u, %u].\n", x_min, x_max);
+    printf("Checked f(x) for x in [%u, %u], in average %fs per circuit.\n",
+           x_min, x_max, (end - start) / (x_max - x_min + 1));
 }
