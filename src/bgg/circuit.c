@@ -105,11 +105,17 @@ matrix compute_Af(matrix* A, circuit f) {
 
     if (!f.left && !f.right) return copy_matrix(A[f.n]);  // A fresh copy of An
 
-    matrix R_left = compute_Af(A, *f.left);
-    matrix R_right = compute_Af(A, *f.right);
+    // f.left may be equal to f.right (exact same circuit cause exact same
+    // pointer) then we only need to compute recursively on *f.left but if
+    // f.left != f.right we need to recursively compute on *f.right too
+    matrix R_left, R_right;
+    R_left = R_right = compute_Af(A, *f.left);
+    if (f.left != f.right) R_right = compute_Af(A, *f.right);
     matrix R = nand(R_left, R_right);
+
     free_matrix(R_left);
-    free_matrix(R_right);
+    if (f.left != f.right) free_matrix(R_right);
+
     return R;
 }
 
@@ -154,8 +160,12 @@ H_triplet compute_H_triplet(matrix* A, circuit f, attribute x) {
 
     if (!f.left && !f.right) return leaf(A, x, f.n);
 
-    H_triplet tl = compute_H_triplet(A, *f.left, x);
-    H_triplet tr = compute_H_triplet(A, *f.right, x);
+    // f.left may be equal to f.right (exact same circuit cause exact same
+    // pointer) then we only need to compute recursively on *f.left but if
+    // f.left != f.right we need to recursively compute on *f.right too
+    H_triplet tl, tr;
+    tl = tr = compute_H_triplet(A, *f.left, x);
+    if (f.left != f.right) tr = compute_H_triplet(A, *f.right, x);
 
     H_triplet t = new_H_triplet();
 
@@ -182,7 +192,7 @@ H_triplet compute_H_triplet(matrix* A, circuit f, attribute x) {
     free_matrix(tempA);
     free_matrix(tempH);
     free_H_triplet(&tl);
-    free_H_triplet(&tr);
+    if (f.left != f.right) free_H_triplet(&tr);
 
     return t;
 }
@@ -199,11 +209,11 @@ bool compute_f(circuit f, attribute x) {
 
     if (!f.left && !f.right) return get_xn(x, f.n);
 
+    // f.left may be equal to f.right (exact same circuit cause exact same
+    // pointer) then we only need to compute recursively on *f.left but if
+    // f.left != f.right we need to recursively compute on *f.right too
     bool xl, xr;
-    xl = compute_f(*f.left, x);
-    if (f.left == f.right)
-        xr = xl;
-    else
-        xr = compute_f(*f.right, x);
+    xl = xr = compute_f(*f.left, x);
+    if (f.left != f.right) xr = compute_f(*f.right, x);
     return 1 - xl * xr;
 }
