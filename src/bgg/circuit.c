@@ -199,7 +199,11 @@ bool compute_f(circuit f, attribute x) {
 
     if (!f.left && !f.right) return get_xn(x, f.n);
 
-    bool xl = compute_f(*f.left, x);
-    bool xr = compute_f(*f.right, x);
+    bool xl, xr;
+    xl = compute_f(*f.left, x);
+    if (f.left == f.right)
+        xr = xl;
+    else
+        xr = compute_f(*f.right, x);
     return 1 - xl * xr;
 }
