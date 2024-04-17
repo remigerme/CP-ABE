@@ -1,20 +1,15 @@
 #include "sampling.h"
 
-#include <assert.h>
+#include "random.h"
 
-sampler create_sampler() {
-    CSPRNG rng = create_csprng();
-    dgs_disc_gauss_dp_t* D = create_dgs();
-    sampler s = {rng, D};
-    return s;
-}
+void init_sampler() { random_bytes_init(); }
 
-void TrapGen(sampler s, matrix* B, signed_matrix T) {
+void TrapGen(matrix* B, signed_matrix T) {
     // Pre trap computation
     signed_matrix rho = new_signed_matrix(PARAM_P, 1);
     signed_matrix mu = new_signed_matrix(PARAM_P, 1);
-    sample_Z_centered_matrix(rho, s);
-    sample_Z_centered_matrix(mu, s);
+    sample_Z_centered_matrix(rho);
+    sample_Z_centered_matrix(mu);
 
     // Trap computation : T = [rho | -g + mu | Ip] : size P * M
     for (int i = 0; i < PARAM_P; i++)
@@ -34,7 +29,7 @@ void TrapGen(sampler s, matrix* B, signed_matrix T) {
         // We treat each column independantly
         // For each column c of matrix Bk
         for (int c = 0; c < PARAM_N; c++) {
-            scalar a = uniform_mod_q(s.rng);
+            scalar a = uniform_mod_n(PARAM_Q);
 
             // Two first terms by hand
             matrix_element(B[k], 0, c) = a;
@@ -58,7 +53,7 @@ void TrapGen(sampler s, matrix* B, signed_matrix T) {
     free_signed_matrix(mu);
 }
 
-signed_matrix TrapSamp(matrix* B, signed_matrix T, attribute x, sampler s) {
+signed_matrix TrapSamp(matrix* B, signed_matrix T, attribute x) {
     signed_matrix Tx = new_signed_matrix(PARAM_P, PARAM_M);
     // We simply copy T for now...
     // We give full knowledge instead of specific knowledge related to x
@@ -74,16 +69,16 @@ signed_matrix TrapSamp(matrix* B, signed_matrix T, attribute x, sampler s) {
 /* Functions for matrix */
 /* -------------------- */
 
-void sample_Zq_uniform_matrix(matrix A, sampler s) {
+void sample_Zq_uniform_matrix(matrix A) {
     for (int i = 0; i < A.rows; i++)
         for (int j = 0; j < A.columns; j++)
-            matrix_element(A, i, j) = uniform_mod_q(s.rng);
+            matrix_element(A, i, j) = uniform_mod_n(PARAM_Q);
 }
 
-signed_scalar sample_Z_centered(sampler s) { return signed_scalar_dgs(s.D); }
+signed_scalar sample_Z_centered() { return algorithmF(0, PARAM_SIGMA); }
 
-void sample_Z_centered_matrix(signed_matrix A, sampler s) {
+void sample_Z_centered_matrix(signed_matrix A) {
     for (int i = 0; i < A.rows; i++)
         for (int j = 0; j < A.columns; j++)
-            matrix_element(A, i, j) = sample_Z_centered(s);
+            matrix_element(A, i, j) = sample_Z_centered();
 }
