@@ -4,7 +4,7 @@
 # -O2 or -O3 for optimization flags
 CC = gcc
 CFLAGS = -g -Wall -O3
-INCLUDES = -Isrc -Isrc/bgg -Isrc/sampling -Isrc/utils -Ilib/dgs
+INCLUDES = -Isrc -Isrc/bgg -Isrc/sampling -Isrc/utils -Ilib/lucas
 
 SRC_DIR = src
 BUILD_DIR = build
@@ -18,7 +18,7 @@ OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 EXEC = test_sampling test_circuit test_bgg test_cp test_gen_circuit
 
 # list of libraries to build
-LIBS = dgs lucas
+LIBS = lucas
 SPECIFY_LIBS = -L./build '-Wl,-rpath,$$ORIGIN'
 LIBS_FLAGS = $(SPECIFY_LIBS) $(addprefix -l,$(LIBS))
 # -lm : link math library
