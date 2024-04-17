@@ -1,4 +1,6 @@
+#include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "attribute.h"
 #include "bgg.h"
