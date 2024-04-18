@@ -45,4 +45,4 @@ comment need to include %f specifier to include duration
     } while (0)
 
 // Debug parameters
-// #define DEBUG_NORM
+#define DEBUG_NORM
