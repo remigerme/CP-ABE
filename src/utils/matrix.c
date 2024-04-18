@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "common.h"
+
 matrix new_matrix(unsigned int rows, unsigned int columns) {
     scalar* data = calloc(rows * columns, sizeof(scalar));
     matrix R;
@@ -74,7 +76,7 @@ void add_matrix(matrix A, matrix B, matrix R) {
         for (int j = 0; j < A.columns; j++) {
             scalar a = matrix_element(A, i, j);
             scalar b = matrix_element(B, i, j);
-            matrix_element(R, i, j) = (a + b) % PARAM_Q;
+            matrix_element(R, i, j) = (a + b) % PARAMS.Q;
         }
     }
 }
@@ -89,9 +91,9 @@ void add_matrix_error(matrix A, signed_matrix E, matrix R) {
         for (int j = 0; j < A.columns; j++) {
             signed_scalar a = (signed_scalar)matrix_element(A, i, j);
             signed_scalar b = matrix_element(E, i, j);
-            signed_scalar r = (a + b) % PARAM_Q;
+            signed_scalar r = (a + b) % PARAMS.Q;
             // To be sure r >= 0
-            if (r < 0) r += PARAM_Q;
+            if (r < 0) r += PARAMS.Q;
             matrix_element(R, i, j) = (scalar)r;
         }
     }
@@ -108,7 +110,7 @@ void sub_matrix(matrix A, matrix B, matrix R) {
             scalar a = matrix_element(A, i, j);
             scalar b = matrix_element(B, i, j);
             // Adding Q artificially to avoid underflow
-            matrix_element(R, i, j) = (PARAM_Q + a - b) % PARAM_Q;
+            matrix_element(R, i, j) = (PARAMS.Q + a - b) % PARAMS.Q;
         }
     }
 }
@@ -126,7 +128,7 @@ void mul_matrix(matrix A, matrix B, matrix R) {
             for (int k = 0; k < A.columns; k++) {
                 scalar a = matrix_element(A, i, k);
                 scalar b = matrix_element(B, k, j);
-                r = (r + a * b) % PARAM_Q;
+                r = (r + a * b) % PARAMS.Q;
             }
             matrix_element(R, i, j) = r;
         }
@@ -146,9 +148,9 @@ void mul_matrix_trap(matrix A, signed_matrix Tf, matrix R) {
             for (int k = 0; k < A.columns; k++) {
                 signed_scalar a = (signed_scalar)matrix_element(A, i, k);
                 signed_scalar b = matrix_element(Tf, k, j);
-                r = (r + a * b) % PARAM_Q;
+                r = (r + a * b) % PARAMS.Q;
                 // To be sure r >= 0
-                if (r < 0) r += PARAM_Q;
+                if (r < 0) r += PARAMS.Q;
             }
             matrix_element(R, i, j) = (scalar)r;
         }
@@ -167,9 +169,9 @@ void mul_matrix_trap_left(signed_matrix T, matrix B, matrix R) {
             for (int k = 0; k < T.columns; k++) {
                 signed_scalar a = matrix_element(T, i, k);
                 signed_scalar b = (signed_scalar)matrix_element(B, k, j);
-                r = (r + a * b) % PARAM_Q;
+                r = (r + a * b) % PARAMS.Q;
                 // To be sure r >= 0
-                if (r < 0) r += PARAM_Q;
+                if (r < 0) r += PARAMS.Q;
             }
             matrix_element(R, i, j) = (scalar)r;
         }
@@ -183,7 +185,7 @@ void mul_matrix_scalar(scalar x, matrix A, matrix R) {
     // Computing the result
     for (int i = 0; i < A.rows; i++)
         for (int j = 0; j < A.columns; j++)
-            matrix_element(R, i, j) = (x * matrix_element(A, i, j)) % PARAM_Q;
+            matrix_element(R, i, j) = (x * matrix_element(A, i, j)) % PARAMS.Q;
 }
 
 bool equals(matrix A, matrix B) {
@@ -202,7 +204,7 @@ real norm(matrix A) {
     for (int i = 0; i < A.rows; i++) {
         for (int j = 0; j < A.columns; j++) {
             scalar t = matrix_element(A, i, j);
-            t = (t <= PARAM_Q - t) ? t : PARAM_Q - t;
+            t = (t <= PARAMS.Q - t) ? t : PARAMS.Q - t;
             s += t;
         }
     }
@@ -224,5 +226,5 @@ bool is_short(matrix A) {
 #ifdef DEBUG_NORM
     printf("Matrix norm (is short ?): %.2g.\n", norm(A));
 #endif
-    return norm(A) < SHORT_THRESHOLD;
+    return norm(A) < PARAMS.SHORT_THRESHOLD;
 }

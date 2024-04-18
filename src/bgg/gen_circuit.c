@@ -1,5 +1,7 @@
 #include "gen_circuit.h"
 
+#include "common.h"
+
 circuit* gen_leaf(int n, bool xn) {
     // n is still 1-indexed
     circuit* f = new_circuit();
@@ -39,7 +41,7 @@ circuit* gen_circuit(attribute x) {
     circuit* G1 = gen_leaf(1, get_xn(x, 1));
     circuit* G2 = gen_leaf(2, get_xn(x, 2));
     f = circuit_and(G1, G2);
-    for (int n = 3; n < PARAM_K + 1; n++) {
+    for (int n = 3; n < PARAMS.K + 1; n++) {
         circuit* Gn = gen_leaf(n, get_xn(x, n));
         f = circuit_and(f, Gn);
     }

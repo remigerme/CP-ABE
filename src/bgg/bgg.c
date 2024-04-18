@@ -4,11 +4,11 @@
 
 bgg_keys BGG_KeyGen(circuit f) {
     // Allocating new matrixes
-    matrix* A = new_matrixes(PARAM_K + 1, PARAM_N, PARAM_L);
-    signed_matrix Tf = new_signed_matrix(PARAM_L, PARAM_L);
+    matrix* A = new_matrixes(PARAMS.K + 1, PARAMS.N, PARAMS.L);
+    signed_matrix Tf = new_signed_matrix(PARAMS.L, PARAMS.L);
 
     // Generate A1, ..., Ak uniformely over Zq^{n * l}
-    for (int i = 0; i < PARAM_K; i++) sample_Zq_uniform_matrix(A[i + 1]);
+    for (int i = 0; i < PARAMS.K; i++) sample_Zq_uniform_matrix(A[i + 1]);
 
     // Compute Af
     matrix Af = compute_Af(A, f);
@@ -25,14 +25,14 @@ bgg_keys BGG_KeyGen(circuit f) {
 }
 
 matrix* BGG_OfflineEnc(matrix* A, bool u) {
-    matrix* CTf = new_matrixes(2 * PARAM_K + 1, PARAM_M, PARAM_L);
+    matrix* CTf = new_matrixes(2 * PARAMS.K + 1, PARAMS.M, PARAMS.L);
 
     // Generating LWE uniform secret
-    matrix S = new_matrix(PARAM_M, PARAM_N);
+    matrix S = new_matrix(PARAMS.M, PARAMS.N);
     sample_Zq_uniform_matrix(S);
 
     // Short gaussian error vector
-    signed_matrix E = new_signed_matrix(PARAM_M, PARAM_L);
+    signed_matrix E = new_signed_matrix(PARAMS.M, PARAMS.L);
     sample_Z_centered_matrix(E);
 
     // Instantiating first term of CTf (`u` in p.12 or C0 in p.13)
@@ -44,10 +44,10 @@ matrix* BGG_OfflineEnc(matrix* A, bool u) {
     }
 
     // Computing S * G only once
-    matrix SG = new_matrix(PARAM_M, PARAM_L);
+    matrix SG = new_matrix(PARAMS.M, PARAMS.L);
     mul_matrix(S, G, SG);
 
-    for (int i = 0; i < PARAM_K; i++) {
+    for (int i = 0; i < PARAMS.K; i++) {
         for (int b = 0; b < 2; b++) {
             sample_Z_centered_matrix(E);
             mul_matrix(S, A[1 + i], CTf[1 + 2 * i + b]);

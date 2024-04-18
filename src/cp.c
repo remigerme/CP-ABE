@@ -4,6 +4,7 @@
 
 #include "bgg.h"
 #include "circuit.h"
+#include "common.h"
 #include "matrix.h"
 #include "sampling.h"
 
@@ -14,8 +15,8 @@ void init_cp() {
 
 cp_keys Setup() {
     cp_keys keys;
-    matrix* B = new_matrixes(2 * PARAM_K + 1, PARAM_M, PARAM_N);
-    signed_matrix T = new_signed_matrix(PARAM_P, PARAM_M);
+    matrix* B = new_matrixes(2 * PARAMS.K + 1, PARAMS.M, PARAMS.N);
+    signed_matrix T = new_signed_matrix(PARAMS.P, PARAMS.M);
     TrapGen(B, T);
     keys.B = B;
     keys.T = T;
@@ -27,15 +28,15 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u) {
 
     matrix* BGG_CTf = BGG_OfflineEnc(keys.A, u);
 
-    matrix* CTf = new_matrixes(2 * PARAM_K + 1, PARAM_M, PARAM_L);
+    matrix* CTf = new_matrixes(2 * PARAMS.K + 1, PARAMS.M, PARAMS.L);
 
     // First term by hand
-    matrix S = new_matrix(PARAM_N, PARAM_L);
+    matrix S = new_matrix(PARAMS.N, PARAMS.L);
     sample_Zq_uniform_matrix(S);
     mul_matrix(B[0], S, CTf[0]);
     add_matrix(CTf[0], BGG_CTf[0], CTf[0]);
 
-    for (int k = 0; k < PARAM_K; k++) {
+    for (int k = 0; k < PARAMS.K; k++) {
         for (int b = 0; b < 2; b++) {
             sample_Zq_uniform_matrix(S);
             int i = 1 + 2 * k + b;
@@ -44,7 +45,7 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u) {
         }
     }
 
-    free_matrixes(BGG_CTf, 2 * PARAM_K + 1);
+    free_matrixes(BGG_CTf, 2 * PARAMS.K + 1);
     free_matrix(S);
 
     cp_ciphertext c = {CTf, keys.Tf, keys.A};
@@ -58,29 +59,29 @@ signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x) {
 bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {
     // Computing the right term HT (without Identity block)
     matrix H = compute_H(cipher.A, f, x);
-    matrix HT = new_matrix(PARAM_K * PARAM_L, PARAM_L);
+    matrix HT = new_matrix(PARAMS.K * PARAMS.L, PARAMS.L);
     mul_matrix_trap(H, cipher.Tf, HT);
 
     // Computing the relevant CTf
-    matrix CTfx = new_matrix(PARAM_M, PARAM_K * PARAM_L);
-    for (int k = 0; k < PARAM_K; k++) {
+    matrix CTfx = new_matrix(PARAMS.M, PARAMS.K * PARAMS.L);
+    for (int k = 0; k < PARAMS.K; k++) {
         int b = get_xn(x, k + 1);  // Beware of 1-indexing
-        for (int m = 0; m < PARAM_M; m++)
-            for (int l = 0; l < PARAM_L; l++)
-                matrix_element(CTfx, m, k * PARAM_L + l) =
+        for (int m = 0; m < PARAMS.M; m++)
+            for (int l = 0; l < PARAMS.L; l++)
+                matrix_element(CTfx, m, k * PARAMS.L + l) =
                     matrix_element(cipher.CTf[1 + 2 * k + b], m, l);
     }
 
     // Computing [C1,x1 | ... | Ck,xk] * HT - C0
     // All C are C with hat for now
-    matrix right_res = new_matrix(PARAM_M, PARAM_L);
+    matrix right_res = new_matrix(PARAMS.M, PARAMS.L);
     mul_matrix(CTfx, HT, right_res);
     sub_matrix(right_res, cipher.CTf[0], right_res);
 
     // Computing tx * (-E0 + [E1,x1 | ... | E2,x2] * HT)
     // (if x is the correct attribute, else this is a
     // nightmarish computation and we don't care about it)
-    matrix res = new_matrix(PARAM_P, PARAM_L);
+    matrix res = new_matrix(PARAMS.P, PARAMS.L);
     mul_matrix_trap_left(tx, right_res, res);
 
     // Computing decoded bit
