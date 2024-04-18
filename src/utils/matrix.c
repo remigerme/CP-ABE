@@ -203,10 +203,10 @@ real norm(matrix A) {
         for (int j = 0; j < A.columns; j++) {
             scalar t = matrix_element(A, i, j);
             t = (t <= PARAM_Q - t) ? t : PARAM_Q - t;
-            s += t * t;
+            s += t;
         }
     }
-    return sqrt(s);
+    return s;
 }
 
 real norm_signed(signed_matrix A) {
@@ -214,10 +214,10 @@ real norm_signed(signed_matrix A) {
     for (int i = 0; i < A.rows; i++) {
         for (int j = 0; j < A.columns; j++) {
             signed_scalar t = matrix_element(A, i, j);
-            s += t * t;
+            s += abs(t);
         }
     }
-    return sqrt(s);
+    return s;
 }
 
 bool is_short(matrix A) { return norm(A) < SHORT_THRESHOLD; }
