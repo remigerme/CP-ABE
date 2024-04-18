@@ -10,7 +10,7 @@
 #include "sampling.h"
 
 int main() {
-    init_cp();
+    init_cp_default();
     real start, end;
 
     // Printing parameters

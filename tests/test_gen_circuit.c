@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    init_cp();
+    init_cp_default();
     real start, end;
 
     printf("Testing gen_circuit with parameters\n");

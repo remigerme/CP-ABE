@@ -17,7 +17,10 @@ typedef struct {
     matrix* A;
 } cp_ciphertext;
 
-void init_cp(void);
+
+void init_cp(scalar N, scalar Q, scalar K, scalar P, real SIGMA, real SHORT_THRESHOLD);
+
+void init_cp_default(void);
 
 cp_keys Setup(void);
 

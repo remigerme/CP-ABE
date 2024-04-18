@@ -12,7 +12,7 @@
 
 int main() {
     real start, end;
-    init_cp();
+    init_cp_default();
 
     attribute x = 39837839;
     circuit *f = gen_circuit(x);

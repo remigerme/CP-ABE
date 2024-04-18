@@ -8,7 +8,14 @@
 #include "matrix.h"
 #include "sampling.h"
 
-void init_cp() {
+void init_cp(scalar N, scalar Q, scalar K, scalar P, real SIGMA,
+             real SHORT_THRESHOLD) {
+    init_params(N, Q, K, P, SIGMA, SHORT_THRESHOLD);
+    init_sampler();
+    init_G();
+}
+
+void init_cp_default() {
     init_params_default();
     init_sampler();
     init_G();
