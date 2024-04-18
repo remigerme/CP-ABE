@@ -50,12 +50,12 @@ void init_params_default() {
 
 void print_params() {
     printf("Printing parameters...\n");
-    printf("\tN = %u\n", PARAMS.N);
-    printf("\tQ = %u\n", PARAMS.Q);
-    printf("\tK = %u\n", PARAMS.K);
-    printf("\tL = %u\n", PARAMS.L);
-    printf("\tP = %u\n", PARAMS.P);
-    printf("\tM = P + 2 = %u\n", PARAMS.M);
-    printf("\tSIGMA = %f\n", PARAMS.SIGMA);
-    printf("\tSHORT_THRESHOLD = %f\n", PARAMS.SHORT_THRESHOLD);
+    printf("\tN = %lu\n", PARAMS.N);
+    printf("\tQ = %lu\n", PARAMS.Q);
+    printf("\tK = %lu\n", PARAMS.K);
+    printf("\tL = %lu\n", PARAMS.L);
+    printf("\tP = %lu\n", PARAMS.P);
+    printf("\tM = P + 2 = %lu\n", PARAMS.M);
+    printf("\tSIGMA = %.2f\n", PARAMS.SIGMA);
+    printf("\tSHORT_THRESHOLD = %.2g\n", PARAMS.SHORT_THRESHOLD);
 }
