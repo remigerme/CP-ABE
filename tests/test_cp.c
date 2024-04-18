@@ -29,6 +29,10 @@ int main() {
            (2 * PARAM_K + 1) * PARAM_M * PARAM_N);
     printf("\tT matrix is size : P * M = %d\n", PARAM_P * PARAM_M);
 
+#ifdef DEBUG_NORM
+    printf("\tSHORT_THRESHOLD = %.2g\n", SHORT_THRESHOLD);
+#endif
+
     circuit f;
     circuit g;
     circuit h;

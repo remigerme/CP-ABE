@@ -220,4 +220,9 @@ real norm_signed(signed_matrix A) {
     return s;
 }
 
-bool is_short(matrix A) { return norm(A) < SHORT_THRESHOLD; }
+bool is_short(matrix A) {
+#ifdef DEBUG_NORM
+    printf("Matrix norm (is short ?): %.2g.\n", norm(A));
+#endif
+    return norm(A) < SHORT_THRESHOLD;
+}

@@ -48,3 +48,6 @@ comment need to include %f specifier to include duration
 #elif PARAM_P > 31
 #error "PARAM_P is too high (strictly over 31)."
 #endif
+
+// Debug parameters
+#define DEBUG_NORM
