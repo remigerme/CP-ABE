@@ -9,8 +9,9 @@
 #include "sampling.h"
 
 void init_cp() {
-    init_G();
+    init_params_default();
     init_sampler();
+    init_G();
 }
 
 cp_keys Setup() {
