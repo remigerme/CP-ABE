@@ -19,9 +19,12 @@ Threshold used to determine if a vector is short in is_short
 Is heavily dimension dependant and fixed a bit arbitrarily manually
 Dependance in Q not studied yet
 */
+/*
 #define SHORT_THRESHOLD                                                  \
-    (PARAM_M * PARAM_K * PARAM_L * PARAM_L * PARAM_SIGMA * PARAM_SIGMA * \
-     PARAM_SIGMA)
+     (PARAM_M * PARAM_K * PARAM_L * PARAM_L * PARAM_SIGMA * PARAM_SIGMA * \
+      PARAM_SIGMA)
+*/
+#define SHORT_THRESHOLD ((double)PARAM_P * PARAM_L * PARAM_Q / 100)
 
 typedef uint64_t scalar;
 typedef int64_t signed_scalar;
