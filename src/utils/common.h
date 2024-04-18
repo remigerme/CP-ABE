@@ -27,17 +27,11 @@ extern cp_params PARAMS;
 void init_params(scalar N, scalar Q, scalar K, scalar P, real SIGMA,
                  real SHORT_THRESHOLD);
 
-/*
-Example parameters
-N = 1
-Q = 1073707009
-K = 30
-=> L = N * K = 30
-P = 10
-=> M = P + 2 = 12
-SIGMA = 7.00
-SHORT_THRESHOLD = P * L * Q / 100 (arbitrarily set)
-*/
+// Init params with default values, check common.c for values
+void init_params_default(void);
+
+// Nicely print current parameters
+void print_params(void);
 
 /*
 double start and double end need to be defined before !
