@@ -10,12 +10,13 @@ SRC_DIR = src
 BUILD_DIR = build
 SRC_TEST = tests
 
-OBJS_RAW = matrix attribute sampling circuit gen_circuit bgg cp
+OBJS_RAW = common matrix attribute sampling circuit gen_circuit bgg cp
 OBJS_O = $(addsuffix .o,$(OBJS_RAW))
 OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 
 # list of executables binaries
-EXEC = test_sampling test_circuit test_bgg test_cp test_gen_circuit
+EXEC_RAW = sampling circuit bgg cp gen_circuit is_short
+EXEC = $(addprefix test_,$(EXEC_RAW))
 
 # list of libraries to build
 LIBS = lucas
