@@ -11,12 +11,12 @@ typedef double real;
 
 // Struct containing all parameters of the CP-ABE
 typedef struct _cp_params {
-    scalar N;    // should be 1 for now - degree of polynomials
-    scalar Q;    // Q <= 2^K - modulus
-    scalar K;    // K = ceil(logQ) - attribute length and boolean circuits arity
-    scalar L;    // L = (N * K) - KP-ABE matrices dimension
-    scalar P;    // CP trap size
-    scalar M;    // M = (P + 2) - artificial CP trap size for computation
+    int32_t N;   // should be 1 for now - degree of polynomials
+    int32_t Q;   // Q <= 2^K - modulus
+    int32_t K;   // K = ceil(logQ) - attribute length and boolean circuits arity
+    int32_t L;   // L = (N * K) - KP-ABE matrices dimension
+    int32_t P;   // CP trap size
+    int32_t M;   // M = (P + 2) - artificial CP trap size for computation
     real SIGMA;  // used for discrete gaussian distribution
     real SHORT_THRESHOLD;  // threshold used in is_short
 } cp_params;

@@ -44,18 +44,18 @@ void init_params_default() {
     scalar K = 30;
     scalar P = 10;
     real SIGMA = 7.00;
-    real SHORT_THRESHOLD = P * N * K * Q / 100;
+    real SHORT_THRESHOLD = (real)P * N * K * Q / 100;
     init_params(N, Q, K, P, SIGMA, SHORT_THRESHOLD);
 }
 
 void print_params() {
     printf("Printing parameters...\n");
-    printf("\tN = %lu\n", PARAMS.N);
-    printf("\tQ = %lu\n", PARAMS.Q);
-    printf("\tK = %lu\n", PARAMS.K);
-    printf("\tL = %lu\n", PARAMS.L);
-    printf("\tP = %lu\n", PARAMS.P);
-    printf("\tM = P + 2 = %lu\n", PARAMS.M);
+    printf("\tN = %d\n", PARAMS.N);
+    printf("\tQ = %d\n", PARAMS.Q);
+    printf("\tK = %d\n", PARAMS.K);
+    printf("\tL = %d\n", PARAMS.L);
+    printf("\tP = %d\n", PARAMS.P);
+    printf("\tM = P + 2 = %d\n", PARAMS.M);
     printf("\tSIGMA = %.2f\n", PARAMS.SIGMA);
     printf("\tSHORT_THRESHOLD = %.2g\n", PARAMS.SHORT_THRESHOLD);
 }
