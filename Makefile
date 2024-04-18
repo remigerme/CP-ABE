@@ -8,7 +8,7 @@ INCLUDES = -Isrc -Isrc/bgg -Isrc/sampling -Isrc/utils -Ilib/lucas
 
 SRC_DIR = src
 BUILD_DIR = build
-SRC_TEST = src/test
+SRC_TEST = tests
 
 OBJS_RAW = matrix attribute sampling circuit gen_circuit bgg cp
 OBJS_O = $(addsuffix .o,$(OBJS_RAW))
@@ -24,8 +24,6 @@ LIBS_FLAGS = $(SPECIFY_LIBS) $(addprefix -l,$(LIBS))
 # -lm : link math library
 # -lgmp : link gmp library needed for dgs
 UNIVERSAL_LIBS_FLAGS = -lm -lgmp
-
-.PHONY: tests libs clean
 
 tests: $(EXEC)
 
@@ -60,3 +58,5 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/sampling/%.c
 # We shouldn't need to clean lib subdirectories
 clean:
 	rm -f $(BUILD_DIR)/*.o $(addprefix $(BUILD_DIR)/,$(EXEC))
+
+.PHONY: tests libs clean
