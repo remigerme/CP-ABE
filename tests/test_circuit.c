@@ -4,34 +4,29 @@
 
 #include "attribute.h"
 #include "circuit.h"
+#include "common.h"
 #include "matrix.h"
 #include "sampling.h"
 
 int main() {
     init_sampler();
+    init_params_default();
     init_G();
     real start, end;
 
     // Printing parameters
     printf("Testing circuit with parameters\n");
-    printf("\tQ = %d\n", PARAM_Q);
-    printf("\tN = %d\n", PARAM_N);
-    printf("\tK = %d\n", PARAM_K);
-    printf("\tL = %d\n", PARAM_L);
-    printf("\tA matrixes are size : N * L = %d\n", PARAM_N * PARAM_L);
-    printf("\tTf matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
-    printf("\tH matrixes are size : K * L * L = %d\n",
-           PARAM_K * PARAM_L * PARAM_L);
+    print_params();
 
     // Generating A
-    matrix* A = new_matrixes(PARAM_K + 1, PARAM_N, PARAM_L);
+    matrix* A = new_matrixes(PARAMS.K + 1, PARAMS.N, PARAMS.L);
     CHRONO("Generated A in %fs\n", {
-        for (int i = 0; i < PARAM_K + 1; i++) sample_Zq_uniform_matrix(A[i]);
+        for (int i = 0; i < PARAMS.K + 1; i++) sample_Zq_uniform_matrix(A[i]);
     });
 
     // Testing G * G^-1(A) = A
-    matrix inv = new_matrix(PARAM_L, PARAM_L);
-    matrix res = new_matrix(PARAM_N, PARAM_L);
+    matrix inv = new_matrix(PARAMS.L, PARAMS.L);
+    matrix res = new_matrix(PARAMS.N, PARAMS.L);
     CHRONO("Checked G * G^-1(A) = A in %fs\n", {
         inv_G(A[0], inv);
         mul_matrix(G, inv, res);
@@ -62,11 +57,11 @@ int main() {
 
     matrix Af = compute_Af(A, f);
 
-    matrix T = new_matrix(PARAM_N, PARAM_L);
-    matrix BIG = new_matrix(PARAM_N, PARAM_L * PARAM_K);
+    matrix T = new_matrix(PARAMS.N, PARAMS.L);
+    matrix BIG = new_matrix(PARAMS.N, PARAMS.L * PARAMS.K);
 
     int x_max = 1;
-    for (int i = 0; i < PARAM_K; i++) x_max *= 2;
+    for (int i = 0; i < PARAMS.K; i++) x_max *= 2;
     char output[80];
 
     for (attribute x = 0; x < x_max; x++) {
@@ -78,12 +73,12 @@ int main() {
             matrix R = copy_matrix(Af);
             if (compute_f(f, x)) add_matrix(R, G, R);
 
-            for (int i = 1; i < PARAM_K + 1; i++) {
+            for (int i = 1; i < PARAMS.K + 1; i++) {
                 matrix ti = copy_matrix(A[i]);
                 if (get_xn(x, i)) add_matrix(ti, G, ti);
-                for (int j = 0; j < PARAM_N; j++)      // ti.rows = PARAM_N
-                    for (int k = 0; k < PARAM_L; k++)  // ti.columns = PARAM_L
-                        matrix_element(BIG, j, (i - 1) * PARAM_L + k) =
+                for (int j = 0; j < PARAMS.N; j++)      // ti.rows = PARAMS.N
+                    for (int k = 0; k < PARAMS.L; k++)  // ti.columns = PARAMS.L
+                        matrix_element(BIG, j, (i - 1) * PARAMS.L + k) =
                             matrix_element(ti, j, k);
                 free_matrix(ti);
             }
@@ -100,6 +95,6 @@ int main() {
 
     free_matrix(Af);
 
-    free_matrixes(A, PARAM_K + 1);
+    free_matrixes(A, PARAMS.K + 1);
     free_matrix(G);
 }

@@ -4,24 +4,19 @@
 #include "attribute.h"
 #include "bgg.h"
 #include "circuit.h"
+#include "common.h"
 #include "matrix.h"
 #include "sampling.h"
 
 int main() {
     init_sampler();
+    init_params_default();
     init_G();
     real start, end;
 
     // Printing parameters
     printf("Testing BGG with parameters\n");
-    printf("\tQ = %d\n", PARAM_Q);
-    printf("\tN = %d\n", PARAM_N);
-    printf("\tK = %d\n", PARAM_K);
-    printf("\tL = %d\n", PARAM_L);
-    printf("\tA matrixes are size : N * L = %d\n", PARAM_N * PARAM_L);
-    printf("\tTf matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
-    printf("\tH matrixes are size : K * L * L = %d\n",
-           PARAM_K * PARAM_L * PARAM_L);
+    print_params();
 
     circuit f;
     circuit g;
@@ -41,7 +36,7 @@ int main() {
     CHRONO("BGG.KeyGen in %fs\n", { keys = BGG_KeyGen(f); });
 
     matrix Af = compute_Af(keys.A, f);
-    matrix res = new_matrix(PARAM_N, PARAM_L);
+    matrix res = new_matrix(PARAMS.N, PARAMS.L);
     mul_matrix_trap(Af, keys.Tf, res);
     assert(equals(res, keys.A[0]));
     free_matrix(Af);
@@ -55,8 +50,8 @@ int main() {
            CTf_1 = BGG_OfflineEnc(keys.A, 1););
 
     free_signed_matrix(keys.Tf);
-    free_matrixes(keys.A, PARAM_K + 1);
-    free_matrixes(CTf_0, 2 * PARAM_K + 1);
-    free_matrixes(CTf_1, 2 * PARAM_K + 1);
+    free_matrixes(keys.A, PARAMS.K + 1);
+    free_matrixes(CTf_0, 2 * PARAMS.K + 1);
+    free_matrixes(CTf_1, 2 * PARAMS.K + 1);
     free_matrix(G);
 }

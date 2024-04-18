@@ -31,41 +31,36 @@ real var(signed_matrix A) {
 
 int main() {
     init_sampler();
+    init_params_default();
     real start, end;
 
-    // Printing parameters
-    printf("Testing sampling with parameters\n");
-    printf("\tQ = %d\n", PARAM_Q);
-    printf("\tN = %d\n", PARAM_N);
-    printf("\tK = %d\n", PARAM_K);
-    printf("\tL = %d\n", PARAM_L);
-    printf("\tA matrixes are size : N * L = %d\n", PARAM_N * PARAM_L);
-    printf("\tTf matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
+    printf("Testing sampling\n");
+    print_params();
 
     // Checking A matrix vector
-    matrix* A = new_matrixes(PARAM_K, PARAM_N, PARAM_L);
+    matrix* A = new_matrixes(PARAMS.K, PARAMS.N, PARAMS.L);
     CHRONO("Sampled A vector in %fs ", {
-        for (int k = 0; k < PARAM_K; k++) sample_Zq_uniform_matrix(A[k]);
+        for (int k = 0; k < PARAMS.K; k++) sample_Zq_uniform_matrix(A[k]);
     });
 
     real m = 0;
-    for (int k = 0; k < PARAM_K; k++) m += mean(A[k]);
-    m /= PARAM_K;
-    real diff = (m - PARAM_Q / 2.0) / (PARAM_Q / 2.0);
+    for (int k = 0; k < PARAMS.K; k++) m += mean(A[k]);
+    m /= PARAMS.K;
+    real diff = (m - PARAMS.Q / 2.0) / (PARAMS.Q / 2.0);
     printf("diff to expected mean : %f%%\n", 100 * diff);
 
     real n = 0;
-    for (int k = 0; k < PARAM_K; k++) n += norm(A[k]);
-    n /= PARAM_K;
+    for (int k = 0; k < PARAMS.K; k++) n += norm(A[k]);
+    n /= PARAMS.K;
     printf("Average norm of A matrixes : %f\n", n);
 
     // Checking a trap T
-    signed_matrix T = new_signed_matrix(PARAM_L, PARAM_L);
+    signed_matrix T = new_signed_matrix(PARAMS.L, PARAMS.L);
     CHRONO("Sampled T in %fs ", { sample_Z_centered_matrix(T); });
     printf("mean: %f var: %f\n", meanbis(T), var(T));
     printf("Norm of T : %f\n", norm_signed(T));
 
-    free_matrixes(A, PARAM_K);
+    free_matrixes(A, PARAMS.K);
     free_signed_matrix(T);
 
     // Determine how many numbers can be sampled by second

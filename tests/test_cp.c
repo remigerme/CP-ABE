@@ -4,6 +4,7 @@
 #include "attribute.h"
 #include "bgg.h"
 #include "circuit.h"
+#include "common.h"
 #include "cp.h"
 #include "matrix.h"
 #include "sampling.h"
@@ -14,24 +15,7 @@ int main() {
 
     // Printing parameters
     printf("Testing CP with parameters\n");
-    printf("\tQ = %d\n", PARAM_Q);
-    printf("\tN = %d\n", PARAM_N);
-    printf("\tK = %d\n", PARAM_K);
-    printf("\tL = %d\n", PARAM_L);
-    printf("\tP = %d\n", PARAM_P);
-    printf("\tM = P + 2 = %d", PARAM_M);
-    printf("\tA matrixes are size : N * L = %d\n", PARAM_N * PARAM_L);
-    printf("\tTf matrixes are size : L * L = %d\n", PARAM_L * PARAM_L);
-    printf("\tH matrixes are size : K * L * L = %d\n",
-           PARAM_K * PARAM_L * PARAM_L);
-    printf("\tB matrixes are size : M * N = %d\n", PARAM_M * PARAM_N);
-    printf("\tB (big) matrix is size : (2 * K + 1) * M * N = %d\n",
-           (2 * PARAM_K + 1) * PARAM_M * PARAM_N);
-    printf("\tT matrix is size : P * M = %d\n", PARAM_P * PARAM_M);
-
-#ifdef DEBUG_NORM
-    printf("\tSHORT_THRESHOLD = %.2g\n", SHORT_THRESHOLD);
-#endif
+    print_params();
 
     circuit f;
     circuit g;
@@ -53,11 +37,11 @@ int main() {
     print_circuit(f);
     printf("\n");
 
-    matrix ZERO = new_matrix(PARAM_P, PARAM_N);
-    matrix res = new_matrix(PARAM_P, PARAM_N);
+    matrix ZERO = new_matrix(PARAMS.P, PARAMS.N);
+    matrix res = new_matrix(PARAMS.P, PARAMS.N);
     cp_keys keys;
     CHRONO("TrapGen generated in %fs\n", keys = Setup(););
-    for (int k = 0; k < 2 * PARAM_K + 1; k++) {
+    for (int k = 0; k < 2 * PARAMS.K + 1; k++) {
         mul_matrix_trap_left(keys.T, keys.B[k], res);
         assert(equals(res, ZERO));
     }
@@ -77,7 +61,7 @@ int main() {
     CHRONO("Generating Tx trap in %fs\n", Tx = KeyGen(keys.B, keys.T, x););
     mul_matrix_trap_left(Tx, keys.B[0], res);
     assert(equals(res, ZERO));
-    for (int i = 0; i < PARAM_K; i++) {
+    for (int i = 0; i < PARAMS.K; i++) {
         bool xi = get_xn(x, i + 1);  // 1 indexed
         // Checking TxBi,xi = 0
         mul_matrix_trap_left(Tx, keys.B[1 + 2 * i + xi], res);
@@ -99,15 +83,15 @@ int main() {
     });
 
     // Free time !
-    free_matrixes(res_0.CTf, 2 * PARAM_K + 1);
-    free_matrixes(res_0.A, PARAM_K);
+    free_matrixes(res_0.CTf, 2 * PARAMS.K + 1);
+    free_matrixes(res_0.A, PARAMS.K);
     free_signed_matrix(res_0.Tf);
 
-    free_matrixes(res_1.CTf, 2 * PARAM_K + 1);
-    free_matrixes(res_1.A, PARAM_K);
+    free_matrixes(res_1.CTf, 2 * PARAMS.K + 1);
+    free_matrixes(res_1.A, PARAMS.K);
     free_signed_matrix(res_1.Tf);
 
-    free_matrixes(keys.B, 2 * PARAM_K + 1);
+    free_matrixes(keys.B, 2 * PARAMS.K + 1);
     free_signed_matrix(keys.T);
     free_signed_matrix(Tx);
 

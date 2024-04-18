@@ -5,6 +5,7 @@
 #include "attribute.h"
 #include "bgg.h"
 #include "circuit.h"
+#include "common.h"
 #include "cp.h"
 #include "gen_circuit.h"
 #include "matrix.h"
@@ -30,11 +31,7 @@ int main(int argc, char* argv[]) {
     real start, end;
 
     printf("Testing gen_circuit with parameters\n");
-    printf("\tQ = %d\n", PARAM_Q);
-    printf("\tK = %d\n", PARAM_K);
-    printf("\tx = %u\n", x);
-    printf("\tx_min = %u\n", x_min);
-    printf("\tx_max = %u\n", x_max);
+    print_params();
 
     circuit* f;
     CHRONO("Circuit generated in %fs\n", f = gen_circuit(x););
@@ -48,8 +45,8 @@ int main(int argc, char* argv[]) {
 
     printf("Checked f(x) for x in [%u, %u].\n", x_min, x_max);
 
-    matrix* A = new_matrixes(PARAM_K + 1, PARAM_N, PARAM_L);
-    for (int k = 1; k < PARAM_K + 1; k++) sample_Zq_uniform_matrix(A[k]);
+    matrix* A = new_matrixes(PARAMS.K + 1, PARAMS.N, PARAMS.L);
+    for (int k = 1; k < PARAMS.K + 1; k++) sample_Zq_uniform_matrix(A[k]);
     CHRONO("Computed Af in %fs\n", compute_Af(A, *f););
 
     CHRONO("Computed Hf,x,A in %fs\n", compute_H(A, *f, x););
