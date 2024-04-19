@@ -17,20 +17,17 @@ Commit on your own branch (with an explicit feature name if possible), then merg
 If you have any question ask me !
 
 ## How to use
-First, let's build the external libs using
+First, let's build the external libs and the project using
 ```
 make libs
+make
 ```
-Then you can run `test` for example :
+Then you can run one of the tests, `test_sampling` for example :
 ```
-make test
-./test
+./build/test_sampling
 ```
 
 ## Comments
-[DGS](https://github.com/malb/dgs/tree/master) is **not random** on its own, it seems to provide only a fully deterministic sequence of integers distributed according to a discrete gaussian (though I'm absolutely no expert). The same goes for [Luca's](https://github.com/lucasprabel/module_gaussian_lattice/tree/main/ROM_GPV) `algorithmF` using aes intrinsics (compile with `-maes` flag).
-
-I need to be careful about stack memory limit, as creating big matrices of polynomials can be very memory-consuming. Prefer heap allocation using `malloc`.
 
 ### TODO
 - [x] BGG
@@ -41,24 +38,13 @@ I need to be careful about stack memory limit, as creating big matrices of polyn
     - [x] BGG benchmark
 - [ ] CP
     - [x] Setup
-        - [x] Trapgen
-        - [x] Benchmark
     - [x] Enc
-        - [x] Implem
-        - [x] Benchmark
     - [ ] KeyGen
-        - [ ] Implem
-        - [ ] Benchmark
-    - [ ] Dec
-        - [ ] Implem
-            - [ ] is_short
-            - [x] H issue
-            - [x] algo
-        - [x] Benchmark
+    - [x] Dec
+    - [ ] CP for strings
 - [ ] statistical analysis of CP
-    - [x] Gen circuit
-    - [x] Compute f, H and Af with dp
-    - [ ] analysis of norm values with small circuits
+    - [x] is short
+    - [ ] enc and dec rate
 
 ### Limits
 - probably limited by the size of the circuits f used in practice, cause it tends the norm to get bigger and bigger (to the point we can't rule that a matrix which should be short is or not)
