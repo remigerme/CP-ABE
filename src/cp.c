@@ -160,7 +160,7 @@ char clear_bit(char n, int k) { return n & (~(1 << k)); }
 
 char* DecStr(attribute x, circuit f, signed_matrix tx, cp_cipher cipher) {
     assert(cipher.nbits % 8 == 0);
-    char* plain = calloc(cipher.nbits / 8, sizeof(char));
+    char* plain = calloc(cipher.nbits / 8 + 1, sizeof(char));
     for (int k = 0; k < cipher.nbits; k++) {
         int i = k / 8;
         int b = k % 8;
@@ -170,5 +170,6 @@ char* DecStr(attribute x, circuit f, signed_matrix tx, cp_cipher cipher) {
         else
             plain[i] = clear_bit(plain[i], b);
     }
+    plain[cipher.nbits] = '\0';
     return plain;
 }
