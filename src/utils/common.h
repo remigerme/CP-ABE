@@ -24,8 +24,7 @@ typedef struct _cp_params {
 // Global params globally available
 extern cp_params PARAMS;
 
-void init_params(int32_t N, uint32_t Q, int32_t K, int32_t P, real SIGMA,
-                 real SHORT_THRESHOLD);
+void init_params(int32_t N, uint32_t Q, int32_t K, int32_t P, real SIGMA);
 
 // Init params with default values, check common.c for values
 void init_params_default(void);

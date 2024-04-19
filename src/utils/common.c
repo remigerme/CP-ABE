@@ -10,8 +10,7 @@ cp_params PARAMS;
 
 static bool initialized = false;
 
-void init_params(int32_t N, uint32_t Q, int32_t K, int32_t P, real SIGMA,
-                 real SHORT_THRESHOLD) {
+void init_params(int32_t N, uint32_t Q, int32_t K, int32_t P, real SIGMA) {
     // We can initialize parameters only once
     assert(!initialized);
 
@@ -22,7 +21,6 @@ void init_params(int32_t N, uint32_t Q, int32_t K, int32_t P, real SIGMA,
     assert((uint32_t)ceil(log(Q) / log(2)) == K);
     assert(0 < P && P <= 30);
     assert(0 < SIGMA);
-    assert(0 < SHORT_THRESHOLD);
 
     // Assigning parameters
     PARAMS.N = N;
@@ -32,6 +30,11 @@ void init_params(int32_t N, uint32_t Q, int32_t K, int32_t P, real SIGMA,
     PARAMS.P = P;
     PARAMS.M = P + 2;
     PARAMS.SIGMA = SIGMA;
+    // Empirical formula from is_short tests
+    real SHORT_THRESHOLD = (real)N * (Q / 2) * pow(P, 1.5) * pow(SIGMA, 2);
+    // Arbitrary factor to compensate reality so it works better in practice
+    // ie for a wider range of parameters
+    SHORT_THRESHOLD /= 100;
     PARAMS.SHORT_THRESHOLD = SHORT_THRESHOLD;
 
     // Not possible to initialize it again
@@ -49,7 +52,7 @@ void init_params_default() {
     // Arbitrary factor to compensate reality so it works better in practice
     // ie for a wider range of parameters
     SHORT_THRESHOLD /= 100;
-    init_params(N, Q, K, P, SIGMA, SHORT_THRESHOLD);
+    init_params(N, Q, K, P, SIGMA);
 }
 
 void print_params() {
