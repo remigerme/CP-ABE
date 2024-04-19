@@ -5,25 +5,32 @@
 circuit* gen_leaf(int n, bool xn) {
     // n is still 1-indexed
     circuit* f = new_circuit();
-    if (xn) {
-        f->n = n;
-        return f;
-    }
+    f->n = n;
+    if (xn) return f;
+    return circuit_not(f);
+}
+
+circuit* circuit_not(circuit* f) {
+    // NOT(A) = NAND(A, A)
     circuit* g = new_circuit();
-    f->left = f->right = g;
-    g->n = n;
-    return f;
+    g->left = g->right = f;
+    return g;
 }
 
 circuit* circuit_and(circuit* f, circuit* g) {
-    // AND(A, B) = NAND(C, C) where C = NAND(A, B)
-    circuit* in = new_circuit();
-    in->left = f;
-    in->right = g;
-    circuit* res = new_circuit();
-    res->left = in;
-    res->right = in;
-    return res;
+    // AND(A, B) = NOT(C) where C = NAND(A, B)
+    circuit* c = new_circuit();
+    c->left = f;
+    c->right = g;
+    return circuit_not(c);
+}
+
+circuit* circuit_or(circuit* f, circuit* g) {
+    // OR(A, B) = NAND(NOT(A), NOT(B))
+    circuit* o = new_circuit();
+    o->left = circuit_not(f);
+    o->right = circuit_not(g);
+    return o;
 }
 
 circuit* gen_circuit(attribute x) {
