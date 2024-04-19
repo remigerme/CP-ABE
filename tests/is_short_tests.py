@@ -23,7 +23,6 @@ def run_test(args):
 
 # Parameters which stay constant
 N = 1
-SHORT_THRESHOLD = 1.00 # not relevant in the test, should just be > 0
 x = 1
 
 # Parameters which vary
@@ -37,7 +36,7 @@ P = P_REF
 SIGMA = SIGMA_REF
 for K in range(10, 30 + 1):
     Q = generate_big_prime(K)
-    args = [N, Q, K, P, SIGMA, SHORT_THRESHOLD, x]
+    args = [N, Q, K, P, SIGMA, x]
     run_test(args)
 
 # Varying P
@@ -45,7 +44,7 @@ K = K_REF
 Q = Q_REF
 SIGMA = SIGMA_REF
 for P in range(1, 20 + 1):
-    args = [N, Q, K, P, SIGMA, SHORT_THRESHOLD, x]
+    args = [N, Q, K, P, SIGMA, x]
     run_test(args)
 
 # Varying SIGMA
@@ -54,5 +53,5 @@ Q = Q_REF
 P = P_REF
 # do not start from 1.0 as it seems the algorithmF doesn't work
 for SIGMA in linspace(2.0, 20.0, 40):
-    args = [N, Q, K, P, SIGMA, SHORT_THRESHOLD, x]
+    args = [N, Q, K, P, SIGMA, x]
     run_test(args)
