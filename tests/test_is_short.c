@@ -31,14 +31,19 @@ int main(int argc, char* argv[]) {
     init_cp(N, Q, K, P, SIGMA, SHORT_THRESHOLD);
 
     /*
-    Example hand-crafted small circuit f(x) = x1 & (x2 | x3)
+    Example hand-crafted small circuit f(x) = not (x1 & (x2 | x3))
     Could be like checking if user is an admin
     or is a dev and has the right to access feature
     must have K >= 3
     */
     assert(K >= 3);
-    circuit* f = circuit_or(gen_leaf(1, true),
-                            circuit_and(gen_leaf(2, true), gen_leaf(3, true)));
+    circuit* f = circuit_not(circuit_or(
+        gen_leaf(1, true), circuit_and(gen_leaf(2, true), gen_leaf(3, true))));
+
+    if (compute_f(*f, x)) {
+        printf("Unauthorized attribute for circuit f.\n");
+        return -1;
+    }
 
     cp_keys keys = Setup();
 
