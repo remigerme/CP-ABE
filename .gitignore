@@ -3,6 +3,7 @@ build/
 
 # Python related
 __pycache__
+venv
 
 # VSCode settings file we don't care about (auto generated)
 .vscode/settings.json
