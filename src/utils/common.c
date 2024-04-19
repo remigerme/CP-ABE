@@ -10,7 +10,7 @@ cp_params PARAMS;
 
 static bool initialized = false;
 
-void init_params(scalar N, scalar Q, scalar K, scalar P, real SIGMA,
+void init_params(int32_t N, uint32_t Q, int32_t K, int32_t P, real SIGMA,
                  real SHORT_THRESHOLD) {
     // We can initialize parameters only once
     assert(!initialized);
@@ -19,7 +19,7 @@ void init_params(scalar N, scalar Q, scalar K, scalar P, real SIGMA,
     assert(0 < N && N <= UINT32_MAX);
     assert(0 < Q && Q <= UINT32_MAX);
     assert(0 < K && K <= 32);
-    assert((scalar)ceil(log(Q) / log(2)) == K);
+    assert((uint32_t)ceil(log(Q) / log(2)) == K);
     assert(0 < P && P <= 30);
     assert(0 < SIGMA);
     assert(0 < SHORT_THRESHOLD);
@@ -39,10 +39,10 @@ void init_params(scalar N, scalar Q, scalar K, scalar P, real SIGMA,
 }
 
 void init_params_default() {
-    scalar N = 1;
-    scalar Q = 1073707009;
-    scalar K = 30;
-    scalar P = 10;
+    int32_t N = 1;
+    uint32_t Q = 1073707009;
+    int32_t K = 30;
+    int32_t P = 10;
     real SIGMA = 7.00;
     real SHORT_THRESHOLD = (real)P * N * K * Q / 100;
     init_params(N, Q, K, P, SIGMA, SHORT_THRESHOLD);
@@ -51,7 +51,7 @@ void init_params_default() {
 void print_params() {
     printf("Printing parameters...\n");
     printf("\tN = %d\n", PARAMS.N);
-    printf("\tQ = %d\n", PARAMS.Q);
+    printf("\tQ = %u\n", PARAMS.Q);
     printf("\tK = %d\n", PARAMS.K);
     printf("\tL = %d\n", PARAMS.L);
     printf("\tP = %d\n", PARAMS.P);
