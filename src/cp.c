@@ -1,12 +1,31 @@
 #include "cp.h"
 
+#include <assert.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "bgg.h"
 #include "circuit.h"
 #include "common.h"
 #include "matrix.h"
 #include "sampling.h"
+
+/*******************/
+/* CP_CIPHER UTILS */
+/*******************/
+
+void free_cp_cipher(cp_cipher cipher) {
+    for (int i = 0; i < cipher.nbits; i++) {
+        free_matrixes(cipher.ciphers[i].CTf, 1 + 2 * PARAMS.K);
+        free_signed_matrix(cipher.ciphers[i].Tf);
+        free_matrixes(cipher.ciphers[i].A, 1 + PARAMS.K);
+    }
+}
+
+/********************/
+/* CP-ABE FUNCTIONS */
+/********************/
 
 void init_cp(scalar N, scalar Q, scalar K, scalar P, real SIGMA,
              real SHORT_THRESHOLD) {
@@ -31,7 +50,7 @@ cp_keys Setup() {
     return keys;
 }
 
-cp_ciphertext Enc(matrix* B, circuit f, bool u) {
+cp_cipher_bit Enc(matrix* B, circuit f, bool u) {
     bgg_keys keys = BGG_KeyGen(f);
 
     matrix* BGG_CTf = BGG_OfflineEnc(keys.A, u);
@@ -56,7 +75,23 @@ cp_ciphertext Enc(matrix* B, circuit f, bool u) {
     free_matrixes(BGG_CTf, 2 * PARAMS.K + 1);
     free_matrix(S);
 
-    cp_ciphertext c = {CTf, keys.Tf, keys.A};
+    cp_cipher_bit c = {CTf, keys.Tf, keys.A};
+    return c;
+}
+
+cp_cipher EncStr(matrix* B, circuit f, char* message) {
+    int message_size = strlen(message);
+    cp_cipher_bit* ciphers = calloc(8 * message_size, sizeof(cp_cipher_bit));
+    for (int i = 0; i < message_size; i++) {
+        // Considering byte i of message
+        for (int b = 0; b < 7; b++) {
+            // Considering bit b of message[i]
+            bool u = (message[i] >> b) & 1;
+            cp_cipher_bit c = Enc(B, f, u);
+            ciphers[8 * i + b] = c;
+        }
+    }
+    cp_cipher c = {8 * message_size, ciphers};
     return c;
 }
 
@@ -64,7 +99,7 @@ signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x) {
     return TrapSamp(B, T, x);
 }
 
-bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {
+bool Dec(attribute x, circuit f, signed_matrix tx, cp_cipher_bit cipher) {
     // Computing the right term HT (without Identity block)
     matrix H = compute_H(cipher.A, f, x);
     matrix HT = new_matrix(PARAMS.K * PARAMS.L, PARAMS.L);
@@ -103,5 +138,26 @@ bool Dec(attribute x, circuit f, signed_matrix tx, cp_ciphertext cipher) {
     free_matrix(right_res);
     free_matrix(res);
 
+    return plain;
+}
+
+// Set (to 1) the kth bit of n (0-indexed)
+char set_bit(char n, int k) { return n | (1 << k); }
+
+// Clear (to 0) the kth bit of n (0-indexed)
+char clear_bit(char n, int k) { return n & (~(1 << k)); }
+
+char* DecStr(attribute x, circuit f, signed_matrix tx, cp_cipher cipher) {
+    assert(cipher.nbits % 8 == 0);
+    char* plain = calloc(cipher.nbits / 8, sizeof(char));
+    for (int k = 0; k < cipher.nbits; k++) {
+        int i = k / 8;
+        int b = k % 8;
+        bool u = Dec(x, f, tx, cipher.ciphers[k]);
+        if (u)
+            plain[i] = set_bit(plain[i], b);
+        else
+            plain[i] = clear_bit(plain[i], b);
+    }
     return plain;
 }
