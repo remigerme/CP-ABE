@@ -57,4 +57,8 @@ I need to be careful about stack memory limit, as creating big matrices of polyn
         - [x] Benchmark
 - [ ] statistical analysis of CP
     - [x] Gen circuit
-    - [ ] Compute f, H and Af with dp
+    - [x] Compute f, H and Af with dp
+    - [ ] analysis of norm values with small circuits
+
+### Limits
+- probably limited by the size of the circuits f used in practice, cause it tends the norm to get bigger and bigger (to the point we can't rule that a matrix which should be short is or not)
