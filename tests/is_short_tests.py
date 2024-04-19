@@ -30,7 +30,7 @@ x = 1
 K_REF = 30
 Q_REF = 1073707009
 P_REF = 10
-SIGMA_REF = 4.00
+SIGMA_REF = 7.00
 
 # Varying K and Q
 P = P_REF
