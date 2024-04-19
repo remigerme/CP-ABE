@@ -57,6 +57,7 @@ label1 = "u = 1"
 
 ax_k.plot(data_K[0], data_K[1], label = label0)
 ax_k.plot(data_K[0], data_K[2], label = label1)
+ax_k.plot(data_K[0], [pow(2, k) for k in data_K[0]], label = "$\mathcal{O}(Q)$")
 ax_k.set_yscale("log")
 ax_k.set_xlabel("K")
 ax_k.set_ylabel("Norm")
@@ -64,12 +65,14 @@ ax_k.legend()
 
 ax_p.plot(data_P[0], data_P[1], label = label0)
 ax_p.plot(data_P[0], data_P[2], label = label1)
+ax_p.plot(data_P[0], [data_P[1][0] * pow(1.5, p) for p in data_P[0]], label = "$\mathcal{O}(P\sqrt{P})$")
 ax_p.set_yscale("log")
 ax_p.set_xlabel("P")
 ax_p.legend()
 
 ax_s.plot(data_SIGMA[0], data_SIGMA[1], label = label0)
 ax_s.plot(data_SIGMA[0], data_SIGMA[2], label = label1)
+ax_s.plot(data_SIGMA[0], [data_P[1][0] * s * s for s in data_SIGMA[0]], label = "$\mathcal{O}(\sigma^2)$")
 ax_s.set_yscale("log")
 ax_s.set_xlabel("$\sigma$")
 ax_s.legend()
