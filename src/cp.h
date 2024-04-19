@@ -22,12 +22,9 @@ typedef struct _cp_cipher {
     cp_cipher_bit* ciphers;
 } cp_cipher;
 
-void init_cp(scalar N, scalar Q, scalar K, scalar P, real SIGMA,
-             real SHORT_THRESHOLD);
+cp_keys Setup(scalar N, scalar Q, scalar K, scalar P, real SIGMA);
 
-void init_cp_default(void);
-
-cp_keys Setup(void);
+cp_keys SetupDefault(void);
 
 cp_cipher_bit EncBit(matrix* B, circuit f, bool u);
 

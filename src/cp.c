@@ -27,11 +27,21 @@ void free_cp_cipher(cp_cipher cipher) {
 /* CP-ABE FUNCTIONS */
 /********************/
 
-void init_cp(scalar N, scalar Q, scalar K, scalar P, real SIGMA,
-             real SHORT_THRESHOLD) {
-    init_params(N, Q, K, P, SIGMA, SHORT_THRESHOLD);
+void init_cp(scalar N, scalar Q, scalar K, scalar P, real SIGMA) {
+    init_params(N, Q, K, P, SIGMA);
     init_sampler();
     init_G();
+}
+
+cp_keys Setup(scalar N, scalar Q, scalar K, scalar P, real SIGMA) {
+    init_cp(N, Q, K, P, SIGMA);
+    cp_keys keys;
+    matrix* B = new_matrixes(2 * PARAMS.K + 1, PARAMS.M, PARAMS.N);
+    signed_matrix T = new_signed_matrix(PARAMS.P, PARAMS.M);
+    TrapGen(B, T);
+    keys.B = B;
+    keys.T = T;
+    return keys;
 }
 
 void init_cp_default() {
@@ -40,7 +50,8 @@ void init_cp_default() {
     init_G();
 }
 
-cp_keys Setup() {
+cp_keys SetupDefault() {
+    init_cp_default();
     cp_keys keys;
     matrix* B = new_matrixes(2 * PARAMS.K + 1, PARAMS.M, PARAMS.N);
     signed_matrix T = new_signed_matrix(PARAMS.P, PARAMS.M);
