@@ -10,8 +10,9 @@
 #include "sampling.h"
 
 int main() {
-    init_cp_default();
     real start, end;
+    cp_keys keys;
+    CHRONO("TrapGen generated in %fs\n", keys = SetupDefault(););
 
     // Printing parameters
     printf("Testing CP with parameters\n");
@@ -39,19 +40,17 @@ int main() {
 
     matrix ZERO = new_matrix(PARAMS.P, PARAMS.N);
     matrix res = new_matrix(PARAMS.P, PARAMS.N);
-    cp_keys keys;
-    CHRONO("TrapGen generated in %fs\n", keys = Setup(););
     for (int k = 0; k < 2 * PARAMS.K + 1; k++) {
         mul_matrix_trap_left(keys.T, keys.B[k], res);
         assert(equals(res, ZERO));
     }
     printf("Checked TrapGen for all B matrixes.\n");
 
-    cp_ciphertext res_0, res_1;
+    cp_cipher_bit res_0, res_1;
     CHRONO("Computed ciphertext for u = 0 in %fs\n",
-           res_0 = Enc(keys.B, f, 0););
+           res_0 = EncBit(keys.B, f, 0););
     CHRONO("Computed ciphertext for u = 1 in %fs\n",
-           res_1 = Enc(keys.B, f, 1););
+           res_1 = EncBit(keys.B, f, 1););
 
     attribute x = 3;
     assert(compute_f(f, x) == 0);
@@ -74,11 +73,11 @@ int main() {
 
     bool plain_0, plain_1;
     CHRONO("Deciphering (for plain = 0) in %fs\n", {
-        plain_0 = Dec(x, f, keys.T, res_0);
+        plain_0 = DecBit(x, f, keys.T, res_0);
         assert(plain_0 == 0);
     });
     CHRONO("Deciphering (for plain = 1) in %fs\n", {
-        plain_1 = Dec(x, f, keys.T, res_1);
+        plain_1 = DecBit(x, f, keys.T, res_1);
         assert(plain_1 == 1);
     });
 

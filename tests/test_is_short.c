@@ -13,10 +13,8 @@
 #include "sampling.h"
 
 int main(int argc, char* argv[]) {
-    if (argc != 8) {
-        printf(
-            "Illegal number of arguments. Usage : ./test N Q K P SIGMA "
-            "SHORT_THRESHOLD x\n");
+    if (argc != 7) {
+        printf("Illegal number of arguments. Usage : ./test N Q K P SIGMA x\n");
         return -1;
     }
 
@@ -25,10 +23,9 @@ int main(int argc, char* argv[]) {
     int32_t K = atoi(argv[3]);
     int32_t P = atoi(argv[4]);
     real SIGMA = strtod(argv[5], NULL);
-    real SHORT_THRESHOLD = strtod(argv[6], NULL);
-    attribute x = strtoul(argv[7], NULL, 10);
+    attribute x = strtoul(argv[6], NULL, 10);
 
-    init_cp(N, Q, K, P, SIGMA, SHORT_THRESHOLD);
+    cp_keys keys = Setup(N, Q, K, P, SIGMA);
 
     /*
     Example hand-crafted small circuit f(x) = not (x1 & (x2 | x3))
@@ -45,15 +42,13 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    cp_keys keys = Setup();
-
-    cp_ciphertext res_0 = Enc(keys.B, *f, 0);
-    cp_ciphertext res_1 = Enc(keys.B, *f, 1);
+    cp_cipher_bit res_0 = EncBit(keys.B, *f, 0);
+    cp_cipher_bit res_1 = EncBit(keys.B, *f, 1);
 
     signed_matrix Tx = KeyGen(keys.B, keys.T, x);
 
-    Dec(x, *f, keys.T, res_0);
-    Dec(x, *f, keys.T, res_1);
+    DecBit(x, *f, keys.T, res_0);
+    DecBit(x, *f, keys.T, res_1);
 
     // Free time !
     free_matrixes(res_0.CTf, 2 * PARAMS.K + 1);
