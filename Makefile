@@ -15,7 +15,7 @@ OBJS_O = $(addsuffix .o,$(OBJS_RAW))
 OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 
 # list of executables binaries
-EXEC_RAW = sampling circuit bgg cp_bit gen_circuit is_short
+EXEC_RAW = sampling circuit bgg cp_bit gen_circuit is_short cp
 EXEC = $(addprefix test_,$(EXEC_RAW))
 
 # list of libraries to build
