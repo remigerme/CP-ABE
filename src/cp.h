@@ -32,6 +32,6 @@ cp_cipher EncStr(matrix* B, circuit f, char* message);
 
 signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x);
 
-bool Dec(attribute x, circuit f, signed_matrix tx, cp_cipher_bit cipher_bit);
+bool DecBit(attribute x, circuit f, signed_matrix tx, cp_cipher_bit cipher_bit);
 
 char* DecStr(attribute x, circuit f, signed_matrix tx, cp_cipher cipher);

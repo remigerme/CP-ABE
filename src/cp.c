@@ -61,7 +61,7 @@ cp_keys SetupDefault() {
     return keys;
 }
 
-cp_cipher_bit Enc(matrix* B, circuit f, bool u) {
+cp_cipher_bit EncBit(matrix* B, circuit f, bool u) {
     bgg_keys keys = BGG_KeyGen(f);
 
     matrix* BGG_CTf = BGG_OfflineEnc(keys.A, u);
@@ -98,7 +98,7 @@ cp_cipher EncStr(matrix* B, circuit f, char* message) {
         for (int b = 0; b < 7; b++) {
             // Considering bit b of message[i]
             bool u = (message[i] >> b) & 1;
-            cp_cipher_bit c = Enc(B, f, u);
+            cp_cipher_bit c = EncBit(B, f, u);
             ciphers[8 * i + b] = c;
         }
     }
@@ -110,7 +110,7 @@ signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x) {
     return TrapSamp(B, T, x);
 }
 
-bool Dec(attribute x, circuit f, signed_matrix tx, cp_cipher_bit cipher) {
+bool DecBit(attribute x, circuit f, signed_matrix tx, cp_cipher_bit cipher) {
     // Computing the right term HT (without Identity block)
     matrix H = compute_H(cipher.A, f, x);
     matrix HT = new_matrix(PARAMS.K * PARAMS.L, PARAMS.L);
@@ -164,7 +164,7 @@ char* DecStr(attribute x, circuit f, signed_matrix tx, cp_cipher cipher) {
     for (int k = 0; k < cipher.nbits; k++) {
         int i = k / 8;
         int b = k % 8;
-        bool u = Dec(x, f, tx, cipher.ciphers[k]);
+        bool u = DecBit(x, f, tx, cipher.ciphers[k]);
         if (u)
             plain[i] = set_bit(plain[i], b);
         else
