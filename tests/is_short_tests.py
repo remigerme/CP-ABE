@@ -1,6 +1,10 @@
 import subprocess
 from prime import generate_big_prime
 
+#################################################
+# #define DEBUG_NORM should be used in common.h #
+#################################################
+
 f = "./build/results"
 
 with open(f, "w") as out:
