@@ -58,6 +58,11 @@ Then you can run one of the tests, `test_sampling` for example :
     - [x] is short
     - [x] enc and dec rate
 
-## Limits
+## Limits and comments
 - limited by the size / depth of the circuits f used in practice, cause it tends the norm to get bigger and bigger (to the point we can't rule that a matrix which should be short is or not) : problem even with simple circuits of depth 4 and more
 - difficult to use big value of `P` (and so `M`) in practice as it causes supposedly short matrixes to have their norm wildly increased
+- | Rate   | Enc   | Dec  |
+  |--------|-------|------|
+  | bit/s  | ≈ 600 | ≈ 24 |
+  | byte/s | ≈ 75  | ≈ 3  |
+- the value of `P` doesn't seem to have an influence on `Dec` rate, which is by far the slowest between `Enc` (fast - compared to `Dec`) and `Dec` (slow, extremely slow as `N` grows...)
