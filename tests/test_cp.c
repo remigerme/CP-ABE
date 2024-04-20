@@ -6,13 +6,13 @@
 int main() {
     cp_keys keys = SetupDefault();
 
-    // User related settings
+    // Users related settings
     attribute x = 0b110;
     attribute other_x = 0b011;
     attribute wrong_x = 0b100;
-    signed_matrix tx = KeyGen(keys.B, keys.T, x);
-    signed_matrix tx_other = KeyGen(keys.B, keys.T, other_x);
-    signed_matrix tx_wrong = KeyGen(keys.B, keys.T, wrong_x);
+    signed_matrix tx = KeyGen(keys, x);
+    signed_matrix tx_other = KeyGen(keys, other_x);
+    signed_matrix tx_wrong = KeyGen(keys, wrong_x);
 
     // User wants to cipher a message
     // He defines a circuit defining the access policy
@@ -26,7 +26,7 @@ int main() {
 
     // An authorized user wants to decrypt the message
     char* plain = DecStr(x, *f, tx, cipher);
-    printf("Message decrypted by same user : %s\n", plain);
+    printf("Message decrypted by an authorized user : %s\n", plain);
 
     // Another authorized user wants to decrypt the message
     char* plain_bis = DecStr(other_x, *f, tx_other, cipher);

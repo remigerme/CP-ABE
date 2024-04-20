@@ -30,7 +30,7 @@ cp_cipher_bit EncBit(matrix* B, circuit f, bool u);
 
 cp_cipher EncStr(matrix* B, circuit f, char* message);
 
-signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x);
+signed_matrix KeyGen(cp_keys keys, attribute x);
 
 bool DecBit(attribute x, circuit f, signed_matrix tx, cp_cipher_bit cipher_bit);
 

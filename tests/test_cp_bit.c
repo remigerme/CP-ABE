@@ -57,7 +57,7 @@ int main() {
     printf("Attribute x is authorized to decrypt.\n");
 
     signed_matrix Tx;
-    CHRONO("Generating Tx trap in %fs\n", Tx = KeyGen(keys.B, keys.T, x););
+    CHRONO("Generating Tx trap in %fs\n", Tx = KeyGen(keys, x););
     mul_matrix_trap_left(Tx, keys.B[0], res);
     assert(equals(res, ZERO));
     for (int i = 0; i < PARAMS.K; i++) {

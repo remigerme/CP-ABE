@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
     cp_cipher_bit res_0 = EncBit(keys.B, *f, 0);
     cp_cipher_bit res_1 = EncBit(keys.B, *f, 1);
 
-    signed_matrix Tx = KeyGen(keys.B, keys.T, x);
+    signed_matrix Tx = KeyGen(keys, x);
 
     DecBit(x, *f, keys.T, res_0);
     DecBit(x, *f, keys.T, res_1);

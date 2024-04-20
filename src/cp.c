@@ -107,8 +107,8 @@ cp_cipher EncStr(matrix* B, circuit f, char* message) {
     return c;
 }
 
-signed_matrix KeyGen(matrix* B, signed_matrix T, attribute x) {
-    return TrapSamp(B, T, x);
+signed_matrix KeyGen(cp_keys keys, attribute x) {
+    return TrapSamp(keys.B, keys.T, x);
 }
 
 bool DecBit(attribute x, circuit f, signed_matrix tx, cp_cipher_bit cipher) {
