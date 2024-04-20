@@ -92,17 +92,18 @@ cp_cipher_bit EncBit(matrix* B, circuit f, bool u) {
 
 cp_cipher EncStr(matrix* B, circuit f, char* message) {
     int message_size = strlen(message);
-    cp_cipher_bit* ciphers = calloc(8 * message_size, sizeof(cp_cipher_bit));
+    int nbits = 8 * message_size;
+    cp_cipher_bit* ciphers = calloc(nbits, sizeof(cp_cipher_bit));
     for (int i = 0; i < message_size; i++) {
         // Considering byte i of message
-        for (int b = 0; b < 7; b++) {
+        for (int b = 0; b < 8; b++) {
             // Considering bit b of message[i]
             bool u = (message[i] >> b) & 1;
             cp_cipher_bit c = EncBit(B, f, u);
             ciphers[8 * i + b] = c;
         }
     }
-    cp_cipher c = {8 * message_size, ciphers};
+    cp_cipher c = {nbits, ciphers};
     return c;
 }
 
