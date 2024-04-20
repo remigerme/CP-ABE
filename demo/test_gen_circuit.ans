@@ -1,0 +1,15 @@
+Testing gen_circuit with parameters
+Printing parameters...
+	N = 1
+	Q = 1073707009
+	K = 30
+	L = 30
+	P = 1
+	M = P + 2 = 3
+	SIGMA = 7.00
+	SHORT_THRESHOLD = 2.6e+09
+	x = 100
+Circuit generated in 0.000003s
+Checked f(x) for x in [0, 300].
+Computed Af in 0.000614s
+Computed Hf,x,A in 0.452459s

@@ -32,6 +32,7 @@ int main(int argc, char* argv[]) {
 
     printf("Testing gen_circuit with parameters\n");
     print_params();
+    printf("\tx = %u\n", x);
 
     circuit* f;
     CHRONO("Circuit generated in %fs\n", f = gen_circuit(x););
