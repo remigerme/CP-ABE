@@ -34,7 +34,7 @@ void init_params(int32_t N, uint32_t Q, int32_t K, int32_t P, real SIGMA) {
     real SHORT_THRESHOLD = (real)N * (Q / 2) * pow(P, 1.5) * pow(SIGMA, 2);
     // Arbitrary factor to compensate reality so it works better in practice
     // ie for a wider range of parameters
-    SHORT_THRESHOLD /= 100;
+    SHORT_THRESHOLD /= 10;
     PARAMS.SHORT_THRESHOLD = SHORT_THRESHOLD;
 
     // Not possible to initialize it again
@@ -47,11 +47,6 @@ void init_params_default() {
     int32_t K = 30;
     int32_t P = 1;
     real SIGMA = 7.00;
-    // Empirical formula from is_short tests
-    real SHORT_THRESHOLD = (real)N * (Q / 2) * pow(P, 1.5) * pow(SIGMA, 2);
-    // Arbitrary factor to compensate reality so it works better in practice
-    // ie for a wider range of parameters
-    SHORT_THRESHOLD /= 100;
     init_params(N, Q, K, P, SIGMA);
 }
 
