@@ -20,6 +20,8 @@ See [PSC-debug-config](https://github.com/remigerme/PSC-debug-config).
 
 Set formatter on distant machine (SSH) : search for `C_Cpp: Clang_format_fallback Style` in VSCode > settings `{ BasedOnStyle: Google, IndentWidth: 4 }`. The formatter should apply on save, if that's not the case check online how to configure it.
 
+You can also install the `ANSI Colors` extension on VSCode to display properly `demo/test_cp.ans` for example.
+
 ## Contribute
 
 Commit on your own branch (with an explicit feature name if possible), then merge request.

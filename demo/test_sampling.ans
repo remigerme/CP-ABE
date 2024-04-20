@@ -1,0 +1,16 @@
+Testing sampling
+Printing parameters...
+	N = 1
+	Q = 1073707009
+	K = 30
+	L = 30
+	P = 1
+	M = P + 2 = 3
+	SIGMA = 7.00
+	SHORT_THRESHOLD = 2.6e+09
+Sampled A vector in 0.000029s diff to expected mean : 3.385415%
+Average norm of A matrixes : 8042726109.900000
+Sampled T in 0.000210s mean: -0.398889 var: 52.561999
+Norm of T : 5289.000000
+Uniformely sampled 1000000 scalars in 0.031075s
+Gaussianly sampled 1000000 scalars in 0.218859s
