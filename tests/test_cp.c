@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 #include "cp.h"
 #include "gen_circuit.h"
@@ -8,6 +9,7 @@
 #define ANSI_COLOR_RESET "\x1b[0m"
 
 int main() {
+    real start, end;
     cp_keys keys = SetupDefault();
 
     // Users related settings
@@ -23,30 +25,38 @@ int main() {
     // Could be like checking if user is an admin or
     // is a dev and has the right to access feature
     char message[] = "Hello, world!";
+    printf("Original message : %s\n", message);
     circuit* f = circuit_not(circuit_or(
         gen_leaf(1, true), circuit_and(gen_leaf(2, true), gen_leaf(3, true))));
-    cp_cipher cipher = EncStr(keys.B, *f, message);
 
-    // Trying to decrypt
-    printf("Original message : %s\n", message);
+    // Encrypting the message
+    start = (real)clock() / CLOCKS_PER_SEC;
+    cp_cipher cipher = EncStr(keys.B, *f, message);
+    end = (real)clock() / CLOCKS_PER_SEC;
+    printf("Cipher generated in %.4gs\n", end - start);
+
+    // Trying to decrypt with different attributes
     printf("Message decrypted by an :\n");
     for (attribute x = x_min; x < x_max + 1; x++) {
         // Computing the private key of the user
         signed_matrix tx = KeyGen(keys, x);
 
+        // Trying to decrypt...
+        start = (real)clock() / CLOCKS_PER_SEC;
+        char* plain = DecStr(x, *f, tx, cipher);
+        end = (real)clock() / CLOCKS_PER_SEC;
+
         if (!compute_f(*f, x)) {
             // An authorized user wants to decrypt the message
-            char* plain = DecStr(x, *f, tx, cipher);
-            printf(ANSI_COLOR_GREEN "  - authorized user : %s", plain);
+            printf(ANSI_COLOR_GREEN "  - authorized user :");
         } else {
             // Unauthorized user trying to decrypt the message
             // In fact as KeyGen is not implemented
             // He has access to the full trap T
             // But even with that much information, it's not easy !
-            char* not_so_plain = DecStr(x, *f, tx, cipher);
-            printf(ANSI_COLOR_RED "  - unauthorized user : %s", not_so_plain);
+            printf(ANSI_COLOR_RED "  - unauthorized user :");
         }
 
-        printf(ANSI_COLOR_RESET "\n");
+        printf(" %s" ANSI_COLOR_RESET " in %.4gs\n", plain, end - start);
     }
 }
