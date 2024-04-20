@@ -13,6 +13,9 @@ int main() {
     // Users related settings
     attribute x_min = 0;
     attribute x_max = 0b1111;  // included
+    printf("Testing CP\n");
+    print_params();
+    printf("\tattributes within range [%u, %u]\n", x_min, x_max);
 
     // User wants to cipher a message
     // He defines a circuit defining the access policy
@@ -25,6 +28,7 @@ int main() {
     cp_cipher cipher = EncStr(keys.B, *f, message);
 
     // Trying to decrypt
+    printf("Original message : %s\n", message);
     printf("Message decrypted by an :\n");
     for (attribute x = x_min; x < x_max + 1; x++) {
         // Computing the private key of the user
@@ -33,16 +37,16 @@ int main() {
         if (!compute_f(*f, x)) {
             // An authorized user wants to decrypt the message
             char* plain = DecStr(x, *f, tx, cipher);
-            printf(ANSI_COLOR_GREEN "  - authorized user : %s\n", plain);
+            printf(ANSI_COLOR_GREEN "  - authorized user : %s", plain);
         } else {
             // Unauthorized user trying to decrypt the message
             // In fact as KeyGen is not implemented
             // He has access to the full trap T
             // But even with that much information, it's not easy !
             char* not_so_plain = DecStr(x, *f, tx, cipher);
-            printf(ANSI_COLOR_RED "  - unauthorized user : %s\n", not_so_plain);
+            printf(ANSI_COLOR_RED "  - unauthorized user : %s", not_so_plain);
         }
 
-        printf(ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RESET "\n");
     }
 }
