@@ -65,7 +65,7 @@ ax_k.legend()
 
 ax_p.plot(data_P[0], data_P[1], label = label0)
 ax_p.plot(data_P[0], data_P[2], label = label1)
-ax_p.plot(data_P[0], [data_P[1][0] * pow(1.5, p) for p in data_P[0]], label = "$\mathcal{O}(P\sqrt{P})$")
+ax_p.plot(data_P[0], [data_P[1][0] * pow(1.45, p) for p in data_P[0]], label = "$\mathcal{O}(P^{1.45})$")
 ax_p.set_yscale("log")
 ax_p.set_xlabel("P")
 ax_p.legend()

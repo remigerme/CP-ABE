@@ -31,7 +31,7 @@ void init_params(int32_t N, uint32_t Q, int32_t K, int32_t P, real SIGMA) {
     PARAMS.M = P + 2;
     PARAMS.SIGMA = SIGMA;
     // Empirical formula from is_short tests
-    real SHORT_THRESHOLD = (real)N * (Q / 2) * pow(P, 1.5) * pow(SIGMA, 2);
+    real SHORT_THRESHOLD = (real)N * (Q / 2) * pow(P, 1.45) * pow(SIGMA, 2);
     // Arbitrary factor to compensate reality so it works better in practice
     // ie for a wider range of parameters
     SHORT_THRESHOLD /= 10;
