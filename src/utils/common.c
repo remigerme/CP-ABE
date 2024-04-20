@@ -45,7 +45,7 @@ void init_params_default() {
     int32_t N = 1;
     uint32_t Q = 1073707009;
     int32_t K = 30;
-    int32_t P = 10;
+    int32_t P = 1;
     real SIGMA = 7.00;
     // Empirical formula from is_short tests
     real SHORT_THRESHOLD = (real)N * (Q / 2) * pow(P, 1.5) * pow(SIGMA, 2);
