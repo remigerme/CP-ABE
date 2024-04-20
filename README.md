@@ -1,7 +1,17 @@
 # CP-ABE
 
-Post-quantum cryptographic scheme based on lattices, CP-ABE (using BGG-lite KP-ABE scheme).
+Post-quantum cryptographic scheme based on lattices, CP-ABE [_Ciphertext Policy - Attribute Based Encryption_](using BGG-lite<sup>+</sup> KP-ABE scheme [_Key Policy_]).
 Implementation of scheme proposed in https://eprint.iacr.org/2020/191.
+
+> [!CAUTION]
+> Do not use for real cryptographic applications. This project was made for educational purpose only.
+
+Made by Rémi Germe.
+
+## Useful resources
+
+Custom `TrapGen` procedure derived from the one proposed for polynomials in https://eprint.iacr.org/2017/601.pdf.
+
 Using `random.h` and `random.c` from Lucas's implementation of another scheme : https://github.com/lucasprabel/module_gaussian_lattice.
 
 ## Setup
@@ -27,9 +37,11 @@ Then you can run one of the tests, `test_sampling` for example :
 ./build/test_sampling
 ```
 
-## Comments
+## TODO
 
-### TODO
+> [!WARNING]
+> `TrapSamp` procedure needed for `KeyGen` was not implemented yet.
+
 - [x] BGG
     - [x] BGG.KeyGen implem
     - [x] BGG.OfflineEnc implem
@@ -41,10 +53,11 @@ Then you can run one of the tests, `test_sampling` for example :
     - [x] Enc
     - [ ] KeyGen
     - [x] Dec
-    - [ ] CP for strings
-- [ ] statistical analysis of CP
+    - [x] CP for strings
+- [x] "benchmark" of CP
     - [x] is short
-    - [ ] enc and dec rate
+    - [x] enc and dec rate
 
-### Limits
-- probably limited by the size of the circuits f used in practice, cause it tends the norm to get bigger and bigger (to the point we can't rule that a matrix which should be short is or not)
+## Limits
+- limited by the size / depth of the circuits f used in practice, cause it tends the norm to get bigger and bigger (to the point we can't rule that a matrix which should be short is or not) : problem even with simple circuits of depth 4 and more
+- difficult to use big value of `P` (and so `M`) in practice as it causes supposedly short matrixes to have their norm wildly increased
