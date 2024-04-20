@@ -62,8 +62,10 @@ Then you can run one of the tests, `test_sampling` for example :
 
 ## Limits and comments
 - limited by the size / depth of the circuits f used in practice, cause it tends the norm to get bigger and bigger (to the point we can't rule that a matrix which should be short is or not) : problem even with simple circuits of depth 4 and more
+- solution to the previous remark : optimize circuits using only nand gates. Not done in this project but seems to improve reliability (cf `test_cp`)
 - difficult to use big value of `P` (and so `M`) in practice as it causes supposedly short matrixes to have their norm wildly increased
-- | Rate   | Enc   | Dec  |
+- Order of magnitudes of rate for `f(x)=not(x1 | (x2 & x3)` (unoptimized) - highly depth-dependant :
+  | Rate   | Enc   | Dec  | 
   |--------|-------|------|
   | bit/s  | ≈ 600 | ≈ 24 |
   | byte/s | ≈ 75  | ≈ 3  |
