@@ -1,0 +1,30 @@
+Testing CP
+Printing parameters...
+	N = 1
+	Q = 1073707009
+	K = 30
+	L = 30
+	P = 1
+	M = P + 2 = 3
+	SIGMA = 7.00
+	SHORT_THRESHOLD = 2.6e+09
+	attributes within range [0, 15]
+Original message : Hello, world!
+Cipher generated in 0.1787s
+Message decrypted by an :
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.155s
+[32m  - authorized user : Hello, world![0m in 6.092s
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.112s
+[32m  - authorized user : Hello, world![0m in 6.13s
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.116s
+[32m  - authorized user : Hello, world![0m in 6.093s
+[32m  - authorized user : Hello, world![0m in 6.118s
+[32m  - authorized user : Hello, world![0m in 6.112s
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.162s
+[32m  - authorized user : Hello, world![0m in 6.415s
+[32m  - authorized user : Hello, world![0m in 6.417s
+[32m  - authorized user : Hello, world![0m in 6.265s
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.282s
+[32m  - authorized user : Hello, world![0m in 6.401s
+[32m  - authorized user : Hello, world![0m in 6.458s
+[32m  - authorized user : Hello, world![0m in 6.21s

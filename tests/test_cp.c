@@ -21,13 +21,31 @@ int main() {
 
     // User wants to cipher a message
     // He defines a circuit defining the access policy
-    // Example hand-crafted circuit : f(x) = not(x1 | (x2 & x3))
+    // Example hand-crafted circuit : f(x) = not(x1 | (x2 & x3) | (x2 & x4))
     // Could be like checking if user is an admin or
     // is a dev and has the right to access feature
     char message[] = "Hello, world!";
     printf("Original message : %s\n", message);
     circuit* f = circuit_not(circuit_or(
-        gen_leaf(1, true), circuit_and(gen_leaf(2, true), gen_leaf(3, true))));
+        gen_leaf(1, true),
+        circuit_or(circuit_and(gen_leaf(2, true), gen_leaf(3, true)),
+                   circuit_and(gen_leaf(2, true), gen_leaf(4, true)))));
+
+    // Same circuit but optimized
+    // f(x) = (!1 ^ !2) ^ (!1 ^ !3 ^ !4)
+    // where ^ is a nand gate
+    // and .^.^. is a 3-input nand gate
+    // nand(a, b, c) = nand(and(a, b), c)
+    circuit g;
+    circuit g1;
+    g1.left = gen_leaf(1, false);
+    g1.right = gen_leaf(2, false);
+    g.left = &g1;
+    circuit g2;
+    circuit* g21 = circuit_and(gen_leaf(1, false), gen_leaf(3, false));
+    g2.left = g21;
+    g2.right = gen_leaf(4, false);
+    g.right = &g2;
 
     // Encrypting the message
     start = (real)clock() / CLOCKS_PER_SEC;
