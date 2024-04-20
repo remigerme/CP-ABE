@@ -3,20 +3,20 @@
 #include "cp.h"
 #include "gen_circuit.h"
 
+#define ANSI_COLOR_RED "\x1b[31m"
+#define ANSI_COLOR_GREEN "\x1b[32m"
+#define ANSI_COLOR_RESET "\x1b[0m"
+
 int main() {
     cp_keys keys = SetupDefault();
 
     // Users related settings
-    attribute x = 0b110;
-    attribute other_x = 0b011;
-    attribute wrong_x = 0b100;
-    signed_matrix tx = KeyGen(keys, x);
-    signed_matrix tx_other = KeyGen(keys, other_x);
-    signed_matrix tx_wrong = KeyGen(keys, wrong_x);
+    attribute x_min = 0;
+    attribute x_max = 0b1111;  // included
 
     // User wants to cipher a message
     // He defines a circuit defining the access policy
-    // Example hand-crafted circuit : f(x) = not(x1 & (x2 | x3))
+    // Example hand-crafted circuit : f(x) = not(x1 | (x2 & x3))
     // Could be like checking if user is an admin or
     // is a dev and has the right to access feature
     char message[] = "Hello, world!";
@@ -24,18 +24,25 @@ int main() {
         gen_leaf(1, true), circuit_and(gen_leaf(2, true), gen_leaf(3, true))));
     cp_cipher cipher = EncStr(keys.B, *f, message);
 
-    // An authorized user wants to decrypt the message
-    char* plain = DecStr(x, *f, tx, cipher);
-    printf("Message decrypted by an authorized user : %s\n", plain);
+    // Trying to decrypt
+    printf("Message decrypted by an :\n");
+    for (attribute x = x_min; x < x_max + 1; x++) {
+        // Computing the private key of the user
+        signed_matrix tx = KeyGen(keys, x);
 
-    // Another authorized user wants to decrypt the message
-    char* plain_bis = DecStr(other_x, *f, tx_other, cipher);
-    printf("Message decrypted by another authorized user : %s\n", plain_bis);
+        if (!compute_f(*f, x)) {
+            // An authorized user wants to decrypt the message
+            char* plain = DecStr(x, *f, tx, cipher);
+            printf(ANSI_COLOR_GREEN "  - authorized user : %s\n", plain);
+        } else {
+            // Unauthorized user trying to decrypt the message
+            // In fact as KeyGen is not implemented
+            // He has access to the full trap T
+            // But even with that much information, it's not easy !
+            char* not_so_plain = DecStr(x, *f, tx, cipher);
+            printf(ANSI_COLOR_RED "  - unauthorized user : %s\n", not_so_plain);
+        }
 
-    // Unauthorized user trying to decrypt the message
-    // In fact as KeyGen is not implemented
-    // He has access to the full trap T
-    // But even with that much information, it's not easy !
-    char* not_so_plain = DecStr(wrong_x, *f, tx_wrong, cipher);
-    printf("Message decrypted by an unauthorized user : %s\n", not_so_plain);
+        printf(ANSI_COLOR_RESET);
+    }
 }
