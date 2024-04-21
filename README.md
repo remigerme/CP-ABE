@@ -24,7 +24,7 @@ See [PSC-debug-config](https://github.com/remigerme/PSC-debug-config).
 
 Set formatter on distant machine (SSH) : search for `C_Cpp: Clang_format_fallback Style` in VSCode > settings `{ BasedOnStyle: Google, IndentWidth: 4 }`. The formatter should apply on save, if that's not the case check online how to configure it.
 
-You can also install the `ANSI Colors` extension on VSCode to display properly `demo/test_cp.ans` for example.
+You can also install the `ANSI Colors` extension on VSCode to display properly `demo/*.ans` files.
 
 ## Contribute
 
@@ -66,9 +66,9 @@ Then you can run one of the tests, `test_sampling` for example :
 
 ## Limits and comments
 - limited by the size / depth of the circuits f used in practice, cause it tends the norm to get bigger and bigger (to the point we can't rule that a matrix which should be short is or not) : problem even with simple circuits of depth 4 and more
-- solution to the previous remark : optimize circuits using only nand gates. Not done in this project but seems to improve reliability (cf `test_cp`)
+- solution to the previous remark : optimize circuits using only nand gates. Not done in this project but seems to improve reliability (cf `demo/test_cp.ans` vs `test_cp_optimized.ans`)
 - difficult to use big value of `P` (and so `M`) in practice as it causes supposedly short matrixes to have their norm wildly increased
-- Order of magnitudes of rate for `f(x)=not(x1 | (x2 & x3)` (unoptimized) - highly depth-dependant :
+- Order of magnitudes of rate for `f(x)=not(x1 | (x2 & x3))` (unoptimized) - highly depth-dependant :
   | Rate   | Enc   | Dec  | 
   |--------|-------|------|
   | bit/s  | ≈ 600 | ≈ 24 |
