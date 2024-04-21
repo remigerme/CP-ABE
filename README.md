@@ -12,7 +12,11 @@ Made by Rémi Germe.
 
 Custom `TrapGen` procedure derived from the one proposed for polynomials in https://eprint.iacr.org/2017/601.pdf.
 
-Using `random.h` and `random.c` from Lucas's implementation of another scheme : https://github.com/lucasprabel/module_gaussian_lattice.
+Using `random.h` and `random.c` from Lucas Prabel's implementation of another scheme : https://github.com/lucasprabel/module_gaussian_lattice.
+
+Using `prime.py` from Bo Pace's repo : https://github.com/bopace/generate-primes.
+
+As there is a need for optimizing boolean circuits, maybe https://link.springer.com/chapter/10.1007/978-3-642-20505-7_36 could be useful in the future.
 
 ## Setup
 
