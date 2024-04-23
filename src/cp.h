@@ -36,6 +36,12 @@ typedef struct _cp_cipher {
     cp_cipher_bit* ciphers;
 } cp_cipher;
 
+// Clean free of matrixes used by cp_cipher_bit
+void free_cp_cipher_bit(cp_cipher_bit cipher);
+
+// Clean free of matrixes used by cp_cipher
+void free_cp_cipher(cp_cipher cipher);
+
 /*
 Setup the CP-ABE with given security parameters
 In practice, N must be small : N < 5.

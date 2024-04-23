@@ -15,6 +15,12 @@
 /* CP_CIPHER UTILS */
 /*******************/
 
+void free_cp_cipher_bit(cp_cipher_bit cipher) {
+    free_matrixes(cipher.CTf, 1 + 2 * PARAMS.K);
+    free_signed_matrix(cipher.keys.Tf);
+    free_matrixes(cipher.keys.A, 1 + PARAMS.K);
+}
+
 void free_cp_cipher(cp_cipher cipher) {
     for (int i = 0; i < cipher.nbits; i++) {
         free_matrixes(cipher.ciphers[i].CTf, 1 + 2 * PARAMS.K);
