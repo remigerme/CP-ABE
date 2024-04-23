@@ -3,6 +3,7 @@
 #include "attribute.h"
 #include "bgg.h"
 #include "circuit.h"
+#include "gen_circuit.h"  // not mandatory for cp but useful for testing
 #include "matrix.h"
 #include "sampling.h"
 
