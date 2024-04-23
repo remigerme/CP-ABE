@@ -33,15 +33,17 @@ Commit on your own branch (with an explicit feature name if possible), then merg
 If you have any question ask me !
 
 ## How to use
-First, let's build the external libs and the project using
+First, let's build the CP library :
 ```
-make libs
 make
 ```
-Then you can run one of the tests, `test_sampling` for example :
+Then you can build tests and run them, `test_cp` for example :
 ```
-./build/test_sampling
+make tests
+./build/test_cp
 ```
+
+If you use `make clean`, make sure (pun intended) you rebuild the CP library before trying compiling and running some tests. 
 
 ## TODO
 
