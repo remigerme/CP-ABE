@@ -7,6 +7,11 @@
 #include <unistd.h>
 #include <x86intrin.h>
 
+/*******************/
+/* By Lucas Prabel */
+/* See https://github.com/lucasprabel/module_gaussian_lattice */
+/*******************/
+
 #define NEEDED_AES_FOR_SALT 3
 
 /*

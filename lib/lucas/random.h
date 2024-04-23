@@ -1,5 +1,10 @@
 #include <inttypes.h>
 
+/*******************/
+/* By Lucas Prabel */
+/* See https://github.com/lucasprabel/module_gaussian_lattice */
+/*******************/
+
 uint32_t uniform_mod_n(uint32_t n);
 
 /*
