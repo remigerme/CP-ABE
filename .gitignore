@@ -1,5 +1,6 @@
 # Exec files
-build/
+build/*
+!build/README.md
 
 # Python related
 __pycache__
