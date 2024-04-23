@@ -18,8 +18,8 @@
 void free_cp_cipher(cp_cipher cipher) {
     for (int i = 0; i < cipher.nbits; i++) {
         free_matrixes(cipher.ciphers[i].CTf, 1 + 2 * PARAMS.K);
-        free_signed_matrix(cipher.ciphers[i].Tf);
-        free_matrixes(cipher.ciphers[i].A, 1 + PARAMS.K);
+        free_signed_matrix(cipher.ciphers[i].keys.Tf);
+        free_matrixes(cipher.ciphers[i].keys.A, 1 + PARAMS.K);
     }
 }
 
@@ -86,7 +86,7 @@ cp_cipher_bit EncBit(matrix* B, circuit f, bool u) {
     free_matrixes(BGG_CTf, 2 * PARAMS.K + 1);
     free_matrix(S);
 
-    cp_cipher_bit c = {CTf, keys.Tf, keys.A};
+    cp_cipher_bit c = {CTf, keys};
     return c;
 }
 
@@ -113,9 +113,9 @@ signed_matrix KeyGen(cp_keys keys, attribute x) {
 
 bool DecBit(attribute x, circuit f, signed_matrix tx, cp_cipher_bit cipher) {
     // Computing the right term HT (without Identity block)
-    matrix H = compute_H(cipher.A, f, x);
+    matrix H = compute_H(cipher.keys.A, f, x);
     matrix HT = new_matrix(PARAMS.K * PARAMS.L, PARAMS.L);
-    mul_matrix_trap(H, cipher.Tf, HT);
+    mul_matrix_trap(H, cipher.keys.Tf, HT);
 
     // Computing the relevant CTf
     matrix CTfx = new_matrix(PARAMS.M, PARAMS.K * PARAMS.L);

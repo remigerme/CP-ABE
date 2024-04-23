@@ -24,8 +24,7 @@ bgg_keys (A = [A0 | A1 | ... Ak], Tf) used for BGG subroutine
 */
 typedef struct _cp_cipher_bit {
     matrix* CTf;
-    signed_matrix Tf;
-    matrix* A;
+    bgg_keys keys;
 } cp_cipher_bit;
 
 /*
