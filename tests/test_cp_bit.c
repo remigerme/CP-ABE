@@ -82,13 +82,8 @@ int main() {
     });
 
     // Free time !
-    free_matrixes(res_0.CTf, 2 * PARAMS.K + 1);
-    free_matrixes(res_0.A, PARAMS.K);
-    free_signed_matrix(res_0.Tf);
-
-    free_matrixes(res_1.CTf, 2 * PARAMS.K + 1);
-    free_matrixes(res_1.A, PARAMS.K);
-    free_signed_matrix(res_1.Tf);
+    free_cp_cipher_bit(res_0);
+    free_cp_cipher_bit(res_1);
 
     free_matrixes(keys.B, 2 * PARAMS.K + 1);
     free_signed_matrix(keys.T);
