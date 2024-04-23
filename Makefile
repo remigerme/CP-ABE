@@ -1,16 +1,12 @@
-# -g for debug
-# -Wall for warnings
-# -Wextra for more warnings
-# -O2 or -O3 for optimization flags
 CC = gcc
 CFLAGS = -g -Wall -O3
-INCLUDES = -Isrc -Isrc/bgg -Isrc/sampling -Isrc/utils -Ilib/lucas
+INCLUDES = -Isrc -Isrc/bgg -Isrc/sampling -Isrc/utils
 
 SRC_DIR = src
 BUILD_DIR = build
 SRC_TEST = tests
 
-OBJS_RAW = common matrix attribute sampling circuit gen_circuit bgg cp
+OBJS_RAW = common matrix attribute random sampling circuit gen_circuit bgg cp
 OBJS_O = $(addsuffix .o,$(OBJS_RAW))
 OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 
@@ -18,46 +14,43 @@ OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS_O))
 EXEC_RAW = sampling circuit bgg cp_bit gen_circuit is_short cp
 EXEC = $(addprefix test_,$(EXEC_RAW))
 
-# list of libraries to build
-LIBS = lucas
-SPECIFY_LIBS = -L./build '-Wl,-rpath,$$ORIGIN'
-LIBS_FLAGS = $(SPECIFY_LIBS) $(addprefix -l,$(LIBS))
-# -lm : link math library
-# -lgmp : link gmp library needed for dgs
-UNIVERSAL_LIBS_FLAGS = -lm -lgmp
+# build cp as a library, including math lib
+SPECIFY_LIBS = -L./build '-Wl,-rpath,./build'
+LIBS_FLAGS = -lm $(SPECIFY_LIBS) -lcp
+
+
+default: libcp.so
 
 tests: $(EXEC)
 
-libs: $(addprefix lib,$(addsuffix .so,$(LIBS)))
 
-# -fPIC : Position Independent Code, needed for building libraries
-# -shared : needed for building libraries
-# -maes : for aes intrinsics for Lucas's algorithmF
-lib%.so:lib/%/*.c
-	$(CC) -maes -fPIC -shared -o $(BUILD_DIR)/$@ $^
+# Building shared library
+libcp.so: $(OBJS)
+	$(CC) -shared -o $(BUILD_DIR)/$@ $^
+
+# Brute-force searching
+# Using -fPIC as the files will be included in shared lib
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -fPIC -c -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/utils/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -fPIC -c -o $@ $^
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/bgg/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -fPIC -c -o $@ $^
+
+# -maes required for random.c using aes intrinsics
+$(BUILD_DIR)/%.o: $(SRC_DIR)/sampling/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -maes -fPIC -c -o $@ $^
 
 
 # Rule for building tests
-test_%: $(OBJS) $(SRC_TEST)/test_%.c
-	$(CC) $(CFLAGS) $(UNIVERSAL_LIBS_FLAGS) $(LIBS_FLAGS) $(INCLUDES) -o $(BUILD_DIR)/$@ $^
+test_%: $(SRC_TEST)/test_%.c
+	$(CC) $(CFLAGS) $(LIBS_FLAGS) $(INCLUDES) -o $(BUILD_DIR)/$@ $^
 
 
-# Brute-force searching
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $^
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/utils/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $^
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/bgg/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $^
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/sampling/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $^
-
-
-# We shouldn't need to clean lib subdirectories
+# We clean the lib too
 clean:
-	rm -f $(BUILD_DIR)/*.o $(addprefix $(BUILD_DIR)/,$(EXEC))
+	rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/*.so $(addprefix $(BUILD_DIR)/,$(EXEC))
 
-.PHONY: tests libs clean
+.PHONY: tests clean
