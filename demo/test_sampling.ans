@@ -8,9 +8,9 @@ Printing parameters...
 	M = P + 2 = 12
 	SIGMA = 7.00
 	SHORT_THRESHOLD = 7.4e+10
-Sampled A vector in 0.000007s diff to expected mean : -1.366205%
-Average norm of A matrixes : 7801341052.666667
-Sampled T in 0.000080s mean: -0.058889 var: 49.684310
-Norm of T : 5127.000000
-Uniformely sampled 1000000 scalars in 0.007459s diff to expected mean : -0.000231%
-Gaussianly sampled 1000000 scalars in 0.090801s mean : 0.006603
+Sampled A vector in 0.000007s diff to expected mean : 0.302688%
+Average norm of A matrixes : 8176820482.700000
+Sampled T in 0.000080s mean: -0.073333 var: 50.901289
+Norm of T : 5232.000000
+Uniformely sampled 1000000 scalars in 0.007508s diff to expected mean : -0.000337%
+Gaussianly sampled 1000000 scalars in 0.090248s mean : 0.005137 var : 49.080909
