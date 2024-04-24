@@ -10,21 +10,21 @@ Printing parameters...
 	SHORT_THRESHOLD = 2.6e+09
 	attributes within range [0, 15]
 Original message : Hello, world!
-Cipher generated in 0.1787s
+Cipher generated in 0.08614s
 Message decrypted by an :
-[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.155s
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.082s
+[32m  - authorized user : Hello, world![0m in 6.104s
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.115s
+[32m  - authorized user : Hello, world![0m in 6.084s
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.065s
+[32m  - authorized user : Hello, world![0m in 6.08s
+[32m  - authorized user : Hello, world![0m in 6.109s
+[32m  - authorized user : Hello, world![0m in 6.095s
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.074s
 [32m  - authorized user : Hello, world![0m in 6.092s
-[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.112s
-[32m  - authorized user : Hello, world![0m in 6.13s
-[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.116s
-[32m  - authorized user : Hello, world![0m in 6.093s
-[32m  - authorized user : Hello, world![0m in 6.118s
-[32m  - authorized user : Hello, world![0m in 6.112s
-[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.162s
-[32m  - authorized user : Hello, world![0m in 6.415s
-[32m  - authorized user : Hello, world![0m in 6.417s
-[32m  - authorized user : Hello, world![0m in 6.265s
-[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.282s
-[32m  - authorized user : Hello, world![0m in 6.401s
-[32m  - authorized user : Hello, world![0m in 6.458s
-[32m  - authorized user : Hello, world![0m in 6.21s
+[32m  - authorized user : Hello, world![0m in 6.103s
+[32m  - authorized user : Hello, world![0m in 6.152s
+[31m  - unauthorized user : ÿÿÿÿÿÿÿÿÿÿÿÿÿ[0m in 6.09s
+[32m  - authorized user : Hello, world![0m in 6.097s
+[32m  - authorized user : Hello, world![0m in 6.121s
+[32m  - authorized user : Hello, world![0m in 6.11s

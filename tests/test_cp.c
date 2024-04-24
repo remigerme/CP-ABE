@@ -47,9 +47,12 @@ int main() {
     g2.right = gen_leaf(4, false);
     g.right = &g2;
 
+    // Change to use either *f or g
+    circuit h = *f;
+
     // Encrypting the message
     start = (real)clock() / CLOCKS_PER_SEC;
-    cp_cipher cipher = EncStr(keys.B, *f, message);
+    cp_cipher cipher = EncStr(keys.B, h, message);
     end = (real)clock() / CLOCKS_PER_SEC;
     printf("Cipher generated in %.4gs\n", end - start);
 
@@ -61,10 +64,10 @@ int main() {
 
         // Trying to decrypt...
         start = (real)clock() / CLOCKS_PER_SEC;
-        char* plain = DecStr(x, *f, tx, cipher);
+        char* plain = DecStr(x, h, tx, cipher);
         end = (real)clock() / CLOCKS_PER_SEC;
 
-        if (!compute_f(*f, x)) {
+        if (!compute_f(g, x)) {
             // An authorized user wants to decrypt the message
             printf(ANSI_COLOR_GREEN "  - authorized user :");
         } else {
