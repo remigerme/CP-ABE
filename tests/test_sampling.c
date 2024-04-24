@@ -69,13 +69,16 @@ int main() {
 
     // For a uniform matrix
     matrix U = new_matrix(N, N);
-    sprintf(output, "Uniformely sampled %d scalars in %%fs\n", N * N);
+    sprintf(output, "Uniformely sampled %d scalars in %%fs ", N * N);
     CHRONO(output, sample_Zq_uniform_matrix(U););
+    diff = (mean(U) - PARAMS.Q / 2.0) / (PARAMS.Q / 2.0);
+    printf("diff to expected mean : %f%%\n", diff);
     free_matrix(U);
 
     // For a gaussian matrix
     signed_matrix D = new_signed_matrix(N, N);
-    sprintf(output, "Gaussianly sampled %d scalars in %%fs\n", N * N);
+    sprintf(output, "Gaussianly sampled %d scalars in %%fs ", N * N);
     CHRONO(output, sample_Z_centered_matrix(D););
+    printf("mean : %f var : %f\n", meanbis(D), var(D));
     free_signed_matrix(D);
 }
