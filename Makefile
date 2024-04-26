@@ -49,8 +49,12 @@ test_%: $(SRC_TEST)/test_%.c
 	$(CC) $(CFLAGS) $(LIBS_FLAGS) $(INCLUDES) -o $(BUILD_DIR)/$@ $^
 
 
-# We clean the lib too
+# We clean object files and binaries
 clean:
+	rm -f $(BUILD_DIR)/*.o $(addprefix $(BUILD_DIR)/,$(EXEC))
+
+# We clean the lib too
+cleanall:
 	rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/*.so $(addprefix $(BUILD_DIR)/,$(EXEC))
 
-.PHONY: tests clean
+.PHONY: tests clean cleanall
