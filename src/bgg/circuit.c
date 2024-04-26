@@ -46,7 +46,7 @@ circuit* new_circuit() {
 }
 
 void free_circuit(circuit* f) {
-    assert((f->left && f->right) || (!f->left || !f->right));
+    assert((f->left && f->right) || (!f->left && !f->right));
 
     if (!f->left && !f->right) {
         free(f);
@@ -64,7 +64,7 @@ void free_circuit(circuit* f) {
 }
 
 void print_circuit(circuit f) {
-    assert((f.left && f.right) || (!f.left || !f.right));
+    assert((f.left && f.right) || (!f.left && !f.right));
 
     if (!f.left && !f.right) {
         printf("%d", f.n);
@@ -101,7 +101,7 @@ matrix nand(matrix A, matrix B) {
 
 // Returns Af = f(A) = f(A1, ..., Ak)
 matrix compute_Af(matrix* A, circuit f) {
-    assert((f.left && f.right) || (!f.left || !f.right));
+    assert((f.left && f.right) || (!f.left && !f.right));
 
     if (!f.left && !f.right) return copy_matrix(A[f.n]);  // A fresh copy of An
 
@@ -156,7 +156,7 @@ H_triplet leaf(matrix* A, attribute x, int n) {
 }
 
 H_triplet compute_H_triplet(matrix* A, circuit f, attribute x) {
-    assert((f.left && f.right) || (!f.left || !f.right));
+    assert((f.left && f.right) || (!f.left && !f.right));
 
     if (!f.left && !f.right) return leaf(A, x, f.n);
 
@@ -205,7 +205,7 @@ matrix compute_H(matrix* A, circuit f, attribute x) {
 }
 
 bool compute_f(circuit f, attribute x) {
-    assert((f.left && f.right) || (!f.left || !f.right));
+    assert((f.left && f.right) || (!f.left && !f.right));
 
     if (!f.left && !f.right) return get_xn(x, f.n);
 
