@@ -78,6 +78,19 @@ void print_circuit(circuit f) {
     printf(")");
 }
 
+unsigned depth(circuit f) {
+    assert((f.left && f.right) || (!f.left && !f.right));
+
+    if (!f.left && !f.right) return 1;
+
+    if (f.left == f.right) return 1 + depth(*f.left);
+
+    unsigned dl = depth(*f.left);
+    unsigned dr = depth(*f.right);
+    unsigned m = (dl < dr) ? dr : dl;
+    return m + 1;
+}
+
 /*
 Returns A * G^-1(B) - G
 where G is the gadget matrix and G^-1
